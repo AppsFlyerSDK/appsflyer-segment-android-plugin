@@ -40,10 +40,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
             String devKey = settings.getString("devKey");
             int userEmailsCryptType = settings.getInt("userEmailsCryptType", 0);
-            boolean enableLog = settings.getBoolean("debugLog", true);
             String currencyCode = settings.getString("currency");
-            String customerUserId = settings.getString("customerUserId");
-
 
             return new AppsflyerIntegration(logger, afLib, devKey, userEmailsCryptType, currencyCode, enableLog, customerUserId);
         }
@@ -61,7 +58,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         this.devKey = devKey;
         this.emailEncryption = emailEncryption;
         this.currencyCode = currencyCode;
-        this.isDebug = enableLog;
+        this.isDebug = (logger.logLevel != Analytics.LogLevel.NONE);
         this.customerUserId = customerUserId;
     }
 
