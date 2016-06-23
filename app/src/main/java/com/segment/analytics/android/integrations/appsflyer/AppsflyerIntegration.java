@@ -25,12 +25,10 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     final Logger logger;
     final AppsFlyerLib appsflyer;
     final String devKey;
-//    final String[] userEmails;
-    final int emailEncryption;
     final boolean isDebug;
     private Context context;
 
-    private String endUserEmail, customerUserId, currencyCode;
+    private String customerUserId, currencyCode;
 
     public static final Factory FACTORY = new Integration.Factory() {
         @Override
@@ -39,10 +37,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             AppsFlyerLib afLib = AppsFlyerLib.getInstance();
 
             String devKey = settings.getString("devKey");
-            int userEmailsCryptType = settings.getInt("userEmailsCryptType", 0);
-            String currencyCode = settings.getString("currency");
-
-            return new AppsflyerIntegration(logger, afLib, devKey, userEmailsCryptType, currencyCode, enableLog, customerUserId);
+            return new AppsflyerIntegration(logger, afLib, devKey, enableLog, customerUserId);
         }
 
         @Override
@@ -52,11 +47,10 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
     };
 
-    public AppsflyerIntegration(Logger logger, AppsFlyerLib afLib, String devKey, int emailEncryption,  String currencyCode, boolean enableLog, String customerUserId) {
+    public AppsflyerIntegration(Logger logger, AppsFlyerLib afLib, String devKey, boolean enableLog, String customerUserId) {
         this.logger = logger;
         this.appsflyer = afLib;
         this.devKey = devKey;
-        this.emailEncryption = emailEncryption;
         this.currencyCode = currencyCode;
         this.isDebug = (logger.logLevel != Analytics.LogLevel.NONE);
         this.customerUserId = customerUserId;
@@ -96,7 +90,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         super.identify(identify);
 
         Traits traits = identify.traits();
-        endUserEmail = traits.email();
         customerUserId = identify.userId();
 
         if(appsflyer != null) {
@@ -108,19 +101,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
 
     private void updateEndUserAttributes() {
-        AppsFlyerProperties.EmailsCryptType cryptType;
-        switch (emailEncryption) {
-            case 1:
-                cryptType = AppsFlyerProperties.EmailsCryptType.SHA1;
-                break;
-            case 2:
-                cryptType = AppsFlyerProperties.EmailsCryptType.MD5;
-                break;
-            default:
-                cryptType = AppsFlyerProperties.EmailsCryptType.NONE;
-        }
-        appsflyer.setUserEmails(cryptType,endUserEmail);
-        logger.verbose("appsflyer.setUserEmails(%s)",endUserEmail);
+
         appsflyer.setCurrencyCode(currencyCode);
         logger.verbose("appsflyer.setCurrencyCode(%s)",currencyCode);
         appsflyer.setCustomerUserId(customerUserId);
