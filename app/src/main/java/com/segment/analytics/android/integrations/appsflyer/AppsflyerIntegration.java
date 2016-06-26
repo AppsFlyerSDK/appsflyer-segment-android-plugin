@@ -37,7 +37,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             AppsFlyerLib afLib = AppsFlyerLib.getInstance();
 
             String devKey = settings.getString("devKey");
-            return new AppsflyerIntegration(logger, afLib, devKey, enableLog, customerUserId);
+            return new AppsflyerIntegration(logger, afLib, devKey);
         }
 
         @Override
@@ -47,13 +47,11 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
     };
 
-    public AppsflyerIntegration(Logger logger, AppsFlyerLib afLib, String devKey, boolean enableLog, String customerUserId) {
+    public AppsflyerIntegration(Logger logger, AppsFlyerLib afLib, String devKey) {
         this.logger = logger;
         this.appsflyer = afLib;
         this.devKey = devKey;
-        this.currencyCode = currencyCode;
         this.isDebug = (logger.logLevel != Analytics.LogLevel.NONE);
-        this.customerUserId = customerUserId;
     }
 
     @Override
