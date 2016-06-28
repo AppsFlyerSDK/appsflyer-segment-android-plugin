@@ -24,7 +24,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
     final Logger logger;
     final AppsFlyerLib appsflyer;
-    final String devKey;
+    final String appsFlyerDevKey;
     final boolean isDebug;
     private Context context;
 
@@ -50,7 +50,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     public AppsflyerIntegration(Logger logger, AppsFlyerLib afLib, String devKey) {
         this.logger = logger;
         this.appsflyer = afLib;
-        this.devKey = devKey;
+        this.appsFlyerDevKey = devKey;
         this.isDebug = (logger.logLevel != Analytics.LogLevel.NONE);
     }
 
@@ -60,8 +60,8 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         context = activity.getApplicationContext();
         updateEndUserAttributes();
 
-        appsflyer.startTracking(activity.getApplication(), devKey);
-        logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)",activity.getApplication(), devKey.substring(0,1)+"*****"+devKey.substring(devKey.length()-2) );
+        appsflyer.startTracking(activity.getApplication(), appsFlyerDevKey);
+        logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)",activity.getApplication(), appsFlyerDevKey.substring(0,1)+"*****"+appsFlyerDevKey.substring(appsFlyerDevKey.length()-2) );
     }
 
     @Override
