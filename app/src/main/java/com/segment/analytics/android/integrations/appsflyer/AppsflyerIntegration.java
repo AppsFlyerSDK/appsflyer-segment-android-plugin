@@ -133,7 +133,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         }
 
         @Override public void onInstallConversionDataLoaded(Map<String, String> conversionData) {
-            trackInstallAttributed(attributionData);
+            trackInstallAttributed(conversionData);
         }
 
         @Override public void onInstallConversionFailure(String errorMessage) {
