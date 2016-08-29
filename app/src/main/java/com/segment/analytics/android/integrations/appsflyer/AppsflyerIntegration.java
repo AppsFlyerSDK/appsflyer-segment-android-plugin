@@ -38,7 +38,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             Logger logger = analytics.logger(APPSFLYER_KEY);
             AppsFlyerLib afLib = AppsFlyerLib.getInstance();
 
-            String devKey = settings.getString("devKey");
+            String devKey = settings.getString("appsFlyerDevKey");
             boolean trackAttributionData = settings.getBoolean("trackAttributionData", false);
             if (trackAttributionData) {
                 AppsFlyerConversionListener listener = new ConversionListener(analytics);
