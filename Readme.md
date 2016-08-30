@@ -13,7 +13,7 @@
 <h2 id="identify" class="Permalink"><span class="wysiwyg-font-size-large">Identify</span></h2>
 <p>When you <code>identify</code> a user, that user’s information is passed to AppsFlyer with <code>customer user Id</code> as AppsFlyer’s External User ID. Segment’s special traits recognized as AppsFlyer’s standard user profile fields (in parentheses) are:</p>
 <ul>
-<li><code> devKey </code> (<code> appsflyer's devKey </code>)</li>
+<li><code> appsFlyerDevKey </code> (<code> appsflyer's devKey </code>)</li>
 <li><code> customerUserId </code> (<code>Customer User Id</code>)</li>
 <li><code> currencyCode </code> (<code>Currency Code</code>)</li>
 </ul>
