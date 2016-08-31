@@ -1,3 +1,5 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration) 
+
 <h2 class="CalloutBox-title"><span class="wysiwyg-font-size-large">What is Segment?</span></h2>
 <p>Segment is a customer data hub. You send your data from any device or platform. It is translated and forwarded to your apps in a language they understand.</p>
 <p>Segment makes it easy to send your data to <a href="http://appsflyer.com/?utm_source=segmentio&amp;utm_medium=docs&amp;utm_campaign=partners" target="_blank">AppsFlyer</a> (and lots of other integrations). 
@@ -35,33 +37,6 @@
   .use(AppsFlyer.FACTORY)
   ...
   .build();
-</code></pre>
-<h3 id="integrating-push" class="Permalink">Integrating Push</h3>
-<p>1. In your <code>AndroidManifest.xml</code>, register AppsFlyer’s <code>GcmBroadcastReceiver</code>.</p>
-<pre><code>&lt;receiver android:name="com.AppsFlyer.AppsFlyerGcmReceiver" android:permission="com.google.android.c2dm.permission.SEND"&gt;
-    &lt;intent-filter&gt;
-        &lt;action android:name="com.google.android.c2dm.intent.RECEIVE" /&gt;
-        &lt;action android:name="com.google.android.c2dm.intent.REGISTRATION" /&gt;
-    &lt;category android:name="[YOUR_PACKAGE_NAME]" /&gt;
-    &lt;/intent-filter&gt;
-&lt;/receiver&gt;
-</code></pre>
-<p>2. In your <code>AndroidManifest.xml</code>, register your own <code>BroadcastReceiver</code> that receives push received/open notification intents from AppsFlyer and open the app or corresponding deeplinks.</p>
-<pre><code>&lt;receiver android:name=".[YOUR_BROADCAST_RECEIVER]" android:exported="false" &gt;
-    &lt;intent-filter&gt;
-        &lt;action android:name="[YOUR_PACKAGE_NAME].intent.APPSFLYER_PUSH_RECEIVED" /&gt;
-        &lt;action android:name="[YOUR_PACKAGE_NAME].intent.APPSFLYER_NOTIFICATION_OPENED" /&gt;
-    &lt;/intent-filter&gt;
-&lt;/receiver&gt;
-</code></pre>
-<p>3. In your <code>AndroidManifest.xml</code>, add relevant permissions.</p>
-<pre><code>&lt;!-- Permissions for GCM --&gt;
-&lt;uses-permission android:name="android.permission.GET_ACCOUNTS" /&gt;
-&lt;uses-permission android:name="android.permission.WAKE_LOCK" /&gt;
-&lt;uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /&gt;
-
-&lt;permission android:name="[YOUR_PACKAGE_NAME].permission.C2D_MESSAGE" android:protectionLevel="signature"/&gt;
-&lt;uses-permission android:name="[YOUR_PACKAGE_NAME].permission.C2D_MESSAGE" /&gt;
 </code></pre>
 
 <h3 id="in-app-messages" class="Permalink">In-App Messages</h3>
