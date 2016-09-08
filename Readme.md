@@ -28,7 +28,7 @@
 <h2 id="android" class="Permalink">Android</h2>
 <h3 id="integrating" class="Permalink">Integrating</h3>
 <p>1. Add the AppsFlyer Segment Integration dependency to your app <code>build.gradle</code>:</p>
-<pre><code>compile 'com.appsFlyer:appsflyer-segment-integration:1.+'
+<pre><code>compile 'com.appsflyer:segment-android-integration:1.+'
 </code></pre>
 <p>It is recommended to use the latest version on <a href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%AppsFlyer-segment-integration%22" target="_blank">Maven</a> since it contains the most up-to-date features and bug fixes.</p>
 <p><strong>NOTE</strong>: Our Group ID is <code>com.appsFlyer</code> and not <code>com.segment.analytics.android.integrations</code>.</p>
