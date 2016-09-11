@@ -40,12 +40,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
             String devKey = settings.getString("appsFlyerDevKey");
             boolean trackAttributionData = settings.getBoolean("trackAttributionData", false);
+            Context context = analytics.getApplication();
             if (trackAttributionData) {
                 AppsFlyerConversionListener listener = new ConversionListener(analytics);
-                Context context = analytics.getApplication();
                 afLib.registerConversionListener(context, listener);
             }
-            return new AppsflyerIntegration(logger, afLib, devKey);
+            return new AppsflyerIntegration(context, logger, afLib, devKey);
         }
 
         @Override
@@ -55,7 +55,8 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
     };
 
-    public AppsflyerIntegration(Logger logger, AppsFlyerLib afLib, String devKey) {
+    public AppsflyerIntegration(Context context, Logger logger, AppsFlyerLib afLib, String devKey) {
+        this.context = context;
         this.logger = logger;
         this.appsflyer = afLib;
         this.appsFlyerDevKey = devKey;
@@ -65,25 +66,10 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
-        context = activity.getApplicationContext();
         updateEndUserAttributes();
-
         appsflyer.startTracking(activity.getApplication(), appsFlyerDevKey);
         logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)",activity.getApplication(), appsFlyerDevKey.substring(0,1)+"*****"+appsFlyerDevKey.substring(appsFlyerDevKey.length()-2) );
     }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-        super.onActivityResumed(activity);
-        context = activity.getApplicationContext();
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-        super.onActivityPaused(activity);
-        context = activity.getApplicationContext();
-    }
-
 
     @Override
     public AppsFlyerLib getUnderlyingInstance() {
