@@ -139,7 +139,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
-                        android:text="@string/add" />
+                        android:text="Add" />
                 </LinearLayout>
 
             </LinearLayout>

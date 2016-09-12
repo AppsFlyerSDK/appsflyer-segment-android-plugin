@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="collecting_conversion_data">Collecting conversion data...</string>
+    <string name="track_event">Track Event!</string>
+</resources>
