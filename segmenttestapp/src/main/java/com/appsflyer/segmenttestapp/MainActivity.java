@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
-import com.segment.analytics.ValueMap;
 import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration;
 
 import java.util.ArrayList;
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             conversionTextView.setGravity(Gravity.CENTER_VERTICAL);
                             conversionTextView.setText(conversionDataString);
                         } else {
-                            analytics.logger("AF-SegmentTestApp").debug("could not load conversion data");
+                            Log.d(TAG,"Could not load conversion data");
                         }
                     }
                 });
