@@ -29,6 +29,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     final boolean isDebug;
     private Context context;
     private String customerUserId;
+    private String currencyCode;
 
     public static ConversionListenerDisplay cld;
     public static final Factory FACTORY = new Integration.Factory() {
@@ -82,11 +83,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         super.identify(identify);
 
         customerUserId = identify.userId();
+        currencyCode = identify.traits().getString("currencyCode");
 
         if (appsflyer != null) {
             updateEndUserAttributes();
         } else {
-            logger.verbose("couldn't update attributes");
+            logger.verbose("couldn't update 'Identify' attributes");
         }
     }
 
@@ -94,6 +96,8 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         appsflyer.setCustomerUserId(customerUserId);
         logger.verbose("appsflyer.setCustomerUserId(%s)", customerUserId);
+        appsflyer.setCurrencyCode(currencyCode);
+        logger.verbose("appsflyer.setCurrencyCode(%s)", currencyCode);
         appsflyer.setDebugLog(isDebug);
         logger.verbose("appsflyer.setDebugLog(%s)", isDebug);
     }
@@ -103,7 +107,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         String event = track.event();
         Properties properties = track.properties();
         appsflyer.trackEvent(context, event, properties);
-        logger.verbose("appsflyer.trackEvent(null, %s, %s)", context, event, properties);
+        logger.verbose("appsflyer.trackEvent(context, %s, %s)", event, properties);
     }
 
 
