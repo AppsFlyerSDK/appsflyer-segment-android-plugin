@@ -11,7 +11,7 @@
 <h2 id="getting-started" class="Permalink"><span class="wysiwyg-font-size-large">Getting Started</span></h2>
 <p>Once the Segment library is integrated, enable AppsFlyer as one of your Segment integrations (https://segment.com/Your-Workspace-HERE/sources/android/integrations/appsflyer), and add your <code>App Group Identifier</code> and your <code>AppsFlyer Dev Key</code> which you can find in the AppsFlyer Dashboard under App Settings &gt; Developer Console.</p>
 <p>The Segment AppsFlyer integration is entirely handled through Segment's servers, so you don’t need to bundle AppsFlyer's iOS or Android SDKs. Your Segment SDK will be enough.</p>
-<p>AppsFlyer supports the <code>identify</code>, <code>track</code>, and <code>group</code> methods.</p>
+<p>AppsFlyer supports the <code>identify</code> and <code>track</code> methods.</p>
 <h2 id="identify" class="Permalink"><span class="wysiwyg-font-size-large">Identify</span></h2>
 <p>When you <code>identify</code> a user, that user’s information is passed to AppsFlyer with <code>customer user Id</code> as AppsFlyer’s External User ID. Segment’s special traits recognized as AppsFlyer’s standard user profile fields (in parentheses) are:</p>
 <ul>
