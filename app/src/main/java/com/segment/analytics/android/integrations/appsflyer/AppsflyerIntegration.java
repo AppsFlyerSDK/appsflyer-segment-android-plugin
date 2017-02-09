@@ -5,8 +5,10 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
+import com.appsflyer.AppsFlyerProperties;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 import com.segment.analytics.ValueMap;
@@ -23,6 +25,8 @@ import java.util.Map;
 public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
     private static final String APPSFLYER_KEY = "AppsFlyer";
+    private static final String SEGMENT_REVENUE = "revenue";
+
     final Logger logger;
     final AppsFlyerLib appsflyer;
     final String appsFlyerDevKey;
@@ -106,6 +110,19 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     public void track(TrackPayload track) {
         String event = track.event();
         Properties properties = track.properties();
+
+        final double revenue = properties.revenue();
+
+        // properties has revenue
+        // remove  segment revenue (we don't need it) and add 'af_revenue' for AF tracking
+        if(revenue > 0){
+            if(properties.containsKey(SEGMENT_REVENUE)){
+                properties.remove(SEGMENT_REVENUE);
+            }
+
+            properties.put(AFInAppEventParameterName.REVENUE, revenue);
+        }
+
         appsflyer.trackEvent(context, event, properties);
         logger.verbose("appsflyer.trackEvent(context, %s, %s)", event, properties);
     }

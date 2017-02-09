@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         Log.d(TAG, "AppsFlyer's Segment Integration TestApp is now initializing..");
-        analytics = new Analytics.Builder(this, "Your-Segment-Write-Key")
+        analytics = new Analytics.Builder(this, "GRN6QWnSb8tbDETvKXwLQDEVomHmHuDO")
+                .logLevel(Analytics.LogLevel.VERBOSE)
                 .use(AppsflyerIntegration.FACTORY).build();
 
         AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {

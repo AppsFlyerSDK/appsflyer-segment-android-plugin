@@ -29,6 +29,7 @@ proguard/
 .navigation/
 
 # Android Studio captures folder
+*.iml
 captures/
 .idea/.name
 .idea/compiler.xml
