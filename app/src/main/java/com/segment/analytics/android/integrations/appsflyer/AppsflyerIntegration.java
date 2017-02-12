@@ -17,15 +17,29 @@ import com.segment.analytics.integrations.Integration;
 import com.segment.analytics.integrations.Logger;
 import com.segment.analytics.integrations.TrackPayload;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static com.segment.analytics.internal.Utils.transform;
 
 /**
  * Created by shacharaharon on 12/04/2016.
  */
 public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
+    static final Map<String, String> MAPPER;
+
     private static final String APPSFLYER_KEY = "AppsFlyer";
     private static final String SEGMENT_REVENUE = "revenue";
+
+    static {
+        Map<String, String> mapper = new LinkedHashMap<>();
+        mapper.put(SEGMENT_REVENUE, AFInAppEventParameterName.REVENUE);
+        MAPPER = Collections.unmodifiableMap(mapper);
+    }
+
+
 
     final Logger logger;
     final AppsFlyerLib appsflyer;
@@ -111,19 +125,9 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         String event = track.event();
         Properties properties = track.properties();
 
-        final double revenue = properties.revenue();
+        Map<String, Object> afProperties = transform(properties, MAPPER);
 
-        // properties has revenue
-        // remove  segment revenue (we don't need it) and add 'af_revenue' for AF tracking
-        if(revenue > 0){
-            if(properties.containsKey(SEGMENT_REVENUE)){
-                properties.remove(SEGMENT_REVENUE);
-            }
-
-            properties.put(AFInAppEventParameterName.REVENUE, revenue);
-        }
-
-        appsflyer.trackEvent(context, event, properties);
+        appsflyer.trackEvent(context, event, afProperties);
         logger.verbose("appsflyer.trackEvent(context, %s, %s)", event, properties);
     }
 
