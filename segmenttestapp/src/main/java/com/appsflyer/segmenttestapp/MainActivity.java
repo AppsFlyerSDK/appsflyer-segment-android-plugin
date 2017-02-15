@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         initListView();
-        ((Button) findViewById(R.id.button_add)).setOnClickListener(this);
+        findViewById(R.id.button_add).setOnClickListener(this);
         eventNameET = (EditText) findViewById(R.id.event_name_editText);
         keyET = (EditText) findViewById(R.id.key_text_editText);
         valueET = (EditText) findViewById(R.id.value_text_editText);
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         Log.d(TAG, "AppsFlyer's Segment Integration TestApp is now initializing..");
-        analytics = new Analytics.Builder(this, "Your-Segment-Write-Key")
+        analytics = new Analytics.Builder(this, "LTKg97K4uHOXI1udmMG9eGHsubnCCASQ")
                 .logLevel(Analytics.LogLevel.VERBOSE)
                 .use(AppsflyerIntegration.FACTORY).build();
 
@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (view.getId() == R.id.button_add) {
             adapter.addItem(keyET.getText().toString(), valueET.getText().toString());
         } else {
+            Log.w(TAG,"Unknown button ID. Check you're implementation.");
 
         }
     }
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private class KeyValueAdapter extends BaseAdapter {
 
-        public Map<String, String> mData = new LinkedHashMap<>();
+        Map<String, String> mData = new LinkedHashMap<>();
         private List<String> mKeys;
         private LayoutInflater mInflater;
 
@@ -152,12 +153,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mKeys = new ArrayList<>(mData.keySet());
         }
 
-        public KeyValueAdapter() {
+        KeyValueAdapter() {
             mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             mKeys = new ArrayList<>(mData.keySet());
         }
 
-        public void addItem(String key, String value) {
+        void addItem(String key, String value) {
             mData.put(key, value);
             if (!mKeys.contains(key)) {
                 mKeys.add(key);
