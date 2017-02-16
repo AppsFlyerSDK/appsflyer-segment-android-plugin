@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText keyET;
     private EditText valueET;
 
+    static final String APPSFLYER_DEV_KEY = "JkmJarFMos7svquk9gxQfC";
+    static final String SEGMENT_WRITE_KEY = "LTKg97K4uHOXI1udmMG9eGHsubnCCASQ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +62,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         Log.d(TAG, "AppsFlyer's Segment Integration TestApp is now initializing..");
-        analytics = new Analytics.Builder(this, "LTKg97K4uHOXI1udmMG9eGHsubnCCASQ")
+
+        analytics = new Analytics.Builder(this, SEGMENT_WRITE_KEY)
+        //analytics = new Analytics.Builder(this, "GRN6QWnSb8tbDETvKXwLQDEVomHmHuDO")
+
                 .logLevel(Analytics.LogLevel.VERBOSE)
                 .use(AppsflyerIntegration.FACTORY).build();
 
