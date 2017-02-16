@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
+import com.segment.analytics.ValueMap;
 import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initListView();
         findViewById(R.id.button_add).setOnClickListener(this);
+        findViewById(R.id.track_button).setOnClickListener(this);
         eventNameET = (EditText) findViewById(R.id.event_name_editText);
         keyET = (EditText) findViewById(R.id.key_text_editText);
         valueET = (EditText) findViewById(R.id.value_text_editText);
@@ -59,10 +61,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         Log.d(TAG, "AppsFlyer's Segment Integration TestApp is now initializing..");
-        analytics = new Analytics.Builder(this, "LTKg97K4uHOXI1udmMG9eGHsubnCCASQ")
-                .logLevel(Analytics.LogLevel.VERBOSE)
-                .use(AppsflyerIntegration.FACTORY).build();
+        initSegmentAnalytics();
 
+        initConversionListener();
+
+        initAppsFlyer(savedInstanceState);
+
+        Log.d(TAG, "Done!");
+    }
+
+    private void initSegmentAnalytics() {
+        analytics = new Analytics.Builder(this, "LTKg97K4uHOXI1udmMG9eGHsubnCCASQ")
+                .use(AppsflyerIntegration.FACTORY)
+                .logLevel(Analytics.LogLevel.VERBOSE)
+                .trackApplicationLifecycleEvents() // Enable this to record certain application events automatically!
+                .recordScreenViews() // Enable this to record screen views automatically!
+                .build();
+
+        // Set the initialized instance as a globally accessible instance.
+        Analytics.setSingletonInstance(analytics);
+    }
+
+    private void initAppsFlyer(Bundle savedInstanceState) {
+        ValueMap settings = new ValueMap().putValue("appsFlyerDevKey", "JkmJarFMos7svquk9gxQfC").putValue("trackAttributionData", true);
+        AppsflyerIntegration.FACTORY.create(settings, analytics).onActivityCreated(this, savedInstanceState);
+    }
+
+    private void initConversionListener() {
         AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
             @Override
             public void display(Map<String, String> attributionData) {
@@ -91,16 +116,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         };
-//        Analytics.setSingletonInstance(analytics);
-
-//        ValueMap settings = new ValueMap().putValue("appsFlyerDevKey", "JkmJarFMos7svquk9gxQfC").putValue("trackAttributionData", true);
-//        AppsflyerIntegration.FACTORY.create(settings, analytics).onActivityCreated(this, savedInstanceState);
-
-        findViewById(R.id.track_button).setOnClickListener(this);
-
-        Log.d(TAG, "Done!");
-
     }
+
 
     private void initListView() {
         adapter = new KeyValueAdapter();
