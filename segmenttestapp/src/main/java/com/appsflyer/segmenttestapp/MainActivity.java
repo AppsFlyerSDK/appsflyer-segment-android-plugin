@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
+import com.segment.analytics.ValueMap;
 import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration;
 
 import java.util.ArrayList;
@@ -29,15 +30,18 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+//    static final String APPSFLYER_DEV_KEY = "Enter-Your-AppsFlyer-Dev-Key-Here";
+//    static final String SEGMENT_WRITE_KEY = "Enter-Your-Segment-Write-Key-Here";
+
+    static final String APPSFLYER_DEV_KEY = "JkmJarFMos7svquk9gxQfC";
+    static final String SEGMENT_WRITE_KEY = "LTKg97K4uHOXI1udmMG9eGHsubnCCASQ";
+
     private static final String TAG = "AppsFlyer-Segment";
     private Analytics analytics;
     private KeyValueAdapter adapter;
     private EditText eventNameET;
     private EditText keyET;
     private EditText valueET;
-
-    static final String APPSFLYER_DEV_KEY = "JkmJarFMos7svquk9gxQfC";
-    static final String SEGMENT_WRITE_KEY = "LTKg97K4uHOXI1udmMG9eGHsubnCCASQ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initListView();
         findViewById(R.id.button_add).setOnClickListener(this);
+        findViewById(R.id.track_button).setOnClickListener(this);
         eventNameET = (EditText) findViewById(R.id.event_name_editText);
         keyET = (EditText) findViewById(R.id.key_text_editText);
         valueET = (EditText) findViewById(R.id.value_text_editText);
@@ -62,13 +67,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         Log.d(TAG, "AppsFlyer's Segment Integration TestApp is now initializing..");
+        initSegmentAnalytics();
 
+        initConversionListener();
+
+        initAppsFlyer(savedInstanceState);
+
+        Log.d(TAG, "Done!");
+    }
+
+    private void initSegmentAnalytics() {
         analytics = new Analytics.Builder(this, SEGMENT_WRITE_KEY)
-        //analytics = new Analytics.Builder(this, "GRN6QWnSb8tbDETvKXwLQDEVomHmHuDO")
-
+                .use(AppsflyerIntegration.FACTORY)
                 .logLevel(Analytics.LogLevel.VERBOSE)
-                .use(AppsflyerIntegration.FACTORY).build();
+                .trackApplicationLifecycleEvents() // Enable this to record certain application events automatically!
+                .recordScreenViews() // Enable this to record screen views automatically!
+                .build();
 
+        // Set the initialized instance as a globally accessible instance.
+        Analytics.setSingletonInstance(analytics);
+    }
+
+    private void initAppsFlyer(Bundle savedInstanceState) {
+        ValueMap settings = new ValueMap().putValue("appsFlyerDevKey", APPSFLYER_DEV_KEY).putValue("trackAttributionData", true);
+        AppsflyerIntegration.FACTORY.create(settings, analytics).onActivityCreated(this, savedInstanceState);
+    }
+
+    private void initConversionListener() {
         AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
             @Override
             public void display(Map<String, String> attributionData) {
@@ -76,7 +101,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(TAG, "attribute: " + attrName + " = " +
                             attributionData.get(attrName));
                 }
+
                 //SCREEN VALUES//
+                //noinspection StringBufferReplaceableByString
                 StringBuilder sb = new StringBuilder();
                 sb.append("Install Type: ").append(attributionData.get("af_status")).append("\n");
                 sb.append("Media Source: ").append(attributionData.get("media_source")).append("\n");
@@ -97,16 +124,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         };
-//        Analytics.setSingletonInstance(analytics);
-
-//        ValueMap settings = new ValueMap().putValue("appsFlyerDevKey", "JkmJarFMos7svquk9gxQfC").putValue("trackAttributionData", true);
-//        AppsflyerIntegration.FACTORY.create(settings, analytics).onActivityCreated(this, savedInstanceState);
-
-        findViewById(R.id.track_button).setOnClickListener(this);
-
-        Log.d(TAG, "Done!");
-
     }
+
 
     private void initListView() {
         adapter = new KeyValueAdapter();
@@ -142,9 +161,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public static class ViewHolder {
-        public TextView keyTextView;
-        public TextView valueTextView;
-        public Button deleteButton;
+        TextView keyTextView;
+        TextView valueTextView;
+        Button deleteButton;
     }
 
     private class KeyValueAdapter extends BaseAdapter {
@@ -153,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private List<String> mKeys;
         private LayoutInflater mInflater;
 
+        @SuppressWarnings("unused")
         public KeyValueAdapter(LinkedHashMap<String, String> data) {
             mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             mData = data;
@@ -194,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println("getView " + position + " " + convertView);
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.item1, null);
+                convertView = mInflater.inflate(R.layout.item1, parent);
                 holder = new ViewHolder();
                 holder.keyTextView = (TextView) convertView.findViewById(R.id.key_text_item);
                 holder.valueTextView = (TextView) convertView.findViewById(R.id.value_text_item);
