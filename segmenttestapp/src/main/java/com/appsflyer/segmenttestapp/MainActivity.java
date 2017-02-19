@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
-import com.segment.analytics.ValueMap;
 import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration;
 
 import java.util.ArrayList;
@@ -30,14 +29,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-//    static final String APPSFLYER_DEV_KEY = "Enter-Your-AppsFlyer-Dev-Key-Here";
-//    static final String SEGMENT_WRITE_KEY = "Enter-Your-Segment-Write-Key-Here";
-
-    static final String APPSFLYER_DEV_KEY = "JkmJarFMos7svquk9gxQfC";
-    static final String SEGMENT_WRITE_KEY = "LTKg97K4uHOXI1udmMG9eGHsubnCCASQ";
-
     private static final String TAG = "AppsFlyer-Segment";
-    private Analytics analytics;
     private KeyValueAdapter adapter;
     private EditText eventNameET;
     private EditText keyET;
@@ -60,38 +52,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     adapter.addItem(keyET.getText().toString(), valueET.getText().toString());
                     keyET.requestFocus();
-//                    return true;
                 }
                 return false;
             }
         });
 
         Log.d(TAG, "AppsFlyer's Segment Integration TestApp is now initializing..");
-        initSegmentAnalytics();
 
         initConversionListener();
-
-        initAppsFlyer(savedInstanceState);
 
         Log.d(TAG, "Done!");
     }
 
-    private void initSegmentAnalytics() {
-        analytics = new Analytics.Builder(this, SEGMENT_WRITE_KEY)
-                .use(AppsflyerIntegration.FACTORY)
-                .logLevel(Analytics.LogLevel.VERBOSE)
-                .trackApplicationLifecycleEvents() // Enable this to record certain application events automatically!
-                .recordScreenViews() // Enable this to record screen views automatically!
-                .build();
 
-        // Set the initialized instance as a globally accessible instance.
-        Analytics.setSingletonInstance(analytics);
-    }
-
-    private void initAppsFlyer(Bundle savedInstanceState) {
-        ValueMap settings = new ValueMap().putValue("appsFlyerDevKey", APPSFLYER_DEV_KEY).putValue("trackAttributionData", true);
-        AppsflyerIntegration.FACTORY.create(settings, analytics).onActivityCreated(this, savedInstanceState);
-    }
 
     private void initConversionListener() {
         AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
@@ -136,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view.getId() == R.id.track_button) {
             String eventName = eventNameET.getText().toString();
+
+            Analytics analytics = Analytics.with(this);
+
             if (!eventName.equals("")) {
                 Properties properties = new Properties();
                 properties.putAll(adapter.mData);
@@ -214,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println("getView " + position + " " + convertView);
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.item1, parent);
+                convertView = mInflater.inflate(R.layout.item1, parent, false); //http://stackoverflow.com/questions/14978296/unable-to-start-activityunsupportedoperationexception-addviewview-layoutpara
                 holder = new ViewHolder();
                 holder.keyTextView = (TextView) convertView.findViewById(R.id.key_text_item);
                 holder.valueTextView = (TextView) convertView.findViewById(R.id.value_text_item);
