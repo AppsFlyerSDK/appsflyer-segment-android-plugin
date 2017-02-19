@@ -86,7 +86,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         this.isDebug = (logger.logLevel != Analytics.LogLevel.NONE);
     }
 
-    // TODO: for some reason it never called
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
@@ -97,8 +96,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
                 activity.getApplication(),
                 appsFlyerDevKey.substring(0, 1) + "*****" + appsFlyerDevKey.substring(appsFlyerDevKey.length() - 2));
     }
-
-
 
     @Override
     public AppsFlyerLib getUnderlyingInstance() {
