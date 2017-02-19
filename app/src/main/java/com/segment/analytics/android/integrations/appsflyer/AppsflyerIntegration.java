@@ -61,7 +61,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             String devKey = settings.getString("appsFlyerDevKey");
             boolean trackAttributionData = settings.getBoolean("trackAttributionData", false);
             Application application = analytics.getApplication();
-            afLib.trackEvent(application.getApplicationContext(), null, null);
             afLib.startTracking(application, devKey);
             logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
             if (trackAttributionData) {
