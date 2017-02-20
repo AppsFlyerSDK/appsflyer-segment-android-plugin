@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
-import com.appsflyer.AppsFlyerProperties;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 import com.segment.analytics.ValueMap;
@@ -33,6 +32,9 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     private static final String APPSFLYER_KEY = "AppsFlyer";
     private static final String SEGMENT_REVENUE = "revenue";
 
+    /**
+     * Responsible to map revenue -> af_revenue
+     */
     static {
         Map<String, String> mapper = new LinkedHashMap<>();
         mapper.put(SEGMENT_REVENUE, AFInAppEventParameterName.REVENUE);
@@ -59,6 +61,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             String devKey = settings.getString("appsFlyerDevKey");
             boolean trackAttributionData = settings.getBoolean("trackAttributionData", false);
             Application application = analytics.getApplication();
+            afLib.trackEvent(application.getApplicationContext(), null, null);
             afLib.startTracking(application, devKey);
             logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
             if (trackAttributionData) {
@@ -86,9 +89,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
+
         updateEndUserAttributes();
         appsflyer.startTracking(activity.getApplication(), appsFlyerDevKey);
-        logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", activity.getApplication(), appsFlyerDevKey.substring(0, 1) + "*****" + appsFlyerDevKey.substring(appsFlyerDevKey.length() - 2));
+        logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)",
+                activity.getApplication(),
+                appsFlyerDevKey.substring(0, 1) + "*****" + appsFlyerDevKey.substring(appsFlyerDevKey.length() - 2));
     }
 
     @Override
