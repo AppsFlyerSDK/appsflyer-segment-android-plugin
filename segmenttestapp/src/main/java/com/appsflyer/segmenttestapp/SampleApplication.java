@@ -11,6 +11,7 @@ public class SampleApplication extends Application {
 
 
     static final String SEGMENT_WRITE_KEY = "Your-Segment-Write-Key";
+    static final String TAG = "SEG_AF";
 
     @Override public void onCreate() {
         super.onCreate();
@@ -21,7 +22,7 @@ public class SampleApplication extends Application {
 
         analytics.onIntegrationReady("Segment.io", new Analytics.Callback() {
             @Override public void onReady(Object instance) {
-                Log.d("Segment AppsFlyer Sample", "Segment integration ready.");
+                Log.d(TAG, "Segment integration ready.");
             }
         });
     }
