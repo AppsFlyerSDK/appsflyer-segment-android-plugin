@@ -1,8 +1,10 @@
 package com.segment.analytics.android.integrations.appsflyer;
 
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.appsflyer.AFInAppEventParameterName;
@@ -27,6 +29,10 @@ import static com.segment.analytics.internal.Utils.transform;
  */
 public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
+    static final String AF_SEGMENT_SHARED_PREF = "appsflyer-segment-data";
+    static final String ATTR_KEY = "AF_onInstall_Attr";
+    static final String CONV_KEY = "AF_onConversion_Data";
+
     static final Map<String, String> MAPPER;
 
     private static final String APPSFLYER_KEY = "AppsFlyer";
@@ -40,8 +46,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         mapper.put(SEGMENT_REVENUE, AFInAppEventParameterName.REVENUE);
         MAPPER = Collections.unmodifiableMap(mapper);
     }
-
-
 
     final Logger logger;
     final AppsFlyerLib appsflyer;
@@ -151,7 +155,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         @Override
         public void onInstallConversionDataLoaded(Map<String, String> conversionData) {
-            trackInstallAttributed(conversionData);
+
+            if( !getFlag(CONV_KEY) ){
+                trackInstallAttributed(conversionData);
+                recordFlag(CONV_KEY, true);
+            }
+
             if (cld != null) {
                 cld.display(conversionData);
             }
@@ -164,7 +173,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         @Override
         public void onAppOpenAttribution(Map<String, String> attributionData) {
-            trackInstallAttributed(attributionData);
+
+            if( !getFlag(ATTR_KEY) ){
+                trackInstallAttributed(attributionData);
+                recordFlag(ATTR_KEY, true);
+            }
+
             if (cld != null) {
                 cld.display(attributionData);
             }
@@ -197,6 +211,45 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
             analytics.track("Install Attributed", properties);
         }
+
+        private boolean getFlag(final String key){
+
+            Context context = getContext();
+
+            if(context == null){
+                return false;
+            }
+
+            SharedPreferences sharedPreferences = context.getSharedPreferences(AF_SEGMENT_SHARED_PREF, 0);
+            return sharedPreferences.getBoolean(key, false);
+        }
+
+        private void recordFlag(final String key, final boolean value){
+
+            Context context = getContext();
+
+            if(context == null){
+                return;
+            }
+
+            SharedPreferences sharedPreferences = context.getSharedPreferences(AF_SEGMENT_SHARED_PREF, 0);
+            android.content.SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(key, value);
+            editorCommit(editor);
+        }
+
+        private void editorCommit(SharedPreferences.Editor editor) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
+        }
+
+        private Context getContext(){
+            return this.analytics.getApplication().getApplicationContext();
+        }
+
     }
 
 }
