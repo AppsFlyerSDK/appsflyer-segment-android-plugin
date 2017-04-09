@@ -158,7 +158,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
             if( !getFlag(CONV_KEY) ){
                 trackInstallAttributed(conversionData);
-                recordFlag(CONV_KEY, true);
+                setFlag(CONV_KEY, true);
             }
 
             if (cld != null) {
@@ -176,7 +176,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
             if( !getFlag(ATTR_KEY) ){
                 trackInstallAttributed(attributionData);
-                recordFlag(ATTR_KEY, true);
+                setFlag(ATTR_KEY, true);
             }
 
             if (cld != null) {
@@ -224,7 +224,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             return sharedPreferences.getBoolean(key, false);
         }
 
-        private void recordFlag(final String key, final boolean value){
+        private void setFlag(final String key, final boolean value){
 
             Context context = getContext();
 
