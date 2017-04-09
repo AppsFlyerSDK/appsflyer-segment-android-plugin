@@ -1,5 +1,12 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration) 
 
+----------
+In order for us to provide optimal support, we would kindly ask you to submit any issues to support@appsflyer.com
+
+*When submitting an issue please specify your AppsFlyer sign-up (account) email , your app ID , production steps, logs, code snippets and any additional relevant information.*
+
+----------
+
 <h2 class="CalloutBox-title"><span class="wysiwyg-font-size-large">What is Segment?</span></h2>
 <p>Segment is a customer data hub. You send your data from any device or platform. It is translated and forwarded to your apps in a language they understand.</p>
 <p>Segment makes it easy to send your data to <a href="http://appsflyer.com/?utm_source=segmentio&amp;utm_medium=docs&amp;utm_campaign=partners" target="_blank">AppsFlyer</a> (and lots of other integrations). 
