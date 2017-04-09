@@ -10,7 +10,7 @@ import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration
 public class SampleApplication extends Application {
 
 
-    static final String SEGMENT_WRITE_KEY = "GRN6QWnSb8tbDETvKXwLQDEVomHmHuDO";//Your-Segment-Write-Key
+    static final String SEGMENT_WRITE_KEY = "Your-Segment-Write-Key";
     static final String TAG = "SEG_AF";
 
     @Override public void onCreate() {
