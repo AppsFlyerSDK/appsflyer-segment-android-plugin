@@ -1,8 +1,9 @@
-package com.appsflyer.segmenttestapp;
+package com.appsflyer.segment.app;
 
 import android.app.Application;
 import android.util.Log;
 
+import com.appsflyer.AppsFlyerLib;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration;
 
@@ -10,11 +11,14 @@ import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration
 public class SampleApplication extends Application {
 
 
-    static final String SEGMENT_WRITE_KEY = "Your-Segment-Write-Key";
+    static final String SEGMENT_WRITE_KEY = "GRN6QWnSb8tbDETvKXwLQDEVomHmHuDO";
     static final String TAG = "SEG_AF";
 
     @Override public void onCreate() {
         super.onCreate();
+
+        AppsFlyerLib afLib = AppsFlyerLib.getInstance();
+        AppsFlyerLib.getInstance().enableUninstallTracking("120680937670");
 
         initSegmentAnalytics();
 

@@ -1,4 +1,4 @@
-package com.appsflyer.segmenttestapp;
+package com.appsflyer.segment.app;
 
 import android.content.Context;
 import android.os.Bundle;
