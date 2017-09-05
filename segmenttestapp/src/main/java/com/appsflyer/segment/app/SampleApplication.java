@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.appsflyer.AppsFlyerLib;
 import com.segment.analytics.Analytics;
+import com.segment.analytics.Properties;
 import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration;
 
 
@@ -17,8 +18,8 @@ public class SampleApplication extends Application {
     @Override public void onCreate() {
         super.onCreate();
 
-        AppsFlyerLib afLib = AppsFlyerLib.getInstance();
-        AppsFlyerLib.getInstance().enableUninstallTracking("120680937670");
+            AppsFlyerLib afLib = AppsFlyerLib.getInstance();
+            AppsFlyerLib.getInstance().enableUninstallTracking("120680937670");
 
         initSegmentAnalytics();
 
@@ -29,6 +30,9 @@ public class SampleApplication extends Application {
                 Log.d(TAG, "Segment integration ready.");
             }
         });
+
+        Analytics.with(this.getApplicationContext()).track("Purchase Event", new Properties().putValue("someValue",20).putRevenue(200));
+
     }
 
     private void initSegmentAnalytics() {

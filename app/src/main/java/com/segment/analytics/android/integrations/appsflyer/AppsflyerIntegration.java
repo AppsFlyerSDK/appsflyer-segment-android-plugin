@@ -194,20 +194,19 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             Map<String, Object> campaign = new ValueMap() //
                     .putValue("source", attributionData.get("media_source"))
                     .putValue("name", attributionData.get("campaign"))
-                    // .putValue("content", attributionData.get("?"))
-                    // .putValue("adCreative", attributionData.get("?"))
                     .putValue("adGroup", attributionData.get("adgroup"));
 
 
-            Properties properties = new Properties() //
-                    .putValue("provider", "AppsFlyer")
-                    .putValue("campaign", campaign);
-            properties.putAll(attributionData);
+            Properties properties = new Properties().putValue("provider", "AppsFlyer");
 
             // Remove properties set in campaign.
             properties.remove("media_source");
-            properties.remove("campaign");
             properties.remove("adgroup");
+
+            // replace original campaign with new created
+            properties.remove("campaign");
+            properties.putValue("campaign", campaign);
+            properties.putAll(attributionData);
 
             analytics.track("Install Attributed", properties);
         }
