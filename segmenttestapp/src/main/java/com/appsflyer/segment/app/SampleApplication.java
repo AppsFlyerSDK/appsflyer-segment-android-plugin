@@ -31,7 +31,7 @@ public class SampleApplication extends Application {
             }
         });
 
-        Analytics.with(this.getApplicationContext()).track("Purchase Event", new Properties().putValue("someValue",20).putRevenue(200));
+       // Analytics.with(this.getApplicationContext()).track("Purchase Event", new Properties().putValue("someValue",20).putRevenue(200));
 
     }
 

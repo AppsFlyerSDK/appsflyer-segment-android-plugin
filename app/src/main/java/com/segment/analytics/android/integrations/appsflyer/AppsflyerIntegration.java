@@ -65,13 +65,17 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             String devKey = settings.getString("appsFlyerDevKey");
             boolean trackAttributionData = settings.getBoolean("trackAttributionData", false);
             Application application = analytics.getApplication();
-            afLib.trackEvent(application.getApplicationContext(), null, null);
-            afLib.startTracking(application, devKey);
-            logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
+
+            AppsFlyerConversionListener listener = null;
             if (trackAttributionData) {
-                AppsFlyerConversionListener listener = new ConversionListener(analytics);
-                afLib.registerConversionListener(application, listener);
+                listener = new ConversionListener(analytics);
             }
+
+            afLib.init(devKey, listener);
+            afLib.trackEvent(application.getApplicationContext(), null, null);
+
+            logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
+
             return new AppsflyerIntegration(application, logger, afLib, devKey);
         }
 
@@ -95,6 +99,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         super.onActivityCreated(activity, savedInstanceState);
 
         updateEndUserAttributes();
+
         appsflyer.startTracking(activity.getApplication(), appsFlyerDevKey);
         logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)",
                 activity.getApplication(),
@@ -189,12 +194,16 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         }
 
+        private Object getFromAttr(String value){
+            return (value != null) ? value : "";
+        }
+
         void trackInstallAttributed(Map<String, String> attributionData) {
             // See https://segment.com/docs/spec/mobile/#install-attributed.
             Map<String, Object> campaign = new ValueMap() //
-                    .putValue("source", attributionData.get("media_source"))
-                    .putValue("name", attributionData.get("campaign"))
-                    .putValue("adGroup", attributionData.get("adgroup"));
+                    .putValue("source",  getFromAttr(attributionData.get("media_source")))
+                    .putValue("name",    getFromAttr(attributionData.get("campaign")))
+                    .putValue("adGroup", getFromAttr(attributionData.get("adgroup")));
 
 
             Properties properties = new Properties().putValue("provider", "AppsFlyer");
@@ -204,7 +213,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             properties.remove("adgroup");
 
             // replace original campaign with new created
-            properties.remove("campaign");
             properties.putValue("campaign", campaign);
             properties.putAll(attributionData);
 
