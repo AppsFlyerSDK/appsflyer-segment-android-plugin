@@ -73,6 +73,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
             afLib.init(devKey, listener);
             afLib.trackEvent(application.getApplicationContext(), null, null);
+            afLib.startTracking(application);
 
             logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
 
@@ -99,11 +100,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         super.onActivityCreated(activity, savedInstanceState);
 
         updateEndUserAttributes();
-
-        appsflyer.startTracking(activity.getApplication(), appsFlyerDevKey);
-        logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)",
-                activity.getApplication(),
-                appsFlyerDevKey.substring(0, 1) + "*****" + appsFlyerDevKey.substring(appsFlyerDevKey.length() - 2));
     }
 
     @Override

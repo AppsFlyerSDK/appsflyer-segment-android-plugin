@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "AppsFlyer's Segment Integration TestApp is now initializing..");
 
         initConversionListener();
-
         Log.d(TAG, "Done!");
     }
 

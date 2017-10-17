@@ -3,12 +3,12 @@ package com.appsflyer.segment.app;
 import android.app.Application;
 import android.util.Log;
 
-import com.appsflyer.AppsFlyerLib;
 import com.segment.analytics.Analytics;
-import com.segment.analytics.Properties;
+import com.segment.analytics.Traits;
 import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration;
 
-
+//https://segment.com/docs/spec/identify/
+//https://segment.com/docs/sources/mobile/android/
 public class SampleApplication extends Application {
 
 
@@ -17,9 +17,6 @@ public class SampleApplication extends Application {
 
     @Override public void onCreate() {
         super.onCreate();
-
-            AppsFlyerLib afLib = AppsFlyerLib.getInstance();
-            AppsFlyerLib.getInstance().enableUninstallTracking("120680937670");
 
         initSegmentAnalytics();
 
@@ -31,8 +28,10 @@ public class SampleApplication extends Application {
             }
         });
 
-       // Analytics.with(this.getApplicationContext()).track("Purchase Event", new Properties().putValue("someValue",20).putRevenue(200));
-
+        analytics.identify("a user's id", new Traits()
+                        .putName("a user's name")
+                        .putEmail("maxim@appsflyer.com"),
+                null);
     }
 
     private void initSegmentAnalytics() {
