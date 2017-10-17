@@ -26,8 +26,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.1'
     //noinspection GradleDynamicVersion
     compile 'com.segment.analytics.android:analytics:4.+'
-    //compile 'com.appsflyer:segment-android-integration:1.9'
-    compile project(':app')
+    compile 'com.appsflyer:segment-android-integration:1.10'
+    //compile project(':app')
     //    compile 'com.google.firebase:firebase-crash:9.4.0'
     //compile 'com.appsflyer:af-android-sdk:4.7.4'
 }
