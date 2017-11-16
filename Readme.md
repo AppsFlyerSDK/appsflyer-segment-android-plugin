@@ -8,13 +8,13 @@ In order for us to provide optimal support, we would kindly ask you to submit an
 ----------
 
 <h2 class="CalloutBox-title"><span class="wysiwyg-font-size-large">What is Segment?</span></h2>
-<p>Segment is a customer data hub. You send your data from any device or platform. It is translated and forwarded to your apps in a language they understand.</p>
+<p>Segment is a customer data hub. You send your data from any device or platform. It is translated and forwarded to your apps in a language they understand.</p>
 <p>Segment makes it easy to send your data to <a href="http://appsflyer.com/?utm_source=segmentio&amp;utm_medium=docs&amp;utm_campaign=partners" target="_blank">AppsFlyer</a> (and lots of other integrations). 
 <p><strong><span class="wysiwyg-font-size-large">AppsFlyer</span></strong></p>
 <div>
 <p>AppsFlyer lets you understand, engage, monetize and maximize the lifetime value of your app users. <a class="ArrowLink ArrowLink--caps" href="http://AppsFlyer.com/?utm_source=segmentio&amp;utm_medium=docs&amp;utm_campaign=partners" target="_blank">Visit Website</a></p>
 </div>
-<p>The AppsFlyer integration code is open-source on GitHub if you want to <a href="https://github.com/segment-integrations/integration-appsflyer" target="_blank">check it out</a>.</p>
+<p>The AppsFlyer integration code is open-source on GitHub if you want to <a href="https://github.com/segment-integrations/integration-appsflyer" target="_blank">check it out</a>.</p>
 <h2 id="getting-started" class="Permalink"><span class="wysiwyg-font-size-large">Getting Started</span></h2>
 <p>Once the Segment library is integrated, enable AppsFlyer as one of your Segment integrations (https://segment.com/Your-Workspace-HERE/sources/android/integrations/appsflyer), and add your <code>App Group Identifier</code> and your <code>AppsFlyer Dev Key</code> which you can find in the AppsFlyer Dashboard under App Settings &gt; Developer Console.</p>
 <p>The Segment AppsFlyer integration is entirely handled through Segment's servers, so you don’t need to bundle AppsFlyer's iOS or Android SDKs. Your Segment SDK will be enough.</p>
@@ -27,7 +27,15 @@ In order for us to provide optimal support, we would kindly ask you to submit an
 </ul>
 <p>All other traits will be sent to AppsFlyer as custom attributes.</p>
 <h2 id="track" class="Permalink"><span class="wysiwyg-font-size-large">Track</span></h2>
-<p>When you <code>track</code> an event, the event is sent to AppsFlyer as a custom event.</p>
+<p>When you <code>track</code> an event, the event is sent to AppsFlyer as a custom event.</p>
+
+### Install Attributed event
+
+If you are working with networks that don't allow passing user level data to 3rd parties, you will need to apply code to filter out these networks before calling [this line:](https://github.com/AppsFlyerSDK/AppsFlyer-Segment-Integration/blob/master/app/src/main/java/com/segment/analytics/android/integrations/appsflyer/AppsflyerIntegration.java#L215)
+```
+// analytics.track("Install Attributed", properties);
+```
+
 <h3 id="completed-order" class="Permalink"><span class="wysiwyg-font-size-large">Completed Order</span></h3>
 <p>When you <code>track</code> an event with the name <code>Completed Order</code> using the <a href="https://segment.com/docs/spec/ecommerce" target="_blank">e-commerce tracking API</a>, the products you’ve listed are sent to AppsFlyer as purchases.</p>
 
@@ -37,7 +45,7 @@ In order for us to provide optimal support, we would kindly ask you to submit an
 <pre><code>compile 'com.appsflyer:segment-android-integration:1.+'
 </code></pre>
 <p>It is recommended to use the latest version on <a href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%AppsFlyer-segment-integration%22" target="_blank">Maven</a> since it contains the most up-to-date features and bug fixes.</p>
-<p><strong>NOTE</strong>: Our Group ID is <code>com.appsFlyer</code> and not <code>com.segment.analytics.android.integrations</code>.</p>
+<p><strong>NOTE</strong>: Our Group ID is <code>com.appsFlyer</code> and not <code>com.segment.analytics.android.integrations</code>.</p>
 <p>2. Next, declare AppsFlyer’s integration in your <code>Analytics</code> instance:</p>
 <pre><code>Analytics analytics = new Analytics.Builder(this, "Your-Segment-Write-Key")
         .use(AppsflyerIntegration.FACTORY)

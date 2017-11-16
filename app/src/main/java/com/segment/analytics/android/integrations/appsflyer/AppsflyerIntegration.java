@@ -212,6 +212,9 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             properties.putValue("campaign", campaign);
             properties.putAll(attributionData);
 
+            // If you are working with networks that don't allow passing user level data to 3rd parties,
+            // you will need to apply code to filter out these networks before calling
+            // `analytics.track("Install Attributed", properties);`
             analytics.track("Install Attributed", properties);
         }
 
