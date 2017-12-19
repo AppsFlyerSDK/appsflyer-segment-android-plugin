@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
 
     defaultConfig {
         minSdkVersion 9
@@ -19,9 +18,9 @@ android {
 }
 
 dependencies {
-    compile 'com.appsflyer:af-android-sdk:4.8.3@aar'
+    api 'com.appsflyer:af-android-sdk:4.8.3@aar'
 
-    provided 'com.segment.analytics.android:analytics:4.+'
+    implementation 'com.segment.analytics.android:analytics:4.+'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
