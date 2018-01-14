@@ -25,8 +25,9 @@ dependencies {
     api 'com.android.support:appcompat-v7:25.1.1'
     //noinspection GradleDynamicVersion
     api 'com.segment.analytics.android:analytics:4.+'
-    api 'com.appsflyer:segment-android-integration:1.10'
-    api project(':app')
+    api 'com.appsflyer:segment-android-integration:1.13'
+    api 'com.android.installreferrer:installreferrer:1.0'
+    //api project(':app')
     //    compile 'com.google.firebase:firebase-crash:9.4.0'
     //compile 'com.appsflyer:af-android-sdk:4.7.4'
 }

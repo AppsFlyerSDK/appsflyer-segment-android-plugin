@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration) 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration)
 
 ----------
 In order for us to provide optimal support, we would kindly ask you to submit any issues to support@appsflyer.com
@@ -9,7 +9,7 @@ In order for us to provide optimal support, we would kindly ask you to submit an
 
 <h2 class="CalloutBox-title"><span class="wysiwyg-font-size-large">What is Segment?</span></h2>
 <p>Segment is a customer data hub. You send your data from any device or platform. It is translated and forwarded to your apps in a language they understand.</p>
-<p>Segment makes it easy to send your data to <a href="http://appsflyer.com/?utm_source=segmentio&amp;utm_medium=docs&amp;utm_campaign=partners" target="_blank">AppsFlyer</a> (and lots of other integrations). 
+<p>Segment makes it easy to send your data to <a href="http://appsflyer.com/?utm_source=segmentio&amp;utm_medium=docs&amp;utm_campaign=partners" target="_blank">AppsFlyer</a> (and lots of other integrations).
 <p><strong><span class="wysiwyg-font-size-large">AppsFlyer</span></strong></p>
 <div>
 <p>AppsFlyer lets you understand, engage, monetize and maximize the lifetime value of your app users. <a class="ArrowLink ArrowLink--caps" href="http://AppsFlyer.com/?utm_source=segmentio&amp;utm_medium=docs&amp;utm_campaign=partners" target="_blank">Visit Website</a></p>
@@ -55,5 +55,31 @@ If you are working with networks that don't allow passing user level data to 3rd
 
 <h3 id="in-app-messages" class="Permalink">In-App Messages</h3>
 <p>No further action is required to integrate in-app messages, which are registered for and requested by default by our AppsFlyer Segment integration.</p>
+
+
+<h3 id="Receiving Conversion Data" class="Permalink">Receiving Conversion Data</h3>
+
+<p>AppsFlyer's Segment integration collects conversion data automatically and sends the received data back to Segment.  If you want to receive the conversion data to your application, use the following code:
+
+
+
+```
+
+AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
+
+ @Override
+
+ public void display(Map<String, String> attributionData) {
+     for (String attrName : attributionData.keySet()) {
+       Log.d(TAG, "attribute: " + attrName + " = " + attributionData.get(attrName));
+	  }
+	}
+}
+```
+
+ </p>
+
+
 <h3 id="sample-app" class="Permalink">Sample App</h3>
 <p>AppsFlyer has created a sample Android application that integrates AppsFlyer via Segment. Check it out at the <a href="https://github.com/AppsFlyerSDK/AppsFlyer-Segment-Integration/tree/master/segmenttestapp" target="_blank">Github repo</a>.</p>
+

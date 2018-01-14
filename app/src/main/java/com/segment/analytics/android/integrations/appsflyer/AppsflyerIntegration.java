@@ -59,6 +59,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     public static final Factory FACTORY = new Integration.Factory() {
         @Override
         public Integration<AppsFlyerLib> create(ValueMap settings, Analytics analytics) {
+
             Logger logger = analytics.logger(APPSFLYER_KEY);
             AppsFlyerLib afLib = AppsFlyerLib.getInstance();
 
@@ -71,7 +72,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
                 listener = new ConversionListener(analytics);
             }
 
-            afLib.init(devKey, listener);
+            afLib.init(devKey, listener, application.getApplicationContext());
             afLib.trackEvent(application.getApplicationContext(), null, null);
             afLib.startTracking(application);
 

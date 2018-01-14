@@ -18,9 +18,9 @@ android {
 }
 
 dependencies {
-    api 'com.appsflyer:af-android-sdk:4.8.3@aar'
+    api 'com.appsflyer:af-android-sdk:4.8.6@aar'
 
-    implementation 'com.segment.analytics.android:analytics:4.+'
+    implementation 'com.segment.analytics.android:analytics:4.3.1'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'

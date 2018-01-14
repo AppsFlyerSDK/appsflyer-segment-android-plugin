@@ -31,13 +31,13 @@ afterEvaluate { project ->
         pom.artifactId = POM_ARTIFACT_ID
         pom.version = VERSION_NAME
 
-          repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-              authentication(userName: ossrhUsername, password: ossrhPassword)
-          }
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
 
-          snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-              authentication(userName: ossrhUsername, password: ossrhPassword)
-          }
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
 
         pom.project {
           name POM_NAME
@@ -104,4 +104,3 @@ afterEvaluate { project ->
     archives androidJavadocsJar
   }
 }
-
