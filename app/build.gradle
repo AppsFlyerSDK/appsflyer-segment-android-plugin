@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    compile 'com.appsflyer:af-android-sdk:4.8.3@aar'
+    compile 'com.appsflyer:af-android-sdk:4.8.14@aar'
 
     provided 'com.segment.analytics.android:analytics:4.+'
 

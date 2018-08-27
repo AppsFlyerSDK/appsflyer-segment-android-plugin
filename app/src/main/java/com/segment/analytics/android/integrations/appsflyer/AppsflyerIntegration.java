@@ -37,13 +37,15 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
     private static final String APPSFLYER_KEY = "AppsFlyer";
     private static final String SEGMENT_REVENUE = "revenue";
+    private static final String SEGMENT_CURRENCY = "currency";
 
     /**
-     * Responsible to map revenue -> af_revenue
+     * Responsible to map revenue -> af_revenue , currency -> af_currency
      */
     static {
         Map<String, String> mapper = new LinkedHashMap<>();
         mapper.put(SEGMENT_REVENUE, AFInAppEventParameterName.REVENUE);
+        mapper.put(SEGMENT_CURRENCY, AFInAppEventParameterName.CURRENCY);
         MAPPER = Collections.unmodifiableMap(mapper);
     }
 
