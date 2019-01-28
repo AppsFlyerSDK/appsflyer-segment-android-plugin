@@ -37,13 +37,15 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
     private static final String APPSFLYER_KEY = "AppsFlyer";
     private static final String SEGMENT_REVENUE = "revenue";
+    private static final String SEGMENT_CURRENCY = "currency";
 
     /**
-     * Responsible to map revenue -> af_revenue
+     * Responsible to map revenue -> af_revenue , currency -> af_currency
      */
     static {
         Map<String, String> mapper = new LinkedHashMap<>();
         mapper.put(SEGMENT_REVENUE, AFInAppEventParameterName.REVENUE);
+        mapper.put(SEGMENT_CURRENCY, AFInAppEventParameterName.CURRENCY);
         MAPPER = Collections.unmodifiableMap(mapper);
     }
 
@@ -212,6 +214,9 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             properties.putValue("campaign", campaign);
             properties.putAll(attributionData);
 
+            // If you are working with networks that don't allow passing user level data to 3rd parties,
+            // you will need to apply code to filter out these networks before calling
+            // `analytics.track("Install Attributed", properties);`
             analytics.track("Install Attributed", properties);
         }
 
