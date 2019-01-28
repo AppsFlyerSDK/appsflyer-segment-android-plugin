@@ -73,7 +73,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
                 listener = new ConversionListener(analytics);
             }
 
-            afLib.init(devKey, listener);
+            afLib.init(devKey, listener,application.getApplicationContext());
             afLib.trackEvent(application.getApplicationContext(), null, null);
             afLib.startTracking(application);
 
