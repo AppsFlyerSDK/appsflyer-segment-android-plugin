@@ -3,7 +3,7 @@
 
 # AppsFlyer - Segment Integration
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration) 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration)
 
 ----------
 In order for us to provide optimal support, we would kindly ask you to submit any issues to support@appsflyer.com
@@ -21,7 +21,7 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v4.8.14`
+Built with AppsFlyer Android SDK `v4.8.19`
 
 ## Table of content
 
@@ -76,6 +76,7 @@ AppsFlyer supports the `identify` and `track` methods.
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
 ```java
 compile 'com.appsflyer:segment-android-integration:1.+'
+compile 'com.android.installreferrer:installreferrer:1.0'
 ```
 
 #### 2.2)  Setting the Required Permissions
@@ -88,9 +89,9 @@ The AndroidManifest.xml should include the following permissions:
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 ```
 
-#### 2.2)  Init AppsFlyer:
+### <a id="sdk_init"> 2.2)  Init AppsFlyer
 
-```java 
+```java
 
 static final String SEGMENT_WRITE_KEY = "<YOUR_KEY>";
 
@@ -117,13 +118,12 @@ Analytics.setSingletonInstance(analytics);
 ```
 
 Adding `.trackAttributionInformation()` will send the `Install Attributed` event to AppsFlyer.
-Adding `.trackApplicationLifecycleEvents()` will send   `Application Opened`  , `Application Updated`  and `Application Installed` events to AppsFlyer. 
+Adding `.trackApplicationLifecycleEvents()` will send   `Application Opened`  , `Application Updated`  and `Application Installed` events to AppsFlyer.
 
 
 
-### <a id="adding_events">
 
-## Track
+## <a id="adding_events"> Track
 
 When you call `track`, Segment translates it automatically and sends the event to AppsFlyer.
 
@@ -143,7 +143,7 @@ Analytics analytics = Analytics.with(this);
 Properties properties = new Properties();
 properties.putAll(eventValue);
 
-analytics.track("purchase", properties); 
+analytics.track("purchase", properties);
 ```
 
 Note: AppsFlyer will map `revenue -> af_revenue` and `currency -> af_currency`.
