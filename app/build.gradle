@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.3"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -19,8 +19,8 @@ android {
 }
 
 dependencies {
-    compile 'com.appsflyer:af-android-sdk:4.8.14@aar'
-
+    compile 'com.appsflyer:af-android-sdk:4.8.19@aar'
+    provided 'com.android.installreferrer:installreferrer:1.0'
     provided 'com.segment.analytics.android:analytics:4.+'
 
     testCompile 'junit:junit:4.12'
