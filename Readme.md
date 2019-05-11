@@ -191,6 +191,9 @@ Log.d(TAG , attributionData.toString());
 }
 };
 ```
+Make sure you have enabled "Track Attribution Data" in AppsFlyer destination settings:
+
+<img width="741" alt="Xnip2019-05-11_19-19-31" src="https://user-images.githubusercontent.com/18286267/57572409-8fb19200-7422-11e9-832f-fdd343af3137.png">
 
 
 ### <a id="sample_app">
