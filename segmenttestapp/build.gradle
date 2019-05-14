@@ -22,12 +22,12 @@ android {
 
 dependencies {
     //compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile project(':app')
+    compile project(':app')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:26.1.0'
     //noinspection GradleDynamicVersion
     compile 'com.segment.analytics.android:analytics:4.+'
-    compile 'com.appsflyer:segment-android-integration:1.15'
+//    compile 'com.appsflyer:segment-android-integration:1.15'
     compile 'com.android.installreferrer:installreferrer:1.0'
     //compile project(':app')
     //    compile 'com.google.firebase:firebase-crash:9.4.0'

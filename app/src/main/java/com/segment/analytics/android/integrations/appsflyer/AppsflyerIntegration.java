@@ -4,6 +4,7 @@ package com.segment.analytics.android.integrations.appsflyer;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -100,6 +101,9 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
+
+        Intent intent = activity.getIntent();
+        AppsFlyerLib.getInstance().setPluginDeepLinkData(intent);
 
         updateEndUserAttributes();
     }
