@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.appsflyer:af-android-sdk:4.10.0@aar">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.appsflyer/af-android-sdk/4.10.0/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.appsflyer/af-android-sdk/4.10.0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
