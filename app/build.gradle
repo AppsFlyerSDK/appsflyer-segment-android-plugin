@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    compile 'com.appsflyer:af-android-sdk:4.9.0@aar'
+    compile 'com.appsflyer:af-android-sdk:4.10hi.0@aar'
     provided 'com.android.installreferrer:installreferrer:1.0'
     provided 'com.segment.analytics.android:analytics:4.+'
 
