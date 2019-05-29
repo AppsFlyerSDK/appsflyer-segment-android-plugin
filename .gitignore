@@ -53,3 +53,7 @@ captures/
 .idea/libraries/support_annotations_23_3_0.xml
 .idea/libraries/support_v4_23_3_0.xml
 .idea/libraries/support_vector_drawable_23_3_0.xml
+
+\.idea/
+
+\.DS_Store
