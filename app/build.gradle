@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.3"
 
     defaultConfig {
         minSdkVersion 9
@@ -19,13 +18,13 @@ android {
 }
 
 dependencies {
-    compile 'com.appsflyer:af-android-sdk:4.10.0@aar'
-    provided 'com.android.installreferrer:installreferrer:1.0'
-    provided 'com.segment.analytics.android:analytics:4.+'
+    implementation 'com.appsflyer:af-android-sdk:4.10.0@aar'
+    compileOnly 'com.android.installreferrer:installreferrer:1.0'
+    compileOnly 'com.segment.analytics.android:analytics:4.+'
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'com.segment.analytics.android:analytics-tests:4.+'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'com.segment.analytics.android:analytics-tests:4.+'
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
