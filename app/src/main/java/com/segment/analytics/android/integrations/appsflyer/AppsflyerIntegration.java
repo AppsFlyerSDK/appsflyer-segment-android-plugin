@@ -69,13 +69,13 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             boolean trackAttributionData = settings.getBoolean("trackAttributionData", false);
             Application application = analytics.getApplication();
 
+
             AppsFlyerConversionListener listener = null;
             if (trackAttributionData) {
                 listener = new ConversionListener(analytics);
             }
 
             afLib.init(devKey, listener,application.getApplicationContext());
-            afLib.trackEvent(application.getApplicationContext(), null, null);
             afLib.startTracking(application);
 
             logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
@@ -104,7 +104,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         Intent intent = activity.getIntent();
         AppsFlyerLib.getInstance().setPluginDeepLinkData(intent);
-
+        AppsFlyerLib.getInstance().trackEvent(activity.getApplication().getApplicationContext(), null, null);
         updateEndUserAttributes();
     }
 
