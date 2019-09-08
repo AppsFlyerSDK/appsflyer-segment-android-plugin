@@ -100,7 +100,7 @@ protected void onCreate(Bundle savedInstanceState) {
 super.onCreate(savedInstanceState);
 setContentView(R.layout.activity_main);
 
-Analytics analytics = new Analytics.Builder(this , SEGMENT_WRITE_KEY)
+Analytics.Builder builder = new Analytics.Builder(this , SEGMENT_WRITE_KEY)
 .use(AppsflyerIntegration.FACTORY)
 
 ...
@@ -112,7 +112,7 @@ Analytics analytics = new Analytics.Builder(this , SEGMENT_WRITE_KEY)
 .trackApplicationLifecycleEvents() // Application Opened , Application Updated , Application Installed events
 .build();
 
-Analytics.setSingletonInstance(analytics);
+Analytics.setSingletonInstance(builder.build());
 
 }
 ```
