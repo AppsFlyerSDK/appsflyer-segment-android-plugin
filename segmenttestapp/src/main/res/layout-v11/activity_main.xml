@@ -35,7 +35,7 @@
     <TextView
         android:id="@+id/conversionDataTextView"
         android:layout_width="match_parent"
-        android:layout_height="78dp"
+        android:layout_height="100dp"
         android:layout_alignEnd="@+id/af_logo"
         android:layout_alignRight="@+id/af_logo"
         android:layout_below="@+id/af_logo"
