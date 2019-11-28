@@ -178,20 +178,36 @@ Check out the Segment docs on indentify [here](https://segment.com/docs/spec/ide
 
 ##  Get Conversion Data
 
-
-
-For Conversion data your should call this method:
+For Conversion data your should call the method below. Based on the `type` parameter you can differentiate between install data (for deferred deep linking) and deep link data (for direct deep linking)
 
 
 ```java
-AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
-@Override
-public void display(Map<String, String> attributionData) {
-Log.d(TAG , attributionData.toString());
-}
-};
+        AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
+            @Override
+            public void display(Map<String, String> attributionData) {
+                if (attributionData.get("type").equals("onInstallConversionData")) {
+                    for (String attrName : attributionData.keySet()) {
+                        Log.d(TAG, "GCD attribute: " + attrName + " = " +
+                                attributionData.get(attrName));
+                    }
+                    if (attributionData.get("is_first_launch").equals("true")) {
+                        // Process Deferred Deep Linking here
+                        Log.d(TAG, "GCD This is first launch");
+                    } else {
+                        Log.d(TAG, "GCD This is not first launch");
+                    }
+                } else {
+                    // Process Direct Deep Linking here
+                    for (String attrName : attributionData.keySet()) {
+                        Log.d(TAG, "OAOA attribute: " + attrName + " = " +
+                                attributionData.get(attrName));
+                    }
+                }
+            }
+        };
 ```
-Make sure you have enabled "Track Attribution Data" in AppsFlyer destination settings:
+
+In order for Conversion Data to be sent to Segment, make sure you have enabled "Track Attribution Data" in AppsFlyer destination settings:
 
 <img width="741" alt="Xnip2019-05-11_19-19-31" src="https://user-images.githubusercontent.com/18286267/57572409-8fb19200-7422-11e9-832f-fdd343af3137.png">
 
