@@ -209,18 +209,19 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             Map<String, Object> campaign = new ValueMap() //
                     .putValue("source", getFromAttr(attributionData.get("media_source")))
                     .putValue("name", getFromAttr(attributionData.get("campaign")))
-                    .putValue("adGroup", getFromAttr(attributionData.get("adgroup")));
+                    .putValue("ad_group", getFromAttr(attributionData.get("adgroup")));
 
 
             Properties properties = new Properties().putValue("provider", "AppsFlyer");
 
             // Remove properties set in campaign.
             properties.remove("media_source");
-            properties.remove("adgroup");
+            properties.remove("ad_group");
 
+            properties.putAll(attributionData);
             // replace original campaign with new created
             properties.putValue("campaign", campaign);
-            properties.putAll(attributionData);
+
 
             // If you are working with networks that don't allow passing user level data to 3rd parties,
             // you will need to apply code to filter out these networks before calling
