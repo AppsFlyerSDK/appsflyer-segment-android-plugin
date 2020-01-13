@@ -150,7 +150,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
 
     public interface ConversionListenerDisplay {
-        void display(Map<String, String> attributionData);
+        void display(Map<String, ?> attributionData);
     }
 
     static class ConversionListener implements AppsFlyerConversionListener {
@@ -161,8 +161,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         }
 
         @Override
-        public void onInstallConversionDataLoaded(Map<String, String> conversionData) {
-
+        public void onConversionDataSuccess(Map<String, Object> conversionData) {
             if (!getFlag(CONV_KEY)) {
                 trackInstallAttributed(conversionData);
                 setFlag(CONV_KEY, true);
@@ -176,13 +175,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         }
 
         @Override
-        public void onInstallConversionFailure(String errorMessage) {
+        public void onConversionDataFail(String errorMessage) {
 
         }
 
         @Override
         public void onAppOpenAttribution(Map<String, String> attributionData) {
-
             if (!getFlag(ATTR_KEY)) {
                 trackInstallAttributed(attributionData);
                 setFlag(ATTR_KEY, true);
@@ -200,11 +198,11 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         }
 
-        private Object getFromAttr(String value) {
+        private Object getFromAttr(Object value) {
             return (value != null) ? value : "";
         }
 
-        void trackInstallAttributed(Map<String, String> attributionData) {
+        void trackInstallAttributed(Map<String, ?> attributionData) {
             // See https://segment.com/docs/spec/mobile/#install-attributed.
             Map<String, Object> campaign = new ValueMap() //
                     .putValue("source", getFromAttr(attributionData.get("media_source")))
