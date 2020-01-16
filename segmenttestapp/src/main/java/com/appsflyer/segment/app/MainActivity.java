@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initConversionListener() {
         AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
             @Override
-            public void display(Map<String, String> attributionData) {
+            public void display(Map<String, ?> attributionData) {
                 for (String attrName : attributionData.keySet()) {
                     Log.d(TAG, "attribute: " + attrName + " = " +
                             attributionData.get(attrName));
