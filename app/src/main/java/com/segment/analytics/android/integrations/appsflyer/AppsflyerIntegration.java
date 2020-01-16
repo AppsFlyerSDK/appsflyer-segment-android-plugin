@@ -211,12 +211,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
 
             Properties properties = new Properties().putValue("provider", "AppsFlyer");
-
+            properties.putAll(attributionData);
             // Remove properties set in campaign.
             properties.remove("media_source");
             properties.remove("adgroup");
 
-            properties.putAll(attributionData);
+
             // replace original campaign with new created
             properties.putValue("campaign", campaign);
 
