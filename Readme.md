@@ -3,7 +3,7 @@
 
 # AppsFlyer - Segment Integration
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration) 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration)
 
 ----------
 In order for us to provide optimal support, we would kindly ask you to submit any issues to support@appsflyer.com
@@ -21,7 +21,7 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v4.8.14`
+Built with AppsFlyer Android SDK `v4.10.0`
 
 ## Table of content
 
@@ -76,6 +76,7 @@ AppsFlyer supports the `identify` and `track` methods.
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
 ```java
 compile 'com.appsflyer:segment-android-integration:1.+'
+compile 'com.android.installreferrer:installreferrer:1.0'
 ```
 
 #### 2.2)  Setting the Required Permissions
@@ -88,9 +89,9 @@ The AndroidManifest.xml should include the following permissions:
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 ```
 
-#### 2.2)  Init AppsFlyer:
+### <a id="sdk_init"> 2.2)  Init AppsFlyer
 
-```java 
+```java
 
 static final String SEGMENT_WRITE_KEY = "<YOUR_KEY>";
 
@@ -99,7 +100,7 @@ protected void onCreate(Bundle savedInstanceState) {
 super.onCreate(savedInstanceState);
 setContentView(R.layout.activity_main);
 
-Analytics analytics = new Analytics.Builder(this , SEGMENT_WRITE_KEY)
+Analytics.Builder builder = new Analytics.Builder(this , SEGMENT_WRITE_KEY)
 .use(AppsflyerIntegration.FACTORY)
 
 ...
@@ -111,19 +112,18 @@ Analytics analytics = new Analytics.Builder(this , SEGMENT_WRITE_KEY)
 .trackApplicationLifecycleEvents() // Application Opened , Application Updated , Application Installed events
 .build();
 
-Analytics.setSingletonInstance(analytics);
+Analytics.setSingletonInstance(builder.build());
 
 }
 ```
 
 Adding `.trackAttributionInformation()` will send the `Install Attributed` event to AppsFlyer.
-Adding `.trackApplicationLifecycleEvents()` will send   `Application Opened`  , `Application Updated`  and `Application Installed` events to AppsFlyer. 
+Adding `.trackApplicationLifecycleEvents()` will send   `Application Opened`  , `Application Updated`  and `Application Installed` events to AppsFlyer.
 
 
 
-### <a id="adding_events">
 
-## Track
+## <a id="adding_events"> Track
 
 When you call `track`, Segment translates it automatically and sends the event to AppsFlyer.
 
@@ -143,7 +143,7 @@ Analytics analytics = Analytics.with(this);
 Properties properties = new Properties();
 properties.putAll(eventValue);
 
-analytics.track("purchase", properties); 
+analytics.track("purchase", properties);
 ```
 
 Note: AppsFlyer will map `revenue -> af_revenue` and `currency -> af_currency`.
@@ -178,19 +178,38 @@ Check out the Segment docs on indentify [here](https://segment.com/docs/spec/ide
 
 ##  Get Conversion Data
 
-
-
-For Conversion data your should call this method:
+For Conversion data your should call the method below. Based on the `type` parameter you can differentiate between install data (for deferred deep linking) and deep link data (for direct deep linking)
 
 
 ```java
-AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
-@Override
-public void display(Map<String, String> attributionData) {
-Log.d(TAG , attributionData.toString());
-}
-};
+        AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
+            @Override
+            public void display(Map<String, String> attributionData) {
+                if (attributionData.get("type").equals("onInstallConversionData")) {
+                    for (String attrName : attributionData.keySet()) {
+                        Log.d(TAG, "GCD attribute: " + attrName + " = " +
+                                attributionData.get(attrName));
+                    }
+                    if (attributionData.get("is_first_launch").equals("true")) {
+                        // Process Deferred Deep Linking here
+                        Log.d(TAG, "GCD This is first launch");
+                    } else {
+                        Log.d(TAG, "GCD This is not first launch");
+                    }
+                } else {
+                    // Process Direct Deep Linking here
+                    for (String attrName : attributionData.keySet()) {
+                        Log.d(TAG, "OAOA attribute: " + attrName + " = " +
+                                attributionData.get(attrName));
+                    }
+                }
+            }
+        };
 ```
+
+In order for Conversion Data to be sent to Segment, make sure you have enabled "Track Attribution Data" in AppsFlyer destination settings:
+
+<img width="741" alt="Xnip2019-05-11_19-19-31" src="https://user-images.githubusercontent.com/18286267/57572409-8fb19200-7422-11e9-832f-fdd343af3137.png">
 
 
 ### <a id="sample_app">

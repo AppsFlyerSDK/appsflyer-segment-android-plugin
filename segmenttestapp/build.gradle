@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.3'
 
     defaultConfig {
         applicationId "com.appsflyer.segment.app"
@@ -22,13 +21,14 @@ android {
 
 dependencies {
     //compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:26.1.0'
+    implementation project(':app')
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
     //noinspection GradleDynamicVersion
-    compile 'com.segment.analytics.android:analytics:4.+'
-    //compile 'com.appsflyer:segment-android-integration:1.10'
-    compile 'com.android.installreferrer:installreferrer:1.0'
-    compile project(':app')
+    implementation 'com.segment.analytics.android:analytics:4.+'
+//    compile 'com.appsflyer:segment-android-integration:1.15'
+    implementation 'com.android.installreferrer:installreferrer:1.0'
+    //compile project(':app')
     //    compile 'com.google.firebase:firebase-crash:9.4.0'
     //compile 'com.appsflyer:af-android-sdk:4.7.4'
 }

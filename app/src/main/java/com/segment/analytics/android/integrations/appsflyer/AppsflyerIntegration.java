@@ -4,6 +4,7 @@ package com.segment.analytics.android.integrations.appsflyer;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -68,13 +69,13 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             boolean trackAttributionData = settings.getBoolean("trackAttributionData", false);
             Application application = analytics.getApplication();
 
+
             AppsFlyerConversionListener listener = null;
             if (trackAttributionData) {
                 listener = new ConversionListener(analytics);
             }
 
-            afLib.init(devKey, listener,application.getApplicationContext());
-            afLib.trackEvent(application.getApplicationContext(), null, null);
+            afLib.init(devKey, listener, application.getApplicationContext());
             afLib.startTracking(application);
 
             logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
@@ -101,6 +102,9 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
 
+        Intent intent = activity.getIntent();
+        AppsFlyerLib.getInstance().setPluginDeepLinkData(intent);
+        AppsFlyerLib.getInstance().trackEvent(activity.getApplication().getApplicationContext(), null, null);
         updateEndUserAttributes();
     }
 
@@ -159,10 +163,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         @Override
         public void onInstallConversionDataLoaded(Map<String, String> conversionData) {
 
-            if( !getFlag(CONV_KEY) ){
+            if (!getFlag(CONV_KEY)) {
                 trackInstallAttributed(conversionData);
                 setFlag(CONV_KEY, true);
             }
+
+            conversionData.put("type", "onInstallConversionData");
 
             if (cld != null) {
                 cld.display(conversionData);
@@ -177,10 +183,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         @Override
         public void onAppOpenAttribution(Map<String, String> attributionData) {
 
-            if( !getFlag(ATTR_KEY) ){
+            if (!getFlag(ATTR_KEY)) {
                 trackInstallAttributed(attributionData);
                 setFlag(ATTR_KEY, true);
             }
+
+            attributionData.put("type", "onAppOpenAttribution");
 
             if (cld != null) {
                 cld.display(attributionData);
@@ -192,15 +200,15 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         }
 
-        private Object getFromAttr(String value){
+        private Object getFromAttr(String value) {
             return (value != null) ? value : "";
         }
 
         void trackInstallAttributed(Map<String, String> attributionData) {
             // See https://segment.com/docs/spec/mobile/#install-attributed.
             Map<String, Object> campaign = new ValueMap() //
-                    .putValue("source",  getFromAttr(attributionData.get("media_source")))
-                    .putValue("name",    getFromAttr(attributionData.get("campaign")))
+                    .putValue("source", getFromAttr(attributionData.get("media_source")))
+                    .putValue("name", getFromAttr(attributionData.get("campaign")))
                     .putValue("adGroup", getFromAttr(attributionData.get("adgroup")));
 
 
@@ -220,11 +228,11 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             analytics.track("Install Attributed", properties);
         }
 
-        private boolean getFlag(final String key){
+        private boolean getFlag(final String key) {
 
             Context context = getContext();
 
-            if(context == null){
+            if (context == null) {
                 return false;
             }
 
@@ -232,11 +240,11 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             return sharedPreferences.getBoolean(key, false);
         }
 
-        private void setFlag(final String key, final boolean value){
+        private void setFlag(final String key, final boolean value) {
 
             Context context = getContext();
 
-            if(context == null){
+            if (context == null) {
                 return;
             }
 
@@ -254,7 +262,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             }
         }
 
-        private Context getContext(){
+        private Context getContext() {
             return this.analytics.getApplication().getApplicationContext();
         }
 

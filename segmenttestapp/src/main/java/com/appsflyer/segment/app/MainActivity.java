@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //SCREEN VALUES//
                 //noinspection StringBufferReplaceableByString
                 StringBuilder sb = new StringBuilder();
+                sb.append("callbackType: ").append(attributionData.get("type")).append("\n");
                 sb.append("Install Type: ").append(attributionData.get("af_status")).append("\n");
                 sb.append("Media Source: ").append(attributionData.get("media_source")).append("\n");
                 sb.append("Click Time(GMT): ").append(attributionData.get("click_time")).append("\n");
