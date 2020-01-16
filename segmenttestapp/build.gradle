@@ -26,12 +26,10 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
     //noinspection GradleDynamicVersion
     implementation 'com.segment.analytics.android:analytics:4.+'
-//    compile 'com.appsflyer:segment-android-integration:1.15'
-    implementation 'com.android.installreferrer:installreferrer:1.0'
+//    compile 'com.appsflyer:segment-android-integration:5.1.0'
+    implementation 'com.android.installreferrer:installreferrer:1.1'
     //compile project(':app')
     //    compile 'com.google.firebase:firebase-crash:9.4.0'
     //compile 'com.appsflyer:af-android-sdk:4.7.4'
 }
-
-
 //apply plugin: 'com.google.gms.google-services'

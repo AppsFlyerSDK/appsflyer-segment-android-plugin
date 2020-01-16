@@ -31,7 +31,6 @@ import static com.segment.analytics.internal.Utils.transform;
 public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
     static final String AF_SEGMENT_SHARED_PREF = "appsflyer-segment-data";
-    static final String ATTR_KEY = "AF_onInstall_Attr";
     static final String CONV_KEY = "AF_onConversion_Data";
 
     static final Map<String, String> MAPPER;
@@ -150,7 +149,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
 
     public interface ConversionListenerDisplay {
-        void display(Map<String, String> attributionData);
+        void display(Map<String, ?> attributionData);
     }
 
     static class ConversionListener implements AppsFlyerConversionListener {
@@ -161,7 +160,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         }
 
         @Override
-        public void onInstallConversionDataLoaded(Map<String, String> conversionData) {
+        public void onConversionDataSuccess(Map<String, Object> conversionData) {
 
             if (!getFlag(CONV_KEY)) {
                 trackInstallAttributed(conversionData);
@@ -176,17 +175,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         }
 
         @Override
-        public void onInstallConversionFailure(String errorMessage) {
+        public void onConversionDataFail(String errorMessage) {
 
         }
 
         @Override
         public void onAppOpenAttribution(Map<String, String> attributionData) {
-
-            if (!getFlag(ATTR_KEY)) {
-                trackInstallAttributed(attributionData);
-                setFlag(ATTR_KEY, true);
-            }
 
             attributionData.put("type", "onAppOpenAttribution");
 
@@ -200,27 +194,28 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         }
 
-        private Object getFromAttr(String value) {
+        private Object getFromAttr(Object value) {
             return (value != null) ? value : "";
         }
 
-        void trackInstallAttributed(Map<String, String> attributionData) {
+        void trackInstallAttributed(Map<String, ?> attributionData) {
             // See https://segment.com/docs/spec/mobile/#install-attributed.
             Map<String, Object> campaign = new ValueMap() //
                     .putValue("source", getFromAttr(attributionData.get("media_source")))
                     .putValue("name", getFromAttr(attributionData.get("campaign")))
-                    .putValue("adGroup", getFromAttr(attributionData.get("adgroup")));
+                    .putValue("ad_group", getFromAttr(attributionData.get("adgroup")));
 
 
             Properties properties = new Properties().putValue("provider", "AppsFlyer");
-
+            properties.putAll(attributionData);
             // Remove properties set in campaign.
             properties.remove("media_source");
             properties.remove("adgroup");
 
+
             // replace original campaign with new created
             properties.putValue("campaign", campaign);
-            properties.putAll(attributionData);
+
 
             // If you are working with networks that don't allow passing user level data to 3rd parties,
             // you will need to apply code to filter out these networks before calling
