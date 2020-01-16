@@ -31,7 +31,6 @@ import static com.segment.analytics.internal.Utils.transform;
 public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
     static final String AF_SEGMENT_SHARED_PREF = "appsflyer-segment-data";
-    static final String ATTR_KEY = "AF_onInstall_Attr";
     static final String CONV_KEY = "AF_onConversion_Data";
 
     static final Map<String, String> MAPPER;
@@ -162,6 +161,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         @Override
         public void onConversionDataSuccess(Map<String, Object> conversionData) {
+
             if (!getFlag(CONV_KEY)) {
                 trackInstallAttributed(conversionData);
                 setFlag(CONV_KEY, true);
@@ -181,10 +181,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         @Override
         public void onAppOpenAttribution(Map<String, String> attributionData) {
-            if (!getFlag(ATTR_KEY)) {
-                trackInstallAttributed(attributionData);
-                setFlag(ATTR_KEY, true);
-            }
 
             attributionData.put("type", "onAppOpenAttribution");
 
