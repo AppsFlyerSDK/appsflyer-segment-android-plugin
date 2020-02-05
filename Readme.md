@@ -215,4 +215,4 @@ In order for Conversion Data to be sent to Segment, make sure you have enabled "
 ### <a id="sample_app">
 
 ##  Sample App
-<p>AppsFlyer has created a sample Android application that integrates AppsFlyer via Segment. Check it out at the <a href="https://github.com/AppsFlyerSDK/AppsFlyer-Segment-Integration/tree/master/segmenttestapp" target="_blank">Github repo</a>.</p>
+<p>AppsFlyer has created a sample Android application that integrates AppsFlyer via Segment. Check it out at the <a href="https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/tree/master/segmenttestapp" target="_blank">Github repo</a>.</p>
