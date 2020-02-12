@@ -73,11 +73,22 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             if (trackAttributionData) {
                 listener = new ConversionListener(analytics);
             }
-
+            afLib.setDebugLog(logger.logLevel != Analytics.LogLevel.NONE);
             afLib.init(devKey, listener, application.getApplicationContext());
             afLib.startTracking(application);
 
             logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
+
+            //TODO: think of better solution without reflection (Also can fail if ReactActivity is added to non-react app for some reason)
+            boolean isReact = true;
+            try {
+                Class.forName("com.facebook.react.ReactActivity");
+            } catch (ClassNotFoundException e) {
+                isReact = false;
+            }
+            if(isReact){
+                afLib.trackAppLaunch(application, devKey);
+            }
 
             return new AppsflyerIntegration(application, logger, afLib, devKey);
         }
