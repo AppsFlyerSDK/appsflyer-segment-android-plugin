@@ -82,7 +82,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             //TODO: think of better solution without reflection (Also can fail if ReactActivity is added to non-react app for some reason)
             boolean isReact = true;
             try {
-                Class.forName("com.facebook.react.ReactActivity");
+                Class.forName("com.facebook.react.ReactActivity"); //TODO: check Segment React Native (RNAnalyticsIntegration_AppsFlyerModule)
             } catch (ClassNotFoundException e) {
                 isReact = false;
             }
