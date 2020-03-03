@@ -18,7 +18,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.appsflyer:af-android-sdk:5.1.0@aar'
+    implementation 'com.appsflyer:af-android-sdk:5.1.1@aar'
     compileOnly 'com.android.installreferrer:installreferrer:1.1'
     compileOnly 'com.segment.analytics.android:analytics:4.+'
 

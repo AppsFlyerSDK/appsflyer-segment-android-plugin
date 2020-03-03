@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.appsflyer.AFInAppEventParameterName;
+import com.appsflyer.AFLogger;
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
 import com.segment.analytics.Analytics;
@@ -73,11 +74,26 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             if (trackAttributionData) {
                 listener = new ConversionListener(analytics);
             }
-
+            afLib.setDebugLog(logger.logLevel != Analytics.LogLevel.NONE);
             afLib.init(devKey, listener, application.getApplicationContext());
             afLib.startTracking(application);
 
             logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
+
+            // RD-34040
+            boolean isReact = true;
+            // Check if Segment React Native integration with AppsFLyer is used
+            try {
+                Class.forName("com.segment.analytics.reactnative.integration.appsflyer.RNAnalyticsIntegration_AppsFlyerModule");
+            } catch (ClassNotFoundException e) {
+                // Segment React Native integration with AppsFLyer is NOT used
+                isReact = false;
+            }
+            // Segment React Native integration with AppsFLyer is used, we need to send first launch manually
+            if(isReact){
+                afLib.trackAppLaunch(application, devKey);
+                AFLogger.afDebugLog("Segment React Native AppsFlye rintegration is used, sending first launch manually");
+            }
 
             return new AppsflyerIntegration(application, logger, afLib, devKey);
         }
