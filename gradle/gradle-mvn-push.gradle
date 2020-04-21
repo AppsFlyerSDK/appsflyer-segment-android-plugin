@@ -79,6 +79,7 @@
      source = android.sourceSets.main.java.srcDirs
      classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
  //    classpath += libraryVariants.toList().first().javaCompile.classpath
+     failOnError false
    }
 
    if (JavaVersion.current().isJava8Compatible()) {
