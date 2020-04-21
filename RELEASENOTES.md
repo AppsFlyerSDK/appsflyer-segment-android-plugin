@@ -1,5 +1,7 @@
 # Release Notes
 
+### 5.2.1
+* Updated Android SDK to v5.2.0
 
 ### 5.1.1
 *  Fixed issue when first launch was not sent when integration was used by @segment/analytics-react-native-appsflyer
