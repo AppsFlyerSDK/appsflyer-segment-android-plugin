@@ -1,5 +1,10 @@
 # Release Notes
 
+### 5.4.4
+* Update Android SDK to v5.4.4
+* Deprecated AppsflyerIntegration.ConversionListenerDisplay()
+* Add ExternalAppsFlyerConversionListener to get the callbacks
+
 ### 5.2.1
 * Updated Android SDK to v5.2.0
 

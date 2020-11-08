@@ -1,8 +1,9 @@
 package com.appsflyer.segment.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -22,6 +23,7 @@ import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration;
 
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initListView();
         findViewById(R.id.button_add).setOnClickListener(this);
         findViewById(R.id.track_button).setOnClickListener(this);
@@ -66,38 +67,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void initConversionListener() {
-        AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
+        AppsflyerIntegration.conversionListener  = new AppsflyerIntegration.ExternalAppsFlyerConversionListener() {
             @Override
-            public void display(Map<String, ?> attributionData) {
-                for (String attrName : attributionData.keySet()) {
-                    Log.d(TAG, "attribute: " + attrName + " = " +
-                            attributionData.get(attrName));
-                }
-
-                //SCREEN VALUES//
-                //noinspection StringBufferReplaceableByString
-                StringBuilder sb = new StringBuilder();
-                sb.append("callbackType: ").append(attributionData.get("type")).append("\n");
-                sb.append("Install Type: ").append(attributionData.get("af_status")).append("\n");
-                sb.append("Media Source: ").append(attributionData.get("media_source")).append("\n");
-                sb.append("Click Time(GMT): ").append(attributionData.get("click_time")).append("\n");
-                sb.append("Install Time(GMT): ").append(attributionData.get("install_time")).append("\n");
-                final String conversionDataString = sb.toString();
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        TextView conversionTextView = (TextView) findViewById(R.id.conversionDataTextView);
-                        if (conversionTextView != null) {
-                            conversionTextView.setGravity(Gravity.CENTER_VERTICAL);
-                            conversionTextView.setText(conversionDataString);
-                        } else {
-                            Log.d(TAG,"Could not load conversion data");
+            public void onConversionDataSuccess(Map<String, Object> map) {
+                for (String attrName : map.keySet()) {
+                    Log.d(TAG, "attribute: " + attrName + " = " + map.get(attrName));
+                    //SCREEN VALUES//
+                    //noinspection StringBufferReplaceableByString
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("callbackType: ").append("Conversion Data\n");
+                    sb.append("Install Type: ").append(map.get("af_status")).append("\n");
+                    sb.append("Media Source: ").append(map.get("media_source")).append("\n");
+                    sb.append("Click Time(GMT): ").append(map.get("click_time")).append("\n");
+                    sb.append("Install Time(GMT): ").append(map.get("install_time")).append("\n");
+                    final String conversionDataString = sb.toString();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            TextView conversionTextView = (TextView) findViewById(R.id.conversionDataTextView);
+                            if (conversionTextView != null) {
+                                conversionTextView.setGravity(Gravity.CENTER_VERTICAL);
+                                conversionTextView.setText(conversionDataString);
+                            } else {
+                                Log.d(TAG,"Could not load conversion data");
+                            }
                         }
-                    }
-                });
+                    });
+                }
+            }
+
+            @Override
+            public void onConversionDataFail(String s) {
+
+            }
+
+            @Override
+            public void onAppOpenAttribution(Map<String, String> map) {
+                for (String attrName : map.keySet()) {
+                    Log.d(TAG, "attribute: " + attrName + " = " + map.get(attrName));
+                }
+            }
+
+            @Override
+            public void onAttributionFailure(String s) {
 
             }
         };
-    }
+
+
+
+            }
+
 
 
     private void initListView() {

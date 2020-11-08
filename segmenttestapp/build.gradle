@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "com.appsflyer.segment.app"
@@ -17,19 +17,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    //compile fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':app')
+    implementation project(path: ':app')
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.appsflyer:af-android-sdk:5.4.4@aar'
     //noinspection GradleDynamicVersion
     implementation 'com.segment.analytics.android:analytics:4.+'
-//    compile 'com.appsflyer:segment-android-integration:5.1.1'
-    implementation 'com.android.installreferrer:installreferrer:1.1'
+  //  compile 'com.appsflyer:segment-android-integration:5.4.4'
+    implementation 'com.android.installreferrer:installreferrer:2.1'
     //compile project(':app')
     //    compile 'com.google.firebase:firebase-crash:9.4.0'
-    //compile 'com.appsflyer:af-android-sdk:4.7.4'
 }
 //apply plugin: 'com.google.gms.google-services'

@@ -15,13 +15,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    implementation 'com.appsflyer:af-android-sdk:5.2.0@aar'
-    compileOnly 'com.android.installreferrer:installreferrer:1.1'
+    implementation 'com.appsflyer:af-android-sdk:5.4.4@aar'
+    compileOnly 'com.android.installreferrer:installreferrer:2.1'
     compileOnly 'com.segment.analytics.android:analytics:4.+'
-
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
     testImplementation 'com.segment.analytics.android:analytics-tests:4.+'
