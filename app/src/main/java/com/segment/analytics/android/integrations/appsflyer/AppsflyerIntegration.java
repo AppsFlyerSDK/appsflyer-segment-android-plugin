@@ -39,6 +39,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     private static final String APPSFLYER_KEY = "AppsFlyer";
     private static final String SEGMENT_REVENUE = "revenue";
     private static final String SEGMENT_CURRENCY = "currency";
+    public static ExternalAppsFlyerConversionListener conversionListener;
 
     /**
      * Responsible to map revenue -> af_revenue , currency -> af_currency
@@ -77,8 +78,8 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             afLib.setDebugLog(logger.logLevel != Analytics.LogLevel.NONE);
             afLib.init(devKey, listener, application.getApplicationContext());
             afLib.startTracking(application);
-
             logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
+
 
             // RD-34040
             boolean isReact = true;
@@ -116,12 +117,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
-
         Intent intent = activity.getIntent();
         AppsFlyerLib.getInstance().setPluginDeepLinkData(intent);
         AppsFlyerLib.getInstance().trackEvent(activity.getApplication().getApplicationContext(), null, null);
         updateEndUserAttributes();
     }
+
 
     @Override
     public AppsFlyerLib getUnderlyingInstance() {
@@ -163,10 +164,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         logger.verbose("appsflyer.trackEvent(context, %s, %s)", event, properties);
     }
 
-
+    @Deprecated
     public interface ConversionListenerDisplay {
         void display(Map<String, ?> attributionData);
     }
+
+    public interface ExternalAppsFlyerConversionListener extends AppsFlyerConversionListener {}
 
     static class ConversionListener implements AppsFlyerConversionListener {
         final Analytics analytics;
@@ -183,31 +186,42 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
                 setFlag(CONV_KEY, true);
             }
 
-            conversionData.put("type", "onInstallConversionData");
 
             if (cld != null) {
+                conversionData.put("type", "onInstallConversionData");
                 cld.display(conversionData);
+            }
+
+            if (conversionListener != null) {
+                conversionListener.onConversionDataSuccess(conversionData);
             }
         }
 
         @Override
         public void onConversionDataFail(String errorMessage) {
-
+            if (conversionListener != null) {
+                conversionListener.onConversionDataFail(errorMessage);
+            }
         }
 
         @Override
         public void onAppOpenAttribution(Map<String, String> attributionData) {
 
-            attributionData.put("type", "onAppOpenAttribution");
-
             if (cld != null) {
+                attributionData.put("type", "onAppOpenAttribution");
                 cld.display(attributionData);
+            }
+
+            if (conversionListener != null) {
+                conversionListener.onAppOpenAttribution(attributionData);
             }
         }
 
         @Override
         public void onAttributionFailure(String errorMessage) {
-
+            if (conversionListener != null) {
+                conversionListener.onAttributionFailure(errorMessage);
+            }
         }
 
         private Object getFromAttr(Object value) {
@@ -278,5 +292,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         }
 
     }
+
+
 
 }

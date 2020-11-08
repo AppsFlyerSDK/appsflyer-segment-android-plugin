@@ -21,7 +21,7 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v5.2.0`
+Built with AppsFlyer Android SDK `v5.4.4`
 
 ## Table of content
 
@@ -178,33 +178,36 @@ Check out the Segment docs on indentify [here](https://segment.com/docs/spec/ide
 
 ##  Get Conversion Data
 
-For Conversion data your should call the method below. Based on the `type` parameter you can differentiate between install data (for deferred deep linking) and deep link data (for direct deep linking)
-
+For Conversion data your should call the method below.
 
 ```java
-        AppsflyerIntegration.cld = new AppsflyerIntegration.ConversionListenerDisplay() {
-            @Override
-            public void display(Map<String, String> attributionData) {
-                if (attributionData.get("type").equals("onInstallConversionData")) {
-                    for (String attrName : attributionData.keySet()) {
-                        Log.d(TAG, "GCD attribute: " + attrName + " = " +
-                                attributionData.get(attrName));
-                    }
-                    if (attributionData.get("is_first_launch").equals("true")) {
+         AppsflyerIntegration.conversionListener  = new AppsflyerIntegration.ExternalAppsFlyerConversionListener() {
+                    @Override
+                    public void onConversionDataSuccess(Map<String, Object> map) {
                         // Process Deferred Deep Linking here
-                        Log.d(TAG, "GCD This is first launch");
-                    } else {
-                        Log.d(TAG, "GCD This is not first launch");
+                        for (String attrName : map.keySet()) {
+                            Log.d(TAG, "attribute: " + attrName + " = " + map.get(attrName));
+                        }
                     }
-                } else {
-                    // Process Direct Deep Linking here
-                    for (String attrName : attributionData.keySet()) {
-                        Log.d(TAG, "OAOA attribute: " + attrName + " = " +
-                                attributionData.get(attrName));
+
+                    @Override
+                    public void onConversionDataFail(String s) {
+
                     }
-                }
-            }
-        };
+
+                    @Override
+                    public void onAppOpenAttribution(Map<String, String> map) {
+                     // Process Direct Deep Linking here
+                        for (String attrName : map.keySet()) {
+                            Log.d(TAG, "attribute: " + attrName + " = " + map.get(attrName));
+                        }
+                    }
+
+                    @Override
+                    public void onAttributionFailure(String s) {
+
+                    }
+                };
 ```
 
 In order for Conversion Data to be sent to Segment, make sure you have enabled "Track Attribution Data" in AppsFlyer destination settings:

@@ -7,6 +7,9 @@ import com.segment.analytics.Analytics;
 import com.segment.analytics.Traits;
 import com.segment.analytics.android.integrations.appsflyer.AppsflyerIntegration;
 
+
+import java.util.Map;
+
 //https://segment.com/docs/spec/identify/
 //https://segment.com/docs/sources/mobile/android/
 public class SampleApplication extends Application {
@@ -32,6 +35,8 @@ public class SampleApplication extends Application {
                         .putName("a user's name")
                         .putEmail("maxim@appsflyer.com"),
                 null);
+
+
     }
 
     private void initSegmentAnalytics() {
