@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.appsflyer:af-android-sdk:5.4.4@aar'
+    implementation 'com.appsflyer:af-android-sdk:5.4.4'
     compileOnly 'com.android.installreferrer:installreferrer:2.1'
     compileOnly 'com.segment.analytics.android:analytics:4.+'
     testImplementation 'junit:junit:4.12'
@@ -30,4 +30,4 @@ dependencies {
     testImplementation 'com.segment.analytics.android:analytics-tests:4.+'
 }
 
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+apply from: file('publish.gradle')
