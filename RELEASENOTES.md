@@ -1,6 +1,10 @@
 # Release Notes
 
 ### 5.4.4
+* Update Android SDK to v6.1.1
+* Support for Unified deep linking
+
+### 5.4.4
 * Update Android SDK to v5.4.4
 * Deprecated AppsflyerIntegration.ConversionListenerDisplay()
 * Add ExternalAppsFlyerConversionListener to get the callbacks

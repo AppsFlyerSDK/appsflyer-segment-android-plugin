@@ -7,11 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AFLogger;
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
+import com.appsflyer.deeplink.DeepLinkListener;
+import com.appsflyer.deeplink.DeepLinkResult;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 import com.segment.analytics.ValueMap;
@@ -40,6 +45,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     private static final String SEGMENT_REVENUE = "revenue";
     private static final String SEGMENT_CURRENCY = "currency";
     public static ExternalAppsFlyerConversionListener conversionListener;
+    public static ExternalDeepLinkListener deepLinkListener;
 
     /**
      * Responsible to map revenue -> af_revenue , currency -> af_currency
@@ -77,8 +83,9 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             }
             afLib.setDebugLog(logger.logLevel != Analytics.LogLevel.NONE);
             afLib.init(devKey, listener, application.getApplicationContext());
-            afLib.startTracking(application);
-            logger.verbose("AppsFlyer.getInstance().startTracking(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
+            if (deepLinkListener != null)
+                AppsFlyerLib.getInstance().subscribeForDeepLink( deepLinkListener);
+            logger.verbose("AppsFlyer.getInstance().start(%s, %s)", application, devKey.substring(0, 1) + "*****" + devKey.substring(devKey.length() - 2));
 
 
             // RD-34040
@@ -92,7 +99,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             }
             // Segment React Native integration with AppsFLyer is used, we need to send first launch manually
             if(isReact){
-                afLib.trackAppLaunch(application, devKey);
+                afLib.start(application, devKey);
                 AFLogger.afDebugLog("Segment React Native AppsFlye rintegration is used, sending first launch manually");
             }
 
@@ -118,8 +125,8 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
         Intent intent = activity.getIntent();
-        AppsFlyerLib.getInstance().setPluginDeepLinkData(intent);
-        AppsFlyerLib.getInstance().trackEvent(activity.getApplication().getApplicationContext(), null, null);
+        AppsFlyerLib.getInstance().start(activity);
+        AppsFlyerLib.getInstance().logEvent(activity.getApplication().getApplicationContext(), null, null);
         updateEndUserAttributes();
     }
 
@@ -160,8 +167,8 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
 
         Map<String, Object> afProperties = transform(properties, MAPPER);
 
-        appsflyer.trackEvent(context, event, afProperties);
-        logger.verbose("appsflyer.trackEvent(context, %s, %s)", event, properties);
+        appsflyer.logEvent(context, event, afProperties);
+        logger.verbose("appsflyer.logEvent(context, %s, %s)", event, properties);
     }
 
     @Deprecated
@@ -170,6 +177,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     }
 
     public interface ExternalAppsFlyerConversionListener extends AppsFlyerConversionListener {}
+    public interface ExternalDeepLinkListener extends DeepLinkListener {}
 
     static class ConversionListener implements AppsFlyerConversionListener {
         final Analytics analytics;
