@@ -76,7 +76,7 @@ AppsFlyer supports the `identify` and `track` methods.
 
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
 ```java
-compile 'com.appsflyer:segment-android-integration:5.4.4'
+compile 'com.appsflyer:segment-android-integration:6.1.1'
 compile 'com.android.installreferrer:installreferrer:2.1'
 ```
 
