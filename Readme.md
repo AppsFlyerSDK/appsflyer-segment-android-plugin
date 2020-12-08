@@ -21,7 +21,7 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v5.4.4`
+Built with AppsFlyer Android SDK `v6.1.1`
 
 ## Table of content
 
@@ -31,6 +31,7 @@ Built with AppsFlyer Android SDK `v5.4.4`
 -  [SDK Initialization](#sdk_init)
 -  [Tracking In-App Events](#adding_events)
 -  [Get Conversion Data](#conversion_data)
+- [Unified Deep Linking](#deep_linking)
 - [Sample App](#sample_app)
 
 
@@ -75,7 +76,7 @@ AppsFlyer supports the `identify` and `track` methods.
 
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
 ```java
-compile 'com.appsflyer:segment-android-integration:5.4.4'
+compile 'com.appsflyer:segment-android-integration:6.1.1'
 compile 'com.android.installreferrer:installreferrer:2.1'
 ```
 
@@ -214,6 +215,20 @@ In order for Conversion Data to be sent to Segment, make sure you have enabled "
 
 <img width="741" alt="Xnip2019-05-11_19-19-31" src="https://user-images.githubusercontent.com/18286267/57572409-8fb19200-7422-11e9-832f-fdd343af3137.png">
 
+### <a id="deep_linking">
+
+##  Unified deep linking
+In order to implement unified deep linking, call the method below :
+
+```java
+        AppsflyerIntegration.deepLinkListener = new AppsflyerIntegration.ExternalDeepLinkListener() {
+            @Override
+            public void onDeepLinking(@NonNull DeepLinkResult deepLinkResult) {
+                //TODO handle deep link logic
+            }
+        };
+```
+For more information about unified deep linking, check [here](https://dev.appsflyer.com/docs/android-unified-deep-linking)
 
 ### <a id="sample_app">
 
