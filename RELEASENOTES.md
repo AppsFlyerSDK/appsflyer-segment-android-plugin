@@ -1,6 +1,6 @@
 # Release Notes
 
-### 5.4.4
+### 6.1.1
 * Update Android SDK to v6.1.1
 * Support for Unified deep linking
 
