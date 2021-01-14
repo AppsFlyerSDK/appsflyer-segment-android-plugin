@@ -21,7 +21,7 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v6.1.1`
+Built with AppsFlyer Android SDK `v6.1.4`
 
 ## Table of content
 
