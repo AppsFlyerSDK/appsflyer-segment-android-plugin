@@ -21,7 +21,7 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v6.1.4`
+Built with AppsFlyer Android SDK `v6.2.0`
 
 ## Table of content
 
@@ -76,7 +76,7 @@ AppsFlyer supports the `identify` and `track` methods.
 
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
 ```java
-compile 'com.appsflyer:segment-android-integration:6.1.1'
+compile 'com.appsflyer:segment-android-integration:6.2.0'
 compile 'com.android.installreferrer:installreferrer:2.1'
 ```
 
