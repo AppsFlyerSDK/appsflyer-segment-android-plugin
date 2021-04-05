@@ -100,7 +100,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             // Segment React Native integration with AppsFLyer is used, we need to send first launch manually
             if(isReact){
                 afLib.start(application, devKey);
-                AFLogger.afDebugLog("Segment React Native AppsFlye rintegration is used, sending first launch manually");
+                logger.verbose("Segment React Native AppsFlye rintegration is used, sending first launch manually");
             }
 
             return new AppsflyerIntegration(application, logger, afLib, devKey);
@@ -126,7 +126,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         super.onActivityCreated(activity, savedInstanceState);
         Intent intent = activity.getIntent();
         AppsFlyerLib.getInstance().start(activity);
-        AppsFlyerLib.getInstance().logEvent(activity.getApplication().getApplicationContext(), null, null);
         updateEndUserAttributes();
     }
 
