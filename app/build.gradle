@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.appsflyer:af-android-sdk:6.2.0'
+    implementation 'com.appsflyer:af-android-sdk:6.2.3'
     compileOnly 'com.android.installreferrer:installreferrer:2.1'
     compileOnly 'com.segment.analytics.android:analytics:4.+'
     testImplementation 'junit:junit:4.12'
