@@ -1,5 +1,9 @@
 # Release Notes
 
+### 6.2.3
+* Update Android SDK to v6.2.3
+* fix OnAppOpenAttribution
+
 ### 6.1.1
 * Update Android SDK to v6.1.4
 
