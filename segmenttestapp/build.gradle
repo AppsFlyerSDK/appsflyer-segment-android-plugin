@@ -27,7 +27,7 @@ dependencies {
     implementation project(path: ':app')
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.appsflyer:af-android-sdk:6.2.3'
+    implementation 'com.appsflyer:af-android-sdk:6.3.0'
     //noinspection GradleDynamicVersion
     implementation 'com.segment.analytics.android:analytics:4.+'
 //    compile 'com.appsflyer:segment-android-integration:5.4.4'
