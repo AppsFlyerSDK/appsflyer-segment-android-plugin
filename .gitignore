@@ -36,3 +36,7 @@ captures/
 \.idea/
 
 \.DS_Store
+
+.project
+
+.settings/org.eclipse.buildship.core.prefs
