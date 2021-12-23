@@ -1,5 +1,8 @@
 # Release Notes
 
+### 6.4.3
+* Update Android SDK to v6.4.3
+
 ### 6.4.1
 * Update Android SDK to v6.4.1
 
