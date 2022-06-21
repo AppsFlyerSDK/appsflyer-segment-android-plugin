@@ -25,11 +25,10 @@ Built with AppsFlyer Android SDK `v6.5.2`
 
 ## Table of content
 
-- [What Is Segment](#whatIsSegment)
-- [Quick Start](#quickStart)
-- [API Methods](#api-methods)
+- [Introduction](#whatIsSegment)
+- [Getting Started](#quickStart)
 -  [SDK Initialization](#sdk_init)
--  [Tracking In-App Events](#adding_events)
+-  [Register In-App Events](#adding_events)
 -  [Get Conversion Data](#conversion_data)
 - [Unified Deep Linking](#deep_linking)
 - [Sample App](#sample_app)
@@ -124,7 +123,7 @@ Adding `.trackApplicationLifecycleEvents()` will send   `Application Opened`  , 
 
 
 
-## <a id="adding_events"> Track
+## <a id="adding_events"> In-app events
 
 When you call `track`, Segment translates it automatically and sends the event to AppsFlyer.
 
