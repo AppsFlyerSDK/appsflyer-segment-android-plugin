@@ -27,6 +27,7 @@ Built with AppsFlyer Android SDK `v6.5.2`
 
 - [Introduction](#whatIsSegment)
 - [Getting Started](#quickStart)
+- [Manual mode](#manual)
 -  [SDK Initialization](#sdk_init)
 -  [Register In-App Events](#adding_events)
 -  [Get Conversion Data](#conversion_data)
@@ -65,6 +66,27 @@ To enable AppsFlyer in the Segment dashboard, follow these steps:
 The Segment AppsFlyer integration is entirely handled through Segment's servers, so you don’t need to bundle AppsFlyer's iOS or Android SDKs. Your Segment SDK will be enough.
 
 AppsFlyer supports the `identify` and `track` methods.
+
+### <a id="manual">
+# Manual mode
+By default, when using the appsflyer-segment wrapper, AppsFlyer SDK starts automatically when initializing Segment with AppsFlyer factory. In order to give the developer more freedom, we added a manual mode in version `6.8.0`. 
+In this manual mode, the developer is responsible to start AppsFlyer SDK.
+To set up the manual mode, use `void setManualMode(Boolean manualMode)` API. The method needs to be called before initializing Segment with AppsFlyer Factory. 
+### Example:
+
+```java
+AppsflyerIntegration.setManualMode(true);
+```
+
+And to start the AppsFlyer SDK, use `void startAppsFlyer(Context context)` API.
+
+### Example:
+
+```java
+    protected void onCreate(Bundle savedInstanceState) {
+         AppsflyerIntegration.startAppsFlyer(this);
+    }
+ ```
 
 
 ### <a id="quickStart">
