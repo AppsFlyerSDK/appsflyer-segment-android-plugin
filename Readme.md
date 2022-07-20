@@ -111,6 +111,11 @@ The AndroidManifest.xml should include the following permissions:
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 ```
 
+In v6.8.0 of the AppsFlyer SDK, we added the normal permission com.google.android.gms.permission.AD_ID to the SDK's AndroidManifest, 
+to allow the SDK to collect the Android Advertising ID on apps targeting API 33.
+If your app is targeting children, you need to revoke this permission to comply with Google's Data policy.
+You can read more about it [here](https://support.appsflyer.com/hc/en-us/articles/7569900844689).
+
 ### <a id="sdk_init"> 2.2)  Init AppsFlyer
 
 ```java
