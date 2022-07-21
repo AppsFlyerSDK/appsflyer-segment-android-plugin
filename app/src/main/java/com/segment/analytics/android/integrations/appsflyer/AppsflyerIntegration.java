@@ -69,8 +69,10 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         AppsflyerIntegration.manualMode = manualMode;
     }
 
-    public static void startAppsFlyer(Context context){
-        AppsFlyerLib.getInstance().start(context);
+    public static void startAppsFlyer(@NonNull Context context){
+        if (context != null){
+            AppsFlyerLib.getInstance().start(context);
+        }
     }
 
     public static Boolean manualMode = false;
