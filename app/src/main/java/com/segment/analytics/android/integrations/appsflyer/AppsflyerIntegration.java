@@ -65,6 +65,17 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     private String customerUserId;
     private String currencyCode;
 
+    public static void setManualMode(Boolean manualMode) {
+        AppsflyerIntegration.manualMode = manualMode;
+    }
+
+    public static void startAppsFlyer(@NonNull Context context){
+        if (context != null){
+            AppsFlyerLib.getInstance().start(context);
+        }
+    }
+
+    public static Boolean manualMode = false;
     public static ConversionListenerDisplay cld;
     public static final Factory FACTORY = new Integration.Factory() {
         @Override
@@ -125,8 +136,10 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
         Intent intent = activity.getIntent();
-        AppsFlyerLib.getInstance().start(activity);
-        updateEndUserAttributes();
+        if (!manualMode) {
+            AppsFlyerLib.getInstance().start(activity);
+            updateEndUserAttributes();
+        }
     }
 
 
