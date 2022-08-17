@@ -69,9 +69,7 @@ AppsFlyer supports the `identify` and `track` methods.
 
 ### <a id="manual">
 # Manual mode
-By default, when using the appsflyer-segment wrapper, AppsFlyer SDK starts automatically when initializing Segment with AppsFlyer factory. In order to give the developer more freedom, we added a manual mode in version `6.8.0`. 
-In this manual mode, the developer is responsible to start AppsFlyer SDK.
-To set up the manual mode, use `void setManualMode(Boolean manualMode)` API. The method needs to be called before initializing Segment with AppsFlyer Factory. 
+Starting version 6.8.0, we support a manual mode to seperate the initialization of the AppsFlyer SDK and the start of the SDK. In this case, the AppsFlyer SDK won't start automatically, giving the developper more freedom when to start the AppsFlyer SDK. Please note that in manual mode, the developper is required to implement the API startAppsFlyer(Context context) in order to start the SDK.
 ### Example:
 
 ```java
@@ -113,7 +111,7 @@ The AndroidManifest.xml should include the following permissions:
 
 In v6.8.0 of the AppsFlyer SDK, we added the normal permission com.google.android.gms.permission.AD_ID to the SDK's AndroidManifest, 
 to allow the SDK to collect the Android Advertising ID on apps targeting API 33.
-If your app is targeting children, you need to revoke this permission to comply with Google's Data policy.
+If your app is targeting children, you may need to revoke this permission to comply with Google's Data policy.
 You can read more about it [here](https://support.appsflyer.com/hc/en-us/articles/7569900844689).
 
 ### <a id="sdk_init"> 2.2)  Init AppsFlyer
