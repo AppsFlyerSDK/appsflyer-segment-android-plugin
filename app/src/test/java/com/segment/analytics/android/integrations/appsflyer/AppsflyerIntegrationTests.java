@@ -1,6 +1,5 @@
 package com.segment.analytics.android.integrations.appsflyer;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,13 +7,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.internal.platform.app.ActivityInvoker;
 
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerLib;
@@ -30,9 +26,6 @@ import com.segment.analytics.integrations.TrackPayload;
 import static  org.mockito.Mockito.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.Map;
 
 /**
