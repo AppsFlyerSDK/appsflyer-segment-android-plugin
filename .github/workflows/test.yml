@@ -1,0 +1,21 @@
+name: CI - Tests
+on: 
+  push:
+    branches-ignore:
+        - 'main'
+        - 'releases/**'
+jobs:
+  Tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2    
+    - name: Make gradlew executable
+        run: chmod +x ./gradlew
+    - name: Run Tests                  
+      run: ./gradlew test
