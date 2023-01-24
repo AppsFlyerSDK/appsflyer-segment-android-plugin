@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.segment.analytics.android.integrations.appsflyer"
-    xmlns:tools="http://schemas.android.com/tools">
-
-
-    <application
-        tools:replace="android:appComponentFactory">
-    </application>
-
+<manifest package="com.segment.analytics.android.integrations.appsflyer">
+    <application/>
 </manifest>
