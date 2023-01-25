@@ -49,7 +49,9 @@ public class AppsflyerIntegrationTests {
         Assert.assertTrue(appsflyerIntegration.logger == logger);
         Field field = AppsflyerIntegration.class.getDeclaredField("context");
         field.setAccessible(true);
+
         Context contextInappsflyerIntegration = (Context) field.get(appsflyerIntegration);
+
         Assert.assertTrue(contextInappsflyerIntegration == context);
 //        checking the static clause
         Assert.assertTrue(appsflyerIntegration.MAPPER.get("revenue")== AFInAppEventParameterName.REVENUE);
@@ -93,8 +95,11 @@ public class AppsflyerIntegrationTests {
         AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
         staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
         Context context = mock(Context.class);
+
         AppsflyerIntegration.startAppsFlyer(context);
+
         verify(appsFlyerLib).start(context);
+
         reset(appsFlyerLib,context);
         staticAppsFlyerLib.close();
     }
@@ -104,8 +109,11 @@ public class AppsflyerIntegrationTests {
         MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
         AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
         staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
+
         AppsflyerIntegration.startAppsFlyer(null);
+
         verify(appsFlyerLib,never()).start(any());
+
         reset(appsFlyerLib);
         staticAppsFlyerLib.close();
     }
@@ -127,6 +135,7 @@ public class AppsflyerIntegrationTests {
         AppsflyerIntegration.deepLinkListener = mock(AppsflyerIntegration.ExternalDeepLinkListener.class);
 
         Integration<AppsFlyerLib> integration= (Integration<AppsFlyerLib>) AppsflyerIntegration.FACTORY.create(settings,analytics);
+
         verify(appsFlyerLib).setDebugLog(logger.logLevel!=Analytics.LogLevel.NONE);
         ArgumentCaptor<AppsflyerIntegration.ConversionListener> captorListener = ArgumentCaptor.forClass(AppsflyerIntegration.ConversionListener.class);
         ArgumentCaptor<String> captorDevKey = ArgumentCaptor.forClass(String.class);
@@ -137,6 +146,7 @@ public class AppsflyerIntegrationTests {
         Assert.assertTrue(captorDevKey.getValue() == settings.getString("appsFlyerDevKey"));
         Assert.assertTrue(captorContext.getValue() == app.getApplicationContext());
         verify(appsFlyerLib).subscribeForDeepLink(AppsflyerIntegration.deepLinkListener);
+
         reset(appsFlyerLib,analytics,app,AppsflyerIntegration.deepLinkListener);
         staticAppsFlyerLib.close();
     }
@@ -190,7 +200,9 @@ public class AppsflyerIntegrationTests {
         AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
         Logger logger = new Logger("test", Analytics.LogLevel.INFO);
         AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(null,logger,appsFlyerLib,null);
+
         Assert.assertTrue(appsflyerIntegration.getUnderlyingInstance().equals(appsFlyerLib));
+
         reset(appsFlyerLib);
     }
 
@@ -208,16 +220,15 @@ public class AppsflyerIntegrationTests {
         appsflyerIntegration.identify(identifyPayload);
 
         verify(logger, never()).verbose(any());
-
         Field customerUserIdField = AppsflyerIntegration.class.getDeclaredField("customerUserId");
         customerUserIdField.setAccessible(true);
         String customerUserIdInappsflyerIntegration = (String) customerUserIdField.get(appsflyerIntegration);
         Assert.assertTrue(customerUserIdInappsflyerIntegration.equals("moris"));
-
         Field currencyCodeField = AppsflyerIntegration.class.getDeclaredField("currencyCode");
         currencyCodeField.setAccessible(true);
         String currencyCodeInappsflyerIntegration = (String) currencyCodeField.get(appsflyerIntegration);
         Assert.assertTrue(currencyCodeInappsflyerIntegration.equals("ILS"));
+
         reset(appsFlyerLib,identifyPayload,traits);
     }
 
@@ -232,6 +243,7 @@ public class AppsflyerIntegrationTests {
         appsflyerIntegration.identify(identifyPayload);
 
         verify(logger, times(1)).verbose("couldn't update 'Identify' attributes");
+
         reset(identifyPayload,traits);
     }
 
@@ -242,7 +254,6 @@ public class AppsflyerIntegrationTests {
         AppsflyerIntegration appsflyerIntegration = spy(new AppsflyerIntegration(null,logger,appsFlyerLib,null));
         Method updateEndUserAttributes = AppsflyerIntegration.class.getDeclaredMethod("updateEndUserAttributes");
         updateEndUserAttributes.setAccessible(true);
-
         Field customerUserIdField = AppsflyerIntegration.class.getDeclaredField("customerUserId");
         customerUserIdField.setAccessible(true);
         customerUserIdField.set(appsflyerIntegration,"Moris");
@@ -255,6 +266,7 @@ public class AppsflyerIntegrationTests {
         verify(logger, times(1)).verbose("appsflyer.setCustomerUserId(%s)", "Moris");
         verify(logger, times(1)).verbose("appsflyer.setCurrencyCode(%s)", "ILS");
         verify(logger, times(1)).verbose("appsflyer.setDebugLog(%s)", true);
+
         reset(appsFlyerLib);
     }
 
@@ -268,19 +280,18 @@ public class AppsflyerIntegrationTests {
         Properties properties= mock(Properties.class);
         Map<String, Object> afProperties = mock(Map.class);
         MockedStatic<com.segment.analytics.internal.Utils> staticUtils = mockStatic(com.segment.analytics.internal.Utils.class);
-
         when(trackPayload.event()).thenReturn(event);
         when(trackPayload.properties()).thenReturn(properties);
         staticUtils.when(()->com.segment.analytics.internal.Utils.transform(any(),any())).thenReturn(afProperties);
-
         appsflyerIntegration.track(trackPayload);
-
         Field contextField = AppsflyerIntegration.class.getDeclaredField("context");
         contextField.setAccessible(true);
+
         Context contextInAppsflyerIntegration = (Context) contextField.get(appsflyerIntegration);
 
         verify(appsFlyerLib, times(1)).logEvent(contextInAppsflyerIntegration,event,afProperties);
         verify(logger, times(1)).verbose("appsflyer.logEvent(context, %s, %s)", event, properties);
+
         reset(appsFlyerLib,trackPayload,properties,afProperties);
         staticUtils.close();
     }

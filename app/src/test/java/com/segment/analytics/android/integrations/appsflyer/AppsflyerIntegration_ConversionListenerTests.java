@@ -41,14 +41,20 @@ public class AppsflyerIntegration_ConversionListenerTests {
     public void testAppsflyerIntegration_ConversionListener_ctor_happyFlow() throws Exception {
         Analytics analytics = mock(Analytics.class);
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
+
         Assert.assertTrue(conversionListener.analytics==analytics);
+
+        reset(analytics,conversionListener);
     }
 
     @Test
     public void testAppsflyerIntegration_ConversionListener_ctor_nullFlow() throws Exception {
         Analytics analytics = null;
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
+
         Assert.assertTrue(conversionListener.analytics==analytics);
+
+        reset(conversionListener);
     }
 
     @Test
@@ -69,6 +75,8 @@ public class AppsflyerIntegration_ConversionListenerTests {
         conversionListener.onConversionDataSuccess(conversionData);
 
         verify(AppsflyerIntegration.conversionListener).onConversionDataSuccess(conversionData);
+
+        reset(AppsflyerIntegration.conversionListener,analytics,app,context,sharedPreferences,conversionListener);
     }
 
     @Test
@@ -77,10 +85,12 @@ public class AppsflyerIntegration_ConversionListenerTests {
         Analytics analytics = Mockito.mock(Analytics.class);
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
         String errorMsg = "error - test";
+
         conversionListener.onAttributionFailure(errorMsg);
+
         verify(AppsflyerIntegration.conversionListener,times(1)).onAttributionFailure(errorMsg);
 
-        reset(analytics,conversionListener);
+        reset(analytics,conversionListener,AppsflyerIntegration.conversionListener);
     }
 
     @Test
@@ -92,7 +102,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
         conversionListener.onAttributionFailure(errorMsg);
         verify(AppsflyerIntegration.conversionListener,times(1)).onAttributionFailure(null);
 
-        reset(analytics,conversionListener);
+        reset(analytics,conversionListener,AppsflyerIntegration.conversionListener);
     }
 
     @Test
@@ -106,10 +116,6 @@ public class AppsflyerIntegration_ConversionListenerTests {
                 put("adgroup", "adgroup_moris");
             }
         };
-
-        AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
-        conversionListener.trackInstallAttributed(attributionData);
-
         Map<String, Object> campaign = new ValueMap() //
                 .putValue("source", attributionData.get("media_source"))
                 .putValue("name", attributionData.get("campaign"))
@@ -119,19 +125,19 @@ public class AppsflyerIntegration_ConversionListenerTests {
         properties.remove("media_source");
         properties.remove("adgroup");
         properties.putValue("campaign", campaign);
+        AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
+
+        conversionListener.trackInstallAttributed(attributionData);
+
         verify(analytics,times(1)).track("Install Attributed", properties);
 
-        reset(analytics);
+        reset(analytics,conversionListener);
     }
 
     @Test
     public void testAppsflyerIntegration_ConversionListener_trackInstallAttributed_negativeFlow() throws Exception {
         Analytics analytics =mock(Analytics.class);
         Map<String, Object> attributionData = new HashMap<String, Object>();
-
-        AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
-        conversionListener.trackInstallAttributed(attributionData);
-
         Map<String, Object> campaign = new ValueMap() //
                 .putValue("source", "")
                 .putValue("name", "")
@@ -141,8 +147,12 @@ public class AppsflyerIntegration_ConversionListenerTests {
         properties.remove("media_source");
         properties.remove("adgroup");
         properties.putValue("campaign", campaign);
+        AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
+        conversionListener.trackInstallAttributed(attributionData);
+
         verify(analytics,times(1)).track("Install Attributed", properties);
-        reset(analytics);
+
+        reset(analytics,conversionListener);
     }
 
 //This flow breaks because there is no check for attributionData!=null in trackInstallAttributed method.
@@ -179,12 +189,14 @@ public class AppsflyerIntegration_ConversionListenerTests {
         when(context.getSharedPreferences("appsflyer-segment-data",0)).thenReturn(sharedPreferences);
         when(sharedPreferences.getBoolean(key,false)).thenReturn(true);
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
-
         Method getFlagMethod = AppsflyerIntegration.ConversionListener.class.getDeclaredMethod("getFlag",String.class);
         getFlagMethod.setAccessible(true);
+
         boolean resBoolean = (Boolean) getFlagMethod.invoke(conversionListener,key);
 
         Assert.assertTrue(resBoolean==true);
+
+        reset(analytics,app,context,sharedPreferences,conversionListener);
     }
 
     @Test
@@ -200,10 +212,10 @@ public class AppsflyerIntegration_ConversionListenerTests {
         when(app.getApplicationContext()).thenReturn(context);
         when(context.getSharedPreferences("appsflyer-segment-data",0)).thenReturn(sharedPreferences);
         when(sharedPreferences.edit()).thenReturn(editor);
-
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
         Method setFlagMethod = AppsflyerIntegration.ConversionListener.class.getDeclaredMethod("setFlag",String.class,boolean.class);
         setFlagMethod.setAccessible(true);
+
         setFlagMethod.invoke(conversionListener,key,value);
 
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD){
@@ -212,6 +224,8 @@ public class AppsflyerIntegration_ConversionListenerTests {
         else{
             verify(editor,times(1)).commit();
         }
+
+        reset(analytics,app,context,sharedPreferences,conversionListener);
     }
 
     @Test
@@ -230,6 +244,8 @@ public class AppsflyerIntegration_ConversionListenerTests {
         else{
             verify(editor,times(1)).commit();
         }
+
+        reset(analytics,conversionListener);
     }
 
 //    Not checking for editor is null.
@@ -252,6 +268,8 @@ public class AppsflyerIntegration_ConversionListenerTests {
         Context resContext = (Context) getContextMethod.invoke(conversionListener);
 
         Assert.assertTrue(resContext==context);
+
+        reset(analytics,app,context,conversionListener);
     }
 
     @Test
@@ -268,5 +286,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
         Context resContext = (Context) getContextMethod.invoke(conversionListener);
 
         Assert.assertTrue(resContext==context);
+
+        reset(analytics,app,conversionListener);
     }
 }
