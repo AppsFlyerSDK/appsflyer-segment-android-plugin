@@ -3,37 +3,19 @@ package com.segment.analytics.android.integrations.appsflyer;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-//import org.powermock.core.classloader.annotations.PrepareForTest;
-//import org.powermock.modules.junit4.PowerMockRunner;
-//import org.powermock.api.mockito.PowerMockito;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.appsflyer.AFInAppEventParameterName;
-import com.appsflyer.AppsFlyerLib;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
-import com.segment.analytics.Traits;
 import com.segment.analytics.ValueMap;
-import com.segment.analytics.integrations.IdentifyPayload;
-import com.segment.analytics.integrations.Integration;
-import com.segment.analytics.integrations.Logger;
-import com.segment.analytics.integrations.TrackPayload;
-
 import static  org.mockito.Mockito.*;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-//@PrepareForTest(Analytics.class)
-//@RunWith(PowerMockRunner.class)
 @RunWith(AndroidJUnit4.class)
 public class AppsflyerIntegration_ConversionListenerTests {
 

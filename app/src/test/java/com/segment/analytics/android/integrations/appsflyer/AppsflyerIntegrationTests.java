@@ -6,12 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-
 import android.app.Application;
 import android.content.Context;
-
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerLib;
 import com.segment.analytics.Analytics;
@@ -22,7 +19,6 @@ import com.segment.analytics.integrations.IdentifyPayload;
 import com.segment.analytics.integrations.Integration;
 import com.segment.analytics.integrations.Logger;
 import com.segment.analytics.integrations.TrackPayload;
-
 import static  org.mockito.Mockito.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
