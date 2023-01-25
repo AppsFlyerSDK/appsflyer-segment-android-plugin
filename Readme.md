@@ -21,12 +21,13 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v6.5.2`
+Built with AppsFlyer Android SDK `v6.8.2`
 
 ## Table of content
 
 - [Introduction](#whatIsSegment)
 - [Getting Started](#quickStart)
+- [Manual mode](#manual)
 -  [SDK Initialization](#sdk_init)
 -  [Register In-App Events](#adding_events)
 -  [Get Conversion Data](#conversion_data)
@@ -66,6 +67,25 @@ The Segment AppsFlyer integration is entirely handled through Segment's servers,
 
 AppsFlyer supports the `identify` and `track` methods.
 
+### <a id="manual">
+# Manual mode
+Starting version 6.8.0, we support a manual mode to seperate the initialization of the AppsFlyer SDK and the start of the SDK. In this case, the AppsFlyer SDK won't start automatically, giving the developper more freedom when to start the AppsFlyer SDK. Please note that in manual mode, the developper is required to implement the API startAppsFlyer(Context context) in order to start the SDK.
+### Example:
+
+```java
+AppsflyerIntegration.setManualMode(true);
+```
+
+And to start the AppsFlyer SDK, use `void startAppsFlyer(Context context)` API.
+
+### Example:
+
+```java
+    protected void onCreate(Bundle savedInstanceState) {
+         AppsflyerIntegration.startAppsFlyer(this);
+    }
+ ```
+
 
 ### <a id="quickStart">
 
@@ -88,6 +108,11 @@ The AndroidManifest.xml should include the following permissions:
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 ```
+
+In v6.8.0 of the AppsFlyer SDK, we added the normal permission com.google.android.gms.permission.AD_ID to the SDK's AndroidManifest, 
+to allow the SDK to collect the Android Advertising ID on apps targeting API 33.
+If your app is targeting children, you may need to revoke this permission to comply with Google's Data policy.
+You can read more about it [here](https://support.appsflyer.com/hc/en-us/articles/7569900844689).
 
 ### <a id="sdk_init"> 2.2)  Init AppsFlyer
 

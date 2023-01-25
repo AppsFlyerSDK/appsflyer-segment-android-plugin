@@ -1,5 +1,11 @@
 # Release Notes
 
+### 6.8.2
+* Update Android SDK to v6.8.2
+
+### 6.8.0
+* Update Android SDK to v6.8.0
+
 ### 6.5.2
 * Update Android SDK to v6.5.2
 
