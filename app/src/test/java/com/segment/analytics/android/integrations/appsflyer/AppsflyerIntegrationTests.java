@@ -22,6 +22,7 @@ import com.segment.analytics.integrations.TrackPayload;
 import static  org.mockito.Mockito.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 @RunWith(AndroidJUnit4.class)
@@ -35,6 +36,18 @@ public class AppsflyerIntegrationTests {
         return appsFlyerLib;
     }
 
+    public Object getPrivateFieldForObject(String funcName, Class classObject, Object objToGetValueFrom) throws Exception{
+        Field field = classObject.getDeclaredField(funcName);
+        field.setAccessible(true);
+        return field.get(classObject.cast(objToGetValueFrom));
+    }
+
+    public void setPrivateFieldForObject(String funcName, Class classObject, Object objToGetValueFrom, Class valueClass, Object value) throws Exception{
+        Field field = classObject.getDeclaredField(funcName);
+        field.setAccessible(true);
+        field.set(objToGetValueFrom,valueClass.cast(value));
+    }
+
     @Test
     public void testAppsflyerIntegration_ctor_happyFlow() throws Exception {
         Context context = mock(Context.class);
@@ -42,15 +55,14 @@ public class AppsflyerIntegrationTests {
         AppsFlyerLib appsflyer = mock(AppsFlyerLib.class);
         String appsflyerDevKey = "appsflyerDevKey";
         boolean isDebug = logger.logLevel != Analytics.LogLevel.NONE;
+
         AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(context,logger,appsflyer,appsflyerDevKey);
 
         Assert.assertEquals(appsflyerIntegration.isDebug , isDebug);
         Assert.assertEquals(appsflyerIntegration.appsFlyerDevKey, appsflyerDevKey);
         Assert.assertEquals(appsflyerIntegration.appsflyer, appsflyer);
         Assert.assertEquals(appsflyerIntegration.logger, logger);
-        Field field = AppsflyerIntegration.class.getDeclaredField("context");
-        field.setAccessible(true);
-        Context contextInappsflyerIntegration = (Context) field.get(appsflyerIntegration);
+        Context contextInappsflyerIntegration = (Context) getPrivateFieldForObject("context",AppsflyerIntegration.class,appsflyerIntegration);
         Assert.assertEquals(contextInappsflyerIntegration, context);
 //        checking the static clause
         Assert.assertEquals(AppsflyerIntegration.MAPPER.get("revenue"), AFInAppEventParameterName.REVENUE);
@@ -194,13 +206,9 @@ public class AppsflyerIntegrationTests {
         appsflyerIntegration.identify(identifyPayload);
 
         verify(logger, never()).verbose(any());
-        Field customerUserIdField = AppsflyerIntegration.class.getDeclaredField("customerUserId");
-        customerUserIdField.setAccessible(true);
-        String customerUserIdInappsflyerIntegration = (String) customerUserIdField.get(appsflyerIntegration);
+        String customerUserIdInappsflyerIntegration = (String)getPrivateFieldForObject("customerUserId",AppsflyerIntegration.class,appsflyerIntegration);
         Assert.assertEquals(customerUserIdInappsflyerIntegration, "moris");
-        Field currencyCodeField = AppsflyerIntegration.class.getDeclaredField("currencyCode");
-        currencyCodeField.setAccessible(true);
-        String currencyCodeInappsflyerIntegration = (String) currencyCodeField.get(appsflyerIntegration);
+        String currencyCodeInappsflyerIntegration = (String) getPrivateFieldForObject("currencyCode",AppsflyerIntegration.class,appsflyerIntegration);
         Assert.assertEquals(currencyCodeInappsflyerIntegration, "ILS");
 
         reset(appsFlyerLib,identifyPayload,traits);
@@ -228,13 +236,8 @@ public class AppsflyerIntegrationTests {
         AppsflyerIntegration appsflyerIntegration = spy(new AppsflyerIntegration(null,logger,appsFlyerLib,null));
         Method updateEndUserAttributes = AppsflyerIntegration.class.getDeclaredMethod("updateEndUserAttributes");
         updateEndUserAttributes.setAccessible(true);
-        Field customerUserIdField = AppsflyerIntegration.class.getDeclaredField("customerUserId");
-        customerUserIdField.setAccessible(true);
-        customerUserIdField.set(appsflyerIntegration,"Moris");
-        Field currencyCodeField = AppsflyerIntegration.class.getDeclaredField("currencyCode");
-        currencyCodeField.setAccessible(true);
-        currencyCodeField.set(appsflyerIntegration, "ILS");
-
+        setPrivateFieldForObject("customerUserId",AppsflyerIntegration.class,appsflyerIntegration,String.class,"Moris");
+        setPrivateFieldForObject("currencyCode",AppsflyerIntegration.class,appsflyerIntegration,String.class,"ILS");
         updateEndUserAttributes.invoke(appsflyerIntegration);
 
         verify(logger, times(1)).verbose("appsflyer.setCustomerUserId(%s)", "Moris");
@@ -257,12 +260,10 @@ public class AppsflyerIntegrationTests {
         when(trackPayload.event()).thenReturn(event);
         when(trackPayload.properties()).thenReturn(properties);
         staticUtils.when(()->com.segment.analytics.internal.Utils.transform(any(),any())).thenReturn(afProperties);
+
         appsflyerIntegration.track(trackPayload);
-        Field contextField = AppsflyerIntegration.class.getDeclaredField("context");
-        contextField.setAccessible(true);
 
-        Context contextInAppsflyerIntegration = (Context) contextField.get(appsflyerIntegration);
-
+        Context contextInAppsflyerIntegration = (Context) getPrivateFieldForObject("context",AppsflyerIntegration.class,appsflyerIntegration);
         verify(appsFlyerLib, times(1)).logEvent(contextInAppsflyerIntegration,event,afProperties);
         verify(logger, times(1)).verbose("appsflyer.logEvent(context, %s, %s)", event, properties);
 
