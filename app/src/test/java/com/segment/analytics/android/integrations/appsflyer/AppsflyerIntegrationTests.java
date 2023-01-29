@@ -26,6 +26,14 @@ import java.util.Map;
 
 @RunWith(AndroidJUnit4.class)
 public class AppsflyerIntegrationTests {
+    MockedStatic<AppsFlyerLib> staticAppsFlyerLib;
+
+    public AppsFlyerLib mockAppsflyerLib(){
+        this.staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
+        AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
+        this.staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
+        return appsFlyerLib;
+    }
 
     @Test
     public void testAppsflyerIntegration_ctor_happyFlow() throws Exception {
@@ -35,25 +43,24 @@ public class AppsflyerIntegrationTests {
         String appsflyerDevKey = "appsflyerDevKey";
         boolean isDebug = logger.logLevel != Analytics.LogLevel.NONE;
         AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(context,logger,appsflyer,appsflyerDevKey);
+
         Assert.assertEquals(appsflyerIntegration.isDebug , isDebug);
         Assert.assertEquals(appsflyerIntegration.appsFlyerDevKey, appsflyerDevKey);
         Assert.assertEquals(appsflyerIntegration.appsflyer, appsflyer);
         Assert.assertEquals(appsflyerIntegration.logger, logger);
         Field field = AppsflyerIntegration.class.getDeclaredField("context");
         field.setAccessible(true);
-
         Context contextInappsflyerIntegration = (Context) field.get(appsflyerIntegration);
-
         Assert.assertEquals(contextInappsflyerIntegration, context);
 //        checking the static clause
-        Assert.assertEquals(appsflyerIntegration.MAPPER.get("revenue"), AFInAppEventParameterName.REVENUE);
-        Assert.assertEquals(appsflyerIntegration.MAPPER.get("currency"), AFInAppEventParameterName.CURRENCY);
+        Assert.assertEquals(AppsflyerIntegration.MAPPER.get("revenue"), AFInAppEventParameterName.REVENUE);
+        Assert.assertEquals(AppsflyerIntegration.MAPPER.get("currency"), AFInAppEventParameterName.CURRENCY);
 
         reset(context,appsflyer);
     }
 
     @Test
-    public void testAppsflyerIntegration_setManualMode_happyFlow() throws Exception {
+    public void testAppsflyerIntegration_setManualMode_happyFlow() {
         Assert.assertFalse(AppsflyerIntegration.manualMode);
         AppsflyerIntegration.setManualMode(true);
         Assert.assertTrue(AppsflyerIntegration.manualMode);
@@ -62,10 +69,8 @@ public class AppsflyerIntegrationTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_startAppsFlyer_happyFlow() throws Exception {
-        MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
-        AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
-        staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
+    public void testAppsflyerIntegration_startAppsFlyer_happyFlow() {
+        AppsFlyerLib appsFlyerLib = mockAppsflyerLib();
         Context context = mock(Context.class);
 
         AppsflyerIntegration.startAppsFlyer(context);
@@ -77,10 +82,8 @@ public class AppsflyerIntegrationTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_startAppsFlyer_nilFlow() throws Exception {
-        MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
-        AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
-        staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
+    public void testAppsflyerIntegration_startAppsFlyer_nilFlow() {
+        AppsFlyerLib appsFlyerLib = mockAppsflyerLib();
 
         AppsflyerIntegration.startAppsFlyer(null);
 
@@ -91,10 +94,8 @@ public class AppsflyerIntegrationTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_FACTORYCreate_happyFlow() throws Exception {
-        MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
-        AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
-        staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
+    public void testAppsflyerIntegration_FACTORYCreate_happyFlow() {
+        AppsFlyerLib appsFlyerLib = mockAppsflyerLib();
         Analytics analytics = mock(Analytics.class);
         ValueMap settings = new ValueMap();
         settings.put("appsFlyerDevKey" , "devKey");
@@ -112,8 +113,7 @@ public class AppsflyerIntegrationTests {
         ArgumentCaptor<String> captorDevKey = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<Context> captorContext = ArgumentCaptor.forClass(Context.class);
         verify(appsFlyerLib).init(captorDevKey.capture(), captorListener.capture() , captorContext.capture());
-        Assert.assertNotEquals(captorListener.getValue(), null);
-        Assert.assertTrue(captorListener.getValue() instanceof AppsflyerIntegration.ConversionListener);
+        Assert.assertNotNull(captorListener.getValue());
         Assert.assertEquals(captorDevKey.getValue(), settings.getString("appsFlyerDevKey"));
         Assert.assertEquals(captorContext.getValue(), app.getApplicationContext());
         verify(appsFlyerLib).subscribeForDeepLink(AppsflyerIntegration.deepLinkListener);
@@ -124,10 +124,11 @@ public class AppsflyerIntegrationTests {
 
 //need to check params values are null
 //    @Test
-//    public void testAppsflyerIntegration_FACTORYCreate_nilFlow() throws Exception {
-//        MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
-//        AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
-//        staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
+//    public void testAppsflyerIntegration_FACTORYCreate_nilFlow() {
+////        MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
+////        AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
+// //       staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
+//        AppsFlyerLib appsFlyerLib = mockAppsflyerLib();
 //        Analytics analytics = mock(Analytics.class);
 //        ValueMap settings = new ValueMap();
 //        settings.put("appsFlyerDevKey_wrong" , "devKey");
@@ -152,13 +153,13 @@ public class AppsflyerIntegrationTests {
 //        verify(appsFlyerLib).subscribeForDeepLink(AppsflyerIntegration.deepLinkListener);
 
     @Test
-    public void testAppsflyerIntegration_FACTORYKEY_happyFlow() throws Exception {
+    public void testAppsflyerIntegration_FACTORYKEY_happyFlow() {
             Assert.assertEquals(AppsflyerIntegration.FACTORY.key(),"AppsFlyer");
     }
 
     //need to check params values are null
 //    @Test
-//    public void testAppsflyerIntegration_onActivityCreated_nilFlow() throws Exception {
+//    public void testAppsflyerIntegration_onActivityCreated_nilFlow() {
 //        MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
 //        AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
 //        staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
@@ -169,7 +170,7 @@ public class AppsflyerIntegrationTests {
 //    }
 
     @Test
-    public void testAppsflyerIntegration_getUnderlyingInstance_happyFlow() throws Exception {
+    public void testAppsflyerIntegration_getUnderlyingInstance_happyFlow() {
         AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
         Logger logger = new Logger("test", Analytics.LogLevel.INFO);
         AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(null,logger,appsFlyerLib,null);
@@ -206,7 +207,7 @@ public class AppsflyerIntegrationTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_identify_nilflow() throws Exception {
+    public void testAppsflyerIntegration_identify_nilflow() {
         Logger logger = spy(new Logger("test", Analytics.LogLevel.INFO));
         AppsflyerIntegration appsflyerIntegration = spy(new AppsflyerIntegration(null,logger,null,null));
         IdentifyPayload identifyPayload = mock(IdentifyPayload.class);

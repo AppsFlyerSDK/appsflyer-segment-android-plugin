@@ -20,7 +20,7 @@ import java.util.Map;
 public class AppsflyerIntegration_ConversionListenerTests {
 
     @Test
-    public void testAppsflyerIntegration_ConversionListener_ctor_happyFlow() throws Exception {
+    public void testAppsflyerIntegration_ConversionListener_ctor_happyFlow() {
         Analytics analytics = mock(Analytics.class);
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
 
@@ -30,7 +30,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_ConversionListener_ctor_nullFlow() throws Exception {
+    public void testAppsflyerIntegration_ConversionListener_ctor_nullFlow() {
         Analytics analytics = null;
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
 
@@ -40,7 +40,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_ConversionListener_onConversionDataSuccess_happyFlow() throws Exception {
+    public void testAppsflyerIntegration_ConversionListener_onConversionDataSuccess_happyFlow() {
         //I want just to check the conversionListener gets the map.
         AppsflyerIntegration.conversionListener = mock(AppsflyerIntegration.ExternalAppsFlyerConversionListener.class);
         Analytics analytics = mock(Analytics.class);
@@ -62,7 +62,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_ConversionListener_onAttributionFailure_happyFlow() throws Exception {
+    public void testAppsflyerIntegration_ConversionListener_onAttributionFailure_happyFlow() {
         AppsflyerIntegration.conversionListener = mock(AppsflyerIntegration.ExternalAppsFlyerConversionListener.class);
         Analytics analytics = Mockito.mock(Analytics.class);
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
@@ -76,7 +76,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_ConversionListener_onAttributionFailure_nullFlow() throws Exception {
+    public void testAppsflyerIntegration_ConversionListener_onAttributionFailure_nullFlow() {
         AppsflyerIntegration.conversionListener = mock(AppsflyerIntegration.ExternalAppsFlyerConversionListener.class);
         Analytics analytics = Mockito.mock(Analytics.class);
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
@@ -88,7 +88,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_ConversionListener_trackInstallAttributed_happyFlow() throws Exception {
+    public void testAppsflyerIntegration_ConversionListener_trackInstallAttributed_happyFlow() {
         Analytics analytics =mock(Analytics.class);
         Map<String, Object> attributionData = new HashMap<String, Object>()
         {
@@ -117,7 +117,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_ConversionListener_trackInstallAttributed_negativeFlow() throws Exception {
+    public void testAppsflyerIntegration_ConversionListener_trackInstallAttributed_negativeFlow() {
         Analytics analytics =mock(Analytics.class);
         Map<String, Object> attributionData = new HashMap<String, Object>();
         Map<String, Object> campaign = new ValueMap() //
@@ -255,7 +255,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
     }
 
     @Test
-    public void testAppsflyerIntegration_ConversionListener_getContext_nullFlow() throws Exception {
+    public void testAppsflyerIntegration_ConversionListener_getContext_nullFlow() throws Exception{
         Analytics analytics = mock(Analytics.class);
         Application app = mock(Application.class);
         Context context = null;
