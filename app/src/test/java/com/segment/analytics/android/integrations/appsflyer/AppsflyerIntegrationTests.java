@@ -24,10 +24,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-/**
- * To work on unit tests, switch the Test Artifact in the Build Variants view.
- */
-
 @RunWith(AndroidJUnit4.class)
 public class AppsflyerIntegrationTests {
 
@@ -39,50 +35,30 @@ public class AppsflyerIntegrationTests {
         String appsflyerDevKey = "appsflyerDevKey";
         boolean isDebug = logger.logLevel != Analytics.LogLevel.NONE;
         AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(context,logger,appsflyer,appsflyerDevKey);
-        Assert.assertTrue(appsflyerIntegration.isDebug == isDebug);
-        Assert.assertTrue(appsflyerIntegration.appsFlyerDevKey == appsflyerDevKey);
-        Assert.assertTrue(appsflyerIntegration.appsflyer == appsflyer);
-        Assert.assertTrue(appsflyerIntegration.logger == logger);
+        Assert.assertEquals(appsflyerIntegration.isDebug , isDebug);
+        Assert.assertEquals(appsflyerIntegration.appsFlyerDevKey, appsflyerDevKey);
+        Assert.assertEquals(appsflyerIntegration.appsflyer, appsflyer);
+        Assert.assertEquals(appsflyerIntegration.logger, logger);
         Field field = AppsflyerIntegration.class.getDeclaredField("context");
         field.setAccessible(true);
 
         Context contextInappsflyerIntegration = (Context) field.get(appsflyerIntegration);
 
-        Assert.assertTrue(contextInappsflyerIntegration == context);
+        Assert.assertEquals(contextInappsflyerIntegration, context);
 //        checking the static clause
-        Assert.assertTrue(appsflyerIntegration.MAPPER.get("revenue")== AFInAppEventParameterName.REVENUE);
-        Assert.assertTrue(appsflyerIntegration.MAPPER.get("currency")== AFInAppEventParameterName.CURRENCY);
+        Assert.assertEquals(appsflyerIntegration.MAPPER.get("revenue"), AFInAppEventParameterName.REVENUE);
+        Assert.assertEquals(appsflyerIntegration.MAPPER.get("currency"), AFInAppEventParameterName.CURRENCY);
 
         reset(context,appsflyer);
     }
 
-//    @Test
-//    public void testAppsflyerIntegration_ctor_nullFlow() throws Exception {
-//        Context context = null;
-//        Logger logger = null;
-//        AppsFlyerLib appsflyer = null;
-//        String appsflyerDevKey = null;
-////        the line below is a problem that needs to be sorted.
-////        boolean isDebug = logger.logLevel != Analytics.LogLevel.NONE;
-//        AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(context,logger,appsflyer,appsflyerDevKey);
-////        Assert.assertTrue(appsflyerIntegration.isDebug == isDebug);
-//        Assert.assertTrue(appsflyerIntegration.appsFlyerDevKey == appsflyerDevKey);
-//        Assert.assertTrue(appsflyerIntegration.appsflyer == appsflyer);
-//        Assert.assertTrue(appsflyerIntegration.logger == logger);
-//        Field field = AppsflyerIntegration.class.getDeclaredField("context");
-//        field.setAccessible(true);
-//        Context contextInappsflyerIntegration = (Context) field.get(appsflyerIntegration);
-//        Assert.assertTrue(contextInappsflyerIntegration == context);
-//    }
-    //  the issebug line in the ctor is a problem needs to be sorted.
-
     @Test
     public void testAppsflyerIntegration_setManualMode_happyFlow() throws Exception {
-        Assert.assertTrue(AppsflyerIntegration.manualMode==false);
+        Assert.assertFalse(AppsflyerIntegration.manualMode);
         AppsflyerIntegration.setManualMode(true);
-        Assert.assertTrue(AppsflyerIntegration.manualMode==true);
+        Assert.assertTrue(AppsflyerIntegration.manualMode);
         AppsflyerIntegration.setManualMode(false);
-        Assert.assertTrue(AppsflyerIntegration.manualMode==false);
+        Assert.assertFalse(AppsflyerIntegration.manualMode);
     }
 
     @Test
@@ -114,7 +90,6 @@ public class AppsflyerIntegrationTests {
         staticAppsFlyerLib.close();
     }
 
-//    @MockitoSession(MockitoSessions.SINGLE_USE)
     @Test
     public void testAppsflyerIntegration_FACTORYCreate_happyFlow() throws Exception {
         MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
@@ -137,16 +112,17 @@ public class AppsflyerIntegrationTests {
         ArgumentCaptor<String> captorDevKey = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<Context> captorContext = ArgumentCaptor.forClass(Context.class);
         verify(appsFlyerLib).init(captorDevKey.capture(), captorListener.capture() , captorContext.capture());
-        Assert.assertTrue(captorListener.getValue()!=null);
+        Assert.assertNotEquals(captorListener.getValue(), null);
         Assert.assertTrue(captorListener.getValue() instanceof AppsflyerIntegration.ConversionListener);
-        Assert.assertTrue(captorDevKey.getValue() == settings.getString("appsFlyerDevKey"));
-        Assert.assertTrue(captorContext.getValue() == app.getApplicationContext());
+        Assert.assertEquals(captorDevKey.getValue(), settings.getString("appsFlyerDevKey"));
+        Assert.assertEquals(captorContext.getValue(), app.getApplicationContext());
         verify(appsFlyerLib).subscribeForDeepLink(AppsflyerIntegration.deepLinkListener);
 
         reset(appsFlyerLib,analytics,app,AppsflyerIntegration.deepLinkListener);
         staticAppsFlyerLib.close();
     }
 
+//need to check params values are null
 //    @Test
 //    public void testAppsflyerIntegration_FACTORYCreate_nilFlow() throws Exception {
 //        MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
@@ -177,9 +153,10 @@ public class AppsflyerIntegrationTests {
 
     @Test
     public void testAppsflyerIntegration_FACTORYKEY_happyFlow() throws Exception {
-            Assert.assertTrue(AppsflyerIntegration.FACTORY.key().equals("AppsFlyer"));
+            Assert.assertEquals(AppsflyerIntegration.FACTORY.key(),"AppsFlyer");
     }
 
+    //need to check params values are null
 //    @Test
 //    public void testAppsflyerIntegration_onActivityCreated_nilFlow() throws Exception {
 //        MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
@@ -197,7 +174,7 @@ public class AppsflyerIntegrationTests {
         Logger logger = new Logger("test", Analytics.LogLevel.INFO);
         AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(null,logger,appsFlyerLib,null);
 
-        Assert.assertTrue(appsflyerIntegration.getUnderlyingInstance().equals(appsFlyerLib));
+        Assert.assertEquals(appsflyerIntegration.getUnderlyingInstance(),appsFlyerLib);
 
         reset(appsFlyerLib);
     }
@@ -219,11 +196,11 @@ public class AppsflyerIntegrationTests {
         Field customerUserIdField = AppsflyerIntegration.class.getDeclaredField("customerUserId");
         customerUserIdField.setAccessible(true);
         String customerUserIdInappsflyerIntegration = (String) customerUserIdField.get(appsflyerIntegration);
-        Assert.assertTrue(customerUserIdInappsflyerIntegration.equals("moris"));
+        Assert.assertEquals(customerUserIdInappsflyerIntegration, "moris");
         Field currencyCodeField = AppsflyerIntegration.class.getDeclaredField("currencyCode");
         currencyCodeField.setAccessible(true);
         String currencyCodeInappsflyerIntegration = (String) currencyCodeField.get(appsflyerIntegration);
-        Assert.assertTrue(currencyCodeInappsflyerIntegration.equals("ILS"));
+        Assert.assertEquals(currencyCodeInappsflyerIntegration, "ILS");
 
         reset(appsFlyerLib,identifyPayload,traits);
     }

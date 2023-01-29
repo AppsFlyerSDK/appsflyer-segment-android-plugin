@@ -24,7 +24,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
         Analytics analytics = mock(Analytics.class);
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
 
-        Assert.assertTrue(conversionListener.analytics==analytics);
+        Assert.assertEquals(conversionListener.analytics, analytics);
 
         reset(analytics,conversionListener);
     }
@@ -34,7 +34,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
         Analytics analytics = null;
         AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
 
-        Assert.assertTrue(conversionListener.analytics==analytics);
+        Assert.assertEquals(conversionListener.analytics, analytics);
 
         reset(conversionListener);
     }
@@ -176,7 +176,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
 
         boolean resBoolean = (Boolean) getFlagMethod.invoke(conversionListener,key);
 
-        Assert.assertTrue(resBoolean==true);
+        Assert.assertTrue(resBoolean);
 
         reset(analytics,app,context,sharedPreferences,conversionListener);
     }
@@ -249,7 +249,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
 
         Context resContext = (Context) getContextMethod.invoke(conversionListener);
 
-        Assert.assertTrue(resContext==context);
+        Assert.assertEquals(resContext, context);
 
         reset(analytics,app,context,conversionListener);
     }
@@ -267,7 +267,7 @@ public class AppsflyerIntegration_ConversionListenerTests {
 
         Context resContext = (Context) getContextMethod.invoke(conversionListener);
 
-        Assert.assertTrue(resContext==context);
+        Assert.assertEquals(resContext, context);
 
         reset(analytics,app,conversionListener);
     }
