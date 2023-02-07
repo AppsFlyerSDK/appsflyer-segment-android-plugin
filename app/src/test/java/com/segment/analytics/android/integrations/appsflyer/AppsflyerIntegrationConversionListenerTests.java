@@ -132,28 +132,6 @@ public class AppsflyerIntegrationConversionListenerTests {
         reset(analytics);
     }
 
-//This flow breaks because there is no check for attributionData!=null in trackInstallAttributed method.
-//    @Test
-//    public void testAppsflyerIntegration_trackInstallAttributed_nullFlow() throws Exception {
-//        Analytics analytics =mock(Analytics.class);
-//        Map<String, Object> attributionData = null;
-//
-//        AppsflyerIntegration.ConversionListener conversionListener = spy(new AppsflyerIntegration.ConversionListener(analytics));
-//        conversionListener.trackInstallAttributed(attributionData);
-//
-//        Map<String, Object> campaign = new ValueMap() //
-//                .putValue("source", "")
-//                .putValue("name", "")
-//                .putValue("ad_group", "");
-//        Properties properties = new Properties().putValue("provider", "AppsFlyer");
-//        properties.putAll(attributionData);
-//        properties.remove("media_source");
-//        properties.remove("adgroup");
-//        properties.putValue("campaign", campaign);
-//        verify(analytics,times(1)).track("Install Attributed", properties);
-//        reset(analytics);
-//    }
-
     @Test
     public void testAppsflyerIntegration_ConversionListener_getFlag_happyFlow() throws Exception {
         String key="key";

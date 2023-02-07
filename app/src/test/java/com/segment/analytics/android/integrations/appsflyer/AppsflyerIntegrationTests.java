@@ -150,18 +150,6 @@ public class AppsflyerIntegrationTests {
             Assert.assertEquals(AppsflyerIntegration.FACTORY.key(),"AppsFlyer");
     }
 
-    //need to check params values are null
-//    @Test
-//    public void testAppsflyerIntegration_onActivityCreated_nilFlow() {
-//        MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
-//        AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
-//        staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
-//        AppsflyerIntegration.manualMode=false;
-//        AppsflyerIntegration appsflyerIntegration = mock(AppsflyerIntegration.class);
-//        appsflyerIntegration.onActivityCreated(mock(Activity.class), mock(Bundle.class));
-//        verify(appsFlyerLib).start(any());
-//    }
-
     @Test
     public void testAppsflyerIntegration_getUnderlyingInstance_happyFlow() {
         AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
