@@ -27,26 +27,7 @@ import java.util.Map;
 
 @RunWith(AndroidJUnit4.class)
 public class AppsflyerIntegrationTests {
-    MockedStatic<AppsFlyerLib> staticAppsFlyerLib;
-
-    public AppsFlyerLib mockAppsflyerLib(){
-        this.staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
-        AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
-        this.staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
-        return appsFlyerLib;
-    }
-
-    public Object getPrivateFieldForObject(String funcName, Class classObject, Object objToGetValueFrom) throws Exception{
-        Field field = classObject.getDeclaredField(funcName);
-        field.setAccessible(true);
-        return field.get(classObject.cast(objToGetValueFrom));
-    }
-
-    public void setPrivateFieldForObject(String funcName, Class classObject, Object objToGetValueFrom, Class valueClass, Object value) throws Exception{
-        Field field = classObject.getDeclaredField(funcName);
-        field.setAccessible(true);
-        field.set(objToGetValueFrom,valueClass.cast(value));
-    }
+    private TestHelper testHelper = new TestHelper();
 
     @Test
     public void testAppsflyerIntegration_ctor_happyFlow() throws Exception {
@@ -62,7 +43,7 @@ public class AppsflyerIntegrationTests {
         Assert.assertEquals(appsflyerIntegration.appsFlyerDevKey, appsflyerDevKey);
         Assert.assertEquals(appsflyerIntegration.appsflyer, appsflyer);
         Assert.assertEquals(appsflyerIntegration.logger, logger);
-        Context contextInappsflyerIntegration = (Context) getPrivateFieldForObject("context",AppsflyerIntegration.class,appsflyerIntegration);
+        Context contextInappsflyerIntegration = (Context) TestHelper.getPrivateFieldForObject("context",AppsflyerIntegration.class,appsflyerIntegration);
         Assert.assertEquals(contextInappsflyerIntegration, context);
 //        checking the static clause
         Assert.assertEquals(AppsflyerIntegration.MAPPER.get("revenue"), AFInAppEventParameterName.REVENUE);
@@ -82,7 +63,7 @@ public class AppsflyerIntegrationTests {
 
     @Test
     public void testAppsflyerIntegration_startAppsFlyer_happyFlow() {
-        AppsFlyerLib appsFlyerLib = mockAppsflyerLib();
+        AppsFlyerLib appsFlyerLib = testHelper.mockAppsflyerLib();
         Context context = mock(Context.class);
 
         AppsflyerIntegration.startAppsFlyer(context);
@@ -90,24 +71,24 @@ public class AppsflyerIntegrationTests {
         verify(appsFlyerLib).start(context);
 
         reset(appsFlyerLib,context);
-        staticAppsFlyerLib.close();
+        testHelper.closeMockAppsflyerLib();
     }
 
     @Test
     public void testAppsflyerIntegration_startAppsFlyer_nilFlow() {
-        AppsFlyerLib appsFlyerLib = mockAppsflyerLib();
+        AppsFlyerLib appsFlyerLib = testHelper.mockAppsflyerLib();
 
         AppsflyerIntegration.startAppsFlyer(null);
 
         verify(appsFlyerLib,never()).start(any());
 
         reset(appsFlyerLib);
-        staticAppsFlyerLib.close();
+        testHelper.closeMockAppsflyerLib();
     }
 
     @Test
     public void testAppsflyerIntegration_FACTORYCreate_happyFlow() {
-        AppsFlyerLib appsFlyerLib = mockAppsflyerLib();
+        AppsFlyerLib appsFlyerLib = testHelper.mockAppsflyerLib();
         Analytics analytics = mock(Analytics.class);
         ValueMap settings = new ValueMap();
         settings.put("appsFlyerDevKey" , "devKey");
@@ -131,7 +112,7 @@ public class AppsflyerIntegrationTests {
         verify(appsFlyerLib).subscribeForDeepLink(AppsflyerIntegration.deepLinkListener);
 
         reset(appsFlyerLib,analytics,app,AppsflyerIntegration.deepLinkListener);
-        staticAppsFlyerLib.close();
+        testHelper.closeMockAppsflyerLib();
     }
 
 //need to check params values are null
@@ -196,7 +177,7 @@ public class AppsflyerIntegrationTests {
     public void testAppsflyerIntegration_identify_happyFlow() throws Exception {
         AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
         Logger logger = spy(new Logger("test", Analytics.LogLevel.INFO));
-        AppsflyerIntegration appsflyerIntegration = spy(new AppsflyerIntegration(null,logger,appsFlyerLib,null));
+        AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(null,logger,appsFlyerLib,null);
         IdentifyPayload identifyPayload = mock(IdentifyPayload.class);
         Traits traits = mock(Traits.class);
         when(identifyPayload.userId()).thenReturn("moris");
@@ -206,9 +187,9 @@ public class AppsflyerIntegrationTests {
         appsflyerIntegration.identify(identifyPayload);
 
         verify(logger, never()).verbose(any());
-        String customerUserIdInappsflyerIntegration = (String)getPrivateFieldForObject("customerUserId",AppsflyerIntegration.class,appsflyerIntegration);
+        String customerUserIdInappsflyerIntegration = (String) TestHelper.getPrivateFieldForObject("customerUserId",AppsflyerIntegration.class,appsflyerIntegration);
         Assert.assertEquals(customerUserIdInappsflyerIntegration, "moris");
-        String currencyCodeInappsflyerIntegration = (String) getPrivateFieldForObject("currencyCode",AppsflyerIntegration.class,appsflyerIntegration);
+        String currencyCodeInappsflyerIntegration = (String) TestHelper.getPrivateFieldForObject("currencyCode",AppsflyerIntegration.class,appsflyerIntegration);
         Assert.assertEquals(currencyCodeInappsflyerIntegration, "ILS");
 
         reset(appsFlyerLib,identifyPayload,traits);
@@ -217,7 +198,7 @@ public class AppsflyerIntegrationTests {
     @Test
     public void testAppsflyerIntegration_identify_nilflow() {
         Logger logger = spy(new Logger("test", Analytics.LogLevel.INFO));
-        AppsflyerIntegration appsflyerIntegration = spy(new AppsflyerIntegration(null,logger,null,null));
+        AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(null,logger,null,null);
         IdentifyPayload identifyPayload = mock(IdentifyPayload.class);
         Traits traits = mock(Traits.class);
         when(identifyPayload.traits()).thenReturn(traits);
@@ -233,11 +214,11 @@ public class AppsflyerIntegrationTests {
     public void testAppsflyerIntegration_updateEndUserAttributes_happyflow() throws Exception {
         AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
         Logger logger = spy(new Logger("test", Analytics.LogLevel.INFO));
-        AppsflyerIntegration appsflyerIntegration = spy(new AppsflyerIntegration(null,logger,appsFlyerLib,null));
+        AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(null,logger,appsFlyerLib,null);
         Method updateEndUserAttributes = AppsflyerIntegration.class.getDeclaredMethod("updateEndUserAttributes");
         updateEndUserAttributes.setAccessible(true);
-        setPrivateFieldForObject("customerUserId",AppsflyerIntegration.class,appsflyerIntegration,String.class,"Moris");
-        setPrivateFieldForObject("currencyCode",AppsflyerIntegration.class,appsflyerIntegration,String.class,"ILS");
+        TestHelper.setPrivateFieldForObject("customerUserId",AppsflyerIntegration.class,appsflyerIntegration,String.class,"Moris");
+        TestHelper.setPrivateFieldForObject("currencyCode",AppsflyerIntegration.class,appsflyerIntegration,String.class,"ILS");
         updateEndUserAttributes.invoke(appsflyerIntegration);
 
         verify(logger, times(1)).verbose("appsflyer.setCustomerUserId(%s)", "Moris");
@@ -251,7 +232,7 @@ public class AppsflyerIntegrationTests {
     public void testAppsflyerIntegration_track_happyflow() throws Exception {
         AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
         Logger logger = spy(new Logger("test", Analytics.LogLevel.INFO));
-        AppsflyerIntegration appsflyerIntegration = spy(new AppsflyerIntegration(null,logger,appsFlyerLib,null));
+        AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(null,logger,appsFlyerLib,null);
         TrackPayload trackPayload = mock(TrackPayload.class);
         String event = "event";
         Properties properties= mock(Properties.class);
@@ -263,7 +244,7 @@ public class AppsflyerIntegrationTests {
 
         appsflyerIntegration.track(trackPayload);
 
-        Context contextInAppsflyerIntegration = (Context) getPrivateFieldForObject("context",AppsflyerIntegration.class,appsflyerIntegration);
+        Context contextInAppsflyerIntegration = (Context) TestHelper.getPrivateFieldForObject("context",AppsflyerIntegration.class,appsflyerIntegration);
         verify(appsFlyerLib, times(1)).logEvent(contextInAppsflyerIntegration,event,afProperties);
         verify(logger, times(1)).verbose("appsflyer.logEvent(context, %s, %s)", event, properties);
 
