@@ -80,7 +80,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     public static final Factory FACTORY = new Integration.Factory() {
         @Override
         public Integration<AppsFlyerLib> create(ValueMap settings, Analytics analytics) {
-            if(settings==null || analytics==null){
+            if(settings == null || analytics == null){
                 return null;
             }
             Logger logger = analytics.logger(APPSFLYER_KEY);
