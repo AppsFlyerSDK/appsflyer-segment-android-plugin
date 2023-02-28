@@ -30,33 +30,17 @@ android {
 }
 
 dependencies {
-    testImplementation 'androidx.test:core:1.4.0'
     implementation 'androidx.test.ext:junit:1.1.5'
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.robolectric:robolectric:4.9.2'
     implementation 'com.appsflyer:af-android-sdk:6.8.2'
     compileOnly 'com.android.installreferrer:installreferrer:2.1'
     compileOnly 'com.segment.analytics.android:analytics:4.+'
+    testImplementation 'androidx.test:core:1.4.0'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.9.2'
     testImplementation 'com.android.installreferrer:installreferrer:2.1'
     testImplementation 'com.segment.analytics.android:analytics:4.+'
     testImplementation 'org.mockito:mockito-core:4.2.0'
     testImplementation 'com.segment.analytics.android:analytics-tests:4.+'
-
-//    testImplementation 'junit:junit:4.12'
-//    testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
-//    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
-//    testImplementation 'org.powermock:powermock-module-junit4-rule:2.0.9'
-//    testImplementation 'org.powermock:powermock-classloading-xstream:2.0.9'
 }
 
-tasks.withType(Test) {
-    testLogging {
-        exceptionFormat "full"
-        events "started", "skipped", "passed", "failed"
-        showStandardStreams true
-    }
-}
-
-
-
-//apply from: file('publish.gradle')
+apply from:file("publish.gradle")
