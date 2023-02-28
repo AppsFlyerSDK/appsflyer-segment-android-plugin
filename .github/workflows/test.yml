@@ -20,10 +20,10 @@ jobs:
     - name: Run Tests                  
       run: ./gradlew test
     - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Test Results        
-          path: test-reports/TEST-*.xml    # Path to test results
-          reporter: java-junit        # Format of test results
-          fail-on-error: true  
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Test Results        
+        path: test-reports/TEST-*.xml    # Path to test results
+        reporter: java-junit        # Format of test results
+        fail-on-error: true  
