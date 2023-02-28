@@ -38,7 +38,6 @@ public class AppsflyerIntegrationTests {
         boolean isDebug = logger.logLevel != Analytics.LogLevel.NONE;
 
         AppsflyerIntegration appsflyerIntegration = new AppsflyerIntegration(context,logger,appsflyer,appsflyerDevKey);
-
         Assert.assertEquals(appsflyerIntegration.isDebug , isDebug);
         Assert.assertEquals(appsflyerIntegration.appsFlyerDevKey, appsflyerDevKey);
         Assert.assertEquals(appsflyerIntegration.appsflyer, appsflyer);
