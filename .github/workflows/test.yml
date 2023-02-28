@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v3.4.0
       with:
         java-version: '11'
     - name: Setup Android SDK
@@ -19,3 +19,11 @@ jobs:
       run: chmod +x ./gradlew
     - name: Run Tests                  
       run: ./gradlew test
+    - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Test Results        
+          path: test-reports/TEST-*.xml    # Path to test results
+          reporter: java-junit        # Format of test results
+          fail-on-error: true  
