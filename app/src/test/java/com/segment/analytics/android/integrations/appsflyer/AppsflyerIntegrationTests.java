@@ -114,35 +114,15 @@ public class AppsflyerIntegrationTests {
         testHelper.closeMockAppsflyerLib();
     }
 
-//need to check params values are null
-//    @Test
-//    public void testAppsflyerIntegration_FACTORYCreate_nilFlow() {
-////        MockedStatic<AppsFlyerLib> staticAppsFlyerLib = mockStatic(AppsFlyerLib.class);
-////        AppsFlyerLib appsFlyerLib = mock(AppsFlyerLib.class);
-// //       staticAppsFlyerLib.when(AppsFlyerLib::getInstance).thenReturn(appsFlyerLib);
-//        AppsFlyerLib appsFlyerLib = mockAppsflyerLib();
-//        Analytics analytics = mock(Analytics.class);
-//        ValueMap settings = new ValueMap();
-//        settings.put("appsFlyerDevKey_wrong" , "devKey");
-//        settings.put("trackAttributionData_wrong" , true);
-//        Logger logger = new Logger("test", Analytics.LogLevel.INFO);
-//        Mockito.when(analytics.logger("AppsFlyer")).thenReturn(logger);
-//        Application app = mock(Application.class);
-//        Mockito.when(analytics.getApplication()).thenReturn(app);
-//        AppsflyerIntegration.deepLinkListener = mock(AppsflyerIntegration.ExternalDeepLinkListener.class);
-//
-//        Integration<AppsFlyerLib> integration =
-//                (Integration<AppsFlyerLib>) AppsflyerIntegration.FACTORY.create(settings,analytics);
-//        verify(appsFlyerLib).setDebugLog(logger.logLevel!=Analytics.LogLevel.NONE);
-//        ArgumentCaptor<AppsflyerIntegration.ConversionListener> captorListener = ArgumentCaptor.forClass(AppsflyerIntegration.ConversionListener.class);
-//        ArgumentCaptor<String> captorDevKey = ArgumentCaptor.forClass(String.class);
-//        ArgumentCaptor<Context> captorContext = ArgumentCaptor.forClass(Context.class);
-//        verify(appsFlyerLib).init(captorDevKey.capture(), captorListener.capture() , captorContext.capture());
-//        Assert.assertTrue(captorListener.getValue()!=null);
-//        Assert.assertTrue(captorListener.getValue() instanceof AppsflyerIntegration.ConversionListener);
-//        Assert.assertTrue(captorDevKey.getValue() == settings.getString("appsFlyerDevKey"));
-//        Assert.assertTrue(captorContext.getValue() == app.getApplicationContext());
-//        verify(appsFlyerLib).subscribeForDeepLink(AppsflyerIntegration.deepLinkListener);
+    @Test
+    public void testAppsflyerIntegration_FACTORYCreate_nilFlow() {
+        Analytics analytics = null;
+        ValueMap settings = null;
+
+        Integration<AppsFlyerLib> integration= (Integration<AppsFlyerLib>) AppsflyerIntegration.FACTORY.create(settings,analytics);
+
+        Assert.assertNull(integration);
+    }
 
     @Test
     public void testAppsflyerIntegration_FACTORYKEY_happyFlow() {
