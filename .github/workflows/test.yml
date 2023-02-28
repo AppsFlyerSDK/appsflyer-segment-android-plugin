@@ -19,14 +19,11 @@ jobs:
       run: chmod +x ./gradlew
     - name: Run Tests                  
       run: ./gradlew test
-    - uses: actions/upload-artifact@v2  # upload test results
-      if: success() || failure()        # run this step even if previous step failed
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: always()
       with:
-        name: test-results
-        path: java-junit.xml
-    - uses: dorny/test-reporter@v1
-      with:
-        artifact: test-results            # artifact name
-        name: java Tests                  # Name of the check run which will be created
-        path: '*.xml'                     # Path to test results (inside artifact .zip)
-        reporter: java-junit             # Format of test results    
+        name: Test Results        
+        path: app/build/test-results/testDebugUnitTest/TEST-*.xml    # Path to test results
+        reporter: java-junit        # Format of test results
+        fail-on-error: true

@@ -24,7 +24,15 @@ android {
 
     testOptions {
         unitTests {
+            all {
+                testLogging {
+                    exceptionFormat = "full"
+                    events "PASSED", "FAILED", "SKIPPED"
+                }
+                forkEvery 1
+            }
             includeAndroidResources = true
+            returnDefaultValues = true
         }
     }
 }
