@@ -2,7 +2,7 @@
 
 
 # AppsFlyer - Segment Integration
-
+[![CI - Tests](https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/actions/workflows/test.yml/badge.svg)](https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/actions/workflows/test.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration)
 
 ----------
@@ -95,8 +95,8 @@ And to start the AppsFlyer SDK, use `void startAppsFlyer(Context context)` API.
 
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
 ```java
-compile 'com.appsflyer:segment-android-integration:6.5.2'
-compile 'com.android.installreferrer:installreferrer:2.1'
+implementation 'com.appsflyer:segment-android-integration:6.10.1'
+implementation 'com.android.installreferrer:installreferrer:2.1'
 ```
 
 #### 2.2)  Setting the Required Permissions
