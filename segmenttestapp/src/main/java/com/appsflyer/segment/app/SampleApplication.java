@@ -15,7 +15,7 @@ import java.util.Map;
 public class SampleApplication extends Application {
 
 
-    static final String SEGMENT_WRITE_KEY = "<SEGMENT_KEY>";
+    static final String SEGMENT_WRITE_KEY = "<SEGMENT_WRITE_KEY>";
     static final String TAG = "SEG_AF";
 
     @Override public void onCreate() {
