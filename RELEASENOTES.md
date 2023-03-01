@@ -1,5 +1,10 @@
 # Release Notes
 
+### 6.10.1
+* Update Android SDK to v6.10.1
+* Added unit tests.
+* Added github workflows. 
+
 ### 6.8.2
 * Update Android SDK to v6.8.2
 
