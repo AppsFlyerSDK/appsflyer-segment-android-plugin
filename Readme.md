@@ -3,7 +3,7 @@
 
 # AppsFlyer - Segment Integration
 [![CI - Tests](https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/actions/workflows/test.yml/badge.svg)](https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/actions/workflows/test.yml)
-https://img.shields.io/maven-central/v/com.appsflyer/segment-android-integration?color=green&versionPrefix=6.10.1
+[![Maven Central](https://img.shields.io/maven-central/v/com.appsflyer/segment-android-integration?color=green&versionPrefix=6.10.1)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration)
 
 ----------
 In order for us to provide optimal support, we would kindly ask you to submit any issues to support@appsflyer.com
