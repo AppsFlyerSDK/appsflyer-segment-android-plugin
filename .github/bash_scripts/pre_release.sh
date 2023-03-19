@@ -2,9 +2,9 @@
 
 releaseversion=$1
 
-sed -r -i '' "s/(.*)(af-android-sdk:)([0-9]+\.[0-9]+\.[0-9]+)'/\1$releaseversion\'/g" app/build.gradle
+sed -r -i '' "s/(.*af-android-sdk:)([0-9]+\.[0-9]+\.[0-9]+)'/\1$releaseversion\'/g" app/build.gradle
 
-sed -r -i '' "s/(.*)(af-android-sdk:)([0-9]+\.[0-9]+\.[0-9]+)'/\1$releaseversion\'/g" segmenttestapp/build.gradle
+sed -r -i '' "s/(.*af-android-sdk:)([0-9]+\.[0-9]+\.[0-9]+)'/\1$releaseversion\'/g" segmenttestapp/build.gradle
 
 version_code=$(grep -E 'VERSION_CODE=([0-9]+)' gradle.properties | grep -o '[0-9]\+')
 version_code=$((version_code+1)) 
