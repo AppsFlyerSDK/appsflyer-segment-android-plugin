@@ -1,5 +1,3 @@
-# Release Notes
-
 ### 6.10.1
 * Update Android SDK to v6.10.1
 * Added unit tests.
