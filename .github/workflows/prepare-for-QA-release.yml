@@ -6,7 +6,7 @@ on:
 jobs:
   Change-HardCoded-Version:
     name: Pre Release
-    # runs-on: macos-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
