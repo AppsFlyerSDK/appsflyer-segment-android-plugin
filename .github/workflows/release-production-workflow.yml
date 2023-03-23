@@ -65,7 +65,7 @@ jobs:
 
     - name: Publish package
       # wraped the signing.password with single quotes as the password could contain special characters
-      run: ./gradlew publish -Psigning.keyId=${{secrets.OSSRH_GPG_SECRET_KEY_ID}} -Psigning.password='${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}' -Psigning.secretKeyRingFile=$(echo ~/.gnupg/secring.gpg) --warn --stacktrace
+      run: ~/Desktop/AppsFlyer/Segment/appsflyer-segment-android-plugin/gradlew publish
       env:
         OSSRH_USERNAME: ${{secrets.OSSRH_USERNAME}}
         OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
