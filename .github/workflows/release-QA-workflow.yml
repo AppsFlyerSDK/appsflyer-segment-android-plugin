@@ -8,7 +8,9 @@ on:
 
 jobs:
   Check-If-ReleaseNotes-Pushed:
-    runs-on: ubuntu-latest
+    runs-on: 
+      - self-hosted
+      - segment-android
     outputs:
       answer: ${{ steps.filter.outputs.releasenotesfile }}
     steps:
