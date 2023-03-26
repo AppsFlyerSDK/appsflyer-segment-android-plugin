@@ -29,25 +29,25 @@ jobs:
         echo "PLUGIN_VERSION=$TAG" >> $GITHUB_ENV
         echo "RELEASE_BRANCH_NAME=${{ steps.vars.outputs.branch }}" >> $GITHUB_ENV
         echo "push new release >> $TAG"   
-    - name: Create release and tag
-      env:
-        TAG: ${{env.PLUGIN_VERSION}}
-      uses: "actions/github-script@v5"
-      with:
-        script: |
-          try {
-            await github.rest.repos.createRelease({
-              draft: false,
-              generate_release_notes: false,
-              name: process.env.TAG,
-              owner: context.repo.owner,
-              prerelease: false,
-              repo: context.repo.repo,
-              tag_name: process.env.TAG
-            });
-          } catch (error) {
-            core.setFailed(error.message);
-          }
+    # - name: Create release and tag
+    #   env:
+    #     TAG: ${{env.PLUGIN_VERSION}}
+    #   uses: "actions/github-script@v5"
+    #   with:
+    #     script: |
+    #       try {
+    #         await github.rest.repos.createRelease({
+    #           draft: false,
+    #           generate_release_notes: false,
+    #           name: process.env.TAG,
+    #           owner: context.repo.owner,
+    #           prerelease: false,
+    #           repo: context.repo.repo,
+    #           tag_name: process.env.TAG
+    #         });
+    #       } catch (error) {
+    #         core.setFailed(error.message);
+    #       }
     - name: Set up Java 8 JDK
       uses: actions/setup-java@v2
       with:
@@ -65,19 +65,33 @@ jobs:
 
     - name: Publish package
       # wraped the signing.password with single quotes as the password could contain special characters
-      run: ~/Desktop/AppsFlyer/Segment/appsflyer-segment-android-plugin/gradlew publish
+      # run: ~/Desktop/AppsFlyer/Segment/appsflyer-segment-android-plugin/gradlew publish
       env:
         OSSRH_USERNAME: ${{secrets.OSSRH_USERNAME}}
         OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
+        OSSRH_GPG_SECRET_KEY_ID: ${{secrets.OSSRH_GPG_SECRET_KEY_ID}}
+        OSSRH_GPG_SECRET_KEY_PASSWORD: ${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}
+        OSSRH_GPG_SECRET_KEY: ${{secrets.OSSRH_GPG_SECRET_KEY}}
+      run: |
+        mkdir -p "~/.gradle"
+        echo $OSSRH_GPG_SECRET_KEY_ID >> ~/.gradle/gradle.properties
+        echo $OSSRH_GPG_SECRET_KEY_PASSWORD >> ~/.gradle/gradle.properties
+        echo $OSSRH_PASSWORD >> ~/.gradle/gradle.properties
+        echo $OSSRH_USER_NAME >> ~/.gradle/gradle.properties
+        echo $ORG_GRADLE_PROJECT_sonatypePassword >> ~/.gradle/gradle.properties
+        echo $ORG_GRADLE_PROJECT_sonatypeUsername >> ~/.gradle/gradle.properties
+        # need to add the below secret. - > how?
+        cat $OSSRH_GPG_SECRET_KEY | awk 'NR == 1 { print "ORG_GRADLE_PROJECT_signingKey=" } 1' ORS='\\n' >> ~/.gradle/gradle.properties
+        ./gradlew clean run publishToSonaType closeSonatypeStagingRepository
 
     # Step 8
     # Optional step, will enable you to see what you have released as well here on GitHub 
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: release-build-libs
-        path: build/libs
-        retention-days: 3  
+    # - name: Upload Artifacts
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: release-build-libs
+    #     path: build/libs
+    #     retention-days: 3  
 
 
     # - name: Notify with SLack
