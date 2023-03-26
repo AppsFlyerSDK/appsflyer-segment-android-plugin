@@ -3,7 +3,7 @@
 
 # AppsFlyer - Segment Integration
 [![CI - Tests](https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/actions/workflows/test.yml/badge.svg)](https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/actions/workflows/test.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/com.appsflyer/segment-android-integration?color=green&versionPrefix=6.10.1)](https://mvnrepository.com/artifact/com.appsflyer/segment-android-integration/6.10.1)
+[![Maven Central](https://img.shields.io/maven-central/v/com.appsflyer/segment-android-integration?color=green&versionPrefix=6.10.0)](https://mvnrepository.com/artifact/com.appsflyer/segment-android-integration/6.10.0)
 
 ----------
 In order for us to provide optimal support, we would kindly ask you to submit any issues to support@appsflyer.com
@@ -21,7 +21,7 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v6.10.1`
+Built with AppsFlyer Android SDK `v6.10.0`
 
 ## Table of content
 
@@ -95,7 +95,7 @@ And to start the AppsFlyer SDK, use `void startAppsFlyer(Context context)` API.
 
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
 ```java
-implementation 'com.appsflyer:segment-android-integration:6.10.1'
+implementation 'com.appsflyer:segment-android-integration:6.10.0'
 implementation 'com.android.installreferrer:installreferrer:2.1'
 ```
 
