@@ -59,6 +59,9 @@ jobs:
     #     echo "${{secrets.OSSRH_GPG_SECRET_KEY}}" > ~/.gradle/secring.gpg.b64
     #     base64 -d ~/.gradle/secring.gpg.b64 > ~/.gradle/secring.gpg    
 
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+      
     - name: Publish package
       # wraped the signing.password with single quotes as the password could contain special characters
       # run: ~/Desktop/AppsFlyer/Segment/appsflyer-segment-android-plugin/gradlew publish
