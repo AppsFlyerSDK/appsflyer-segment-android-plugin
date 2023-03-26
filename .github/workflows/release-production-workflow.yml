@@ -60,28 +60,29 @@ jobs:
     #     base64 -d ~/.gradle/secring.gpg.b64 > ~/.gradle/secring.gpg    
 
     - name: Grant execute permission for gradlew
-      run: chmod +x ./gradlew
+      run: |
+        chmod +x ./gradlew
       
     - name: Publish package
       # wraped the signing.password with single quotes as the password could contain special characters
       # run: ~/Desktop/AppsFlyer/Segment/appsflyer-segment-android-plugin/gradlew publish
-      env:
-        OSSRH_USERNAME: ${{secrets.OSSRH_USERNAME}}
-        OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
-        OSSRH_GPG_SECRET_KEY_ID: ${{secrets.OSSRH_GPG_SECRET_KEY_ID}}
-        OSSRH_GPG_SECRET_KEY_PASSWORD: ${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}
-        OSSRH_GPG_SECRET_KEY: ${{secrets.OSSRH_GPG_SECRET_KEY}}
+      # env:
+        # OSSRH_USERNAME: ${{secrets.OSSRH_USERNAME}}
+        # OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
+        # OSSRH_GPG_SECRET_KEY_ID: ${{secrets.OSSRH_GPG_SECRET_KEY_ID}}
+        # OSSRH_GPG_SECRET_KEY_PASSWORD: ${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}
+        # OSSRH_GPG_SECRET_KEY: ${{secrets.OSSRH_GPG_SECRET_KEY}}
+      # run: |
+      #   mkdir -p "~/.gradle"
+      #   rm  ~/.gradle/gradle.properties
+      #   echo $OSSRH_GPG_SECRET_KEY_ID >> ~/.gradle/gradle.properties
+      #   echo $OSSRH_GPG_SECRET_KEY_PASSWORD >> ~/.gradle/gradle.properties
+      #   echo $OSSRH_PASSWORD >> ~/.gradle/gradle.properties
+      #   echo $OSSRH_USER_NAME >> ~/.gradle/gradle.properties
+      #   echo "$OSSRH_GPG_SECRET_KEY" | awk 'NR == 1 { print "ORG_GRADLE_PROJECT_signingKey=" } 1' ORS='\\n' >> ~/.gradle/gradle.properties
+      #   ./gradlew clean run publishToSonaType closeSonatypeStagingRepository
       run: |
-        mkdir -p "~/.gradle"
-        echo $OSSRH_GPG_SECRET_KEY_ID >> ~/.gradle/gradle.properties
-        echo $OSSRH_GPG_SECRET_KEY_PASSWORD >> ~/.gradle/gradle.properties
-        echo $OSSRH_PASSWORD >> ~/.gradle/gradle.properties
-        echo $OSSRH_USER_NAME >> ~/.gradle/gradle.properties
-        echo $ORG_GRADLE_PROJECT_sonatypePassword >> ~/.gradle/gradle.properties
-        echo $ORG_GRADLE_PROJECT_sonatypeUsername >> ~/.gradle/gradle.properties
-        # need to add the below secret. - > how?
-        cat $OSSRH_GPG_SECRET_KEY | awk 'NR == 1 { print "ORG_GRADLE_PROJECT_signingKey=" } 1' ORS='\\n' >> ~/.gradle/gradle.properties
-        ./gradlew clean run publishToSonaType closeSonatypeStagingRepository --warning-mode all
+        ./gradlew publish
 
     # Step 8
     # Optional step, will enable you to see what you have released as well here on GitHub 
