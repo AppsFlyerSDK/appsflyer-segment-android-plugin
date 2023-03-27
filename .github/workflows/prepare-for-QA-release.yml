@@ -17,9 +17,6 @@ jobs:
         run: |
           TAG=$(echo "${{github.ref_name}}" | grep -Eo '[0-9]+.[0-9]+.[0-9]+')
           echo "PLUGIN_VERSION=$TAG" >> $GITHUB_ENV 
-          ls -l
-          cd app
-          ls -l 
       - name: run script
         run: bash .github/bash_scripts/pre_release.sh ${{env.PLUGIN_VERSION}}
       - name: Commit changes
