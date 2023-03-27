@@ -29,35 +29,29 @@ jobs:
         echo "PLUGIN_VERSION=$TAG" >> $GITHUB_ENV
         echo "RELEASE_BRANCH_NAME=${{ steps.vars.outputs.branch }}" >> $GITHUB_ENV
         echo "push new release >> $TAG"   
-    # - name: Create release and tag
-    #   env:
-    #     TAG: ${{env.PLUGIN_VERSION}}
-    #   uses: "actions/github-script@v5"
-    #   with:
-    #     script: |
-    #       try {
-    #         await github.rest.repos.createRelease({
-    #           draft: false,
-    #           generate_release_notes: false,
-    #           name: process.env.TAG,
-    #           owner: context.repo.owner,
-    #           prerelease: false,
-    #           repo: context.repo.repo,
-    #           tag_name: process.env.TAG
-    #         });
-    #       } catch (error) {
-    #         core.setFailed(error.message);
-    #       }
+    - name: Create release and tag
+      env:
+        TAG: ${{env.PLUGIN_VERSION}}
+      uses: "actions/github-script@v5"
+      with:
+        script: |
+          try {
+            await github.rest.repos.createRelease({
+              draft: false,
+              generate_release_notes: false,
+              name: process.env.TAG,
+              owner: context.repo.owner,
+              prerelease: false,
+              repo: context.repo.repo,
+              tag_name: process.env.TAG
+            });
+          } catch (error) {
+            core.setFailed(error.message);
+          }
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:
-        java-version: '11'
-
-    # - name: Decode GPG Key
-    #   run: |
-    #     mkdir -p ~/.gradle/
-    #     echo "${{secrets.OSSRH_GPG_SECRET_KEY}}" > ~/.gradle/secring.gpg.b64
-    #     base64 -d ~/.gradle/secring.gpg.b64 > ~/.gradle/secring.gpg    
+        java-version: '11' 
 
     - name: Grant execute permission for gradlew
       run: |
@@ -94,12 +88,12 @@ jobs:
     #     retention-days: 3  
 
 
-    # - name: Notify with SLack
-    #   uses: slackapi/slack-github-action@v1.23.0
-    #   with:
-    #     payload: |
-    #       {
-    #         "appsflyer_version": "${{env.PLUGIN_VERSION}}"
-    #       }
-    #   env:
-    #     SLACK_WEBHOOK_URL: ${{ secrets.CI_SLACK_WEBHOOK_URL }}    
+    - name: Notify with SLack
+      uses: slackapi/slack-github-action@v1.23.0
+      with:
+        payload: |
+          {
+            "appsflyer_version": "${{env.PLUGIN_VERSION}}"
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.CI_SLACK_WEBHOOK_URL }}    
