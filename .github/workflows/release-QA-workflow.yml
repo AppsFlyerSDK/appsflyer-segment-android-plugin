@@ -10,6 +10,7 @@ jobs:
   Check-If-ReleaseNotes-Pushed:
     runs-on: 
       - self-hosted
+      - segment-android-mini-mac-runner
     outputs:
       answer: ${{ steps.filter.outputs.releasenotesfile }}
     steps:
@@ -21,13 +22,12 @@ jobs:
           releasenotesfile:
             - 'releasenotes.**'
 
-  # Run-Unit-Tests:
-  #   needs: Check-If-ReleaseNotes-Pushed
-  #   if: needs.Check-If-ReleaseNotes-Pushed.outputs.answer == 'false'
-  #   uses: ./.github/workflows/unit-tests-workflow.yml
+  Run-Unit-Tests:
+    needs: Check-If-ReleaseNotes-Pushed
+    if: needs.Check-If-ReleaseNotes-Pushed.outputs.answer == 'false'
+    uses: ./.github/workflows/unit-tests-workflow.yml
 
   Deploy-Locally-To-QA:
-    # needs: [Run-Unit-Tests,Check-If-ReleaseNotes-Pushed]
-    needs: Check-If-ReleaseNotes-Pushed
+    needs: [Run-Unit-Tests,Check-If-ReleaseNotes-Pushed]
     if: needs.Check-If-ReleaseNotes-Pushed.outputs.answer == 'false'
     uses: ./.github/workflows/prepare-for-QA-release.yml

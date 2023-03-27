@@ -11,9 +11,9 @@ on:
 jobs:
   Deploy-To-Production:
     if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/')
-    # runs-on: ubuntu-latest
     runs-on: 
       - self-hosted
+      - segment-android-mini-mac-runner
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -21,7 +21,7 @@ jobs:
       uses: mdecoleman/pr-branch-name@1.2.0
       id: vars
       with:
-        repo-token: ${{ secrets.CI_GITHUB_TOKEN }}       
+        repo-token: ${{ secrets.CI_GITHUB_TOKEN }}    
     - name: Determine release tag and release branch
       run: |
         TAG=$(echo "${{ steps.vars.outputs.branch }}" | grep -Eo '[0-9]+.[0-9]+.[0-9]+')
@@ -51,42 +51,12 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: '11' 
-
     - name: Grant execute permission for gradlew
       run: |
         chmod +x ./gradlew
-      
     - name: Publish package
-      # wraped the signing.password with single quotes as the password could contain special characters
-      # run: ~/Desktop/AppsFlyer/Segment/appsflyer-segment-android-plugin/gradlew publish
-      # env:
-        # OSSRH_USERNAME: ${{secrets.OSSRH_USERNAME}}
-        # OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
-        # OSSRH_GPG_SECRET_KEY_ID: ${{secrets.OSSRH_GPG_SECRET_KEY_ID}}
-        # OSSRH_GPG_SECRET_KEY_PASSWORD: ${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}
-        # OSSRH_GPG_SECRET_KEY: ${{secrets.OSSRH_GPG_SECRET_KEY}}
-      # run: |
-      #   mkdir -p "~/.gradle"
-      #   rm  ~/.gradle/gradle.properties
-      #   echo $OSSRH_GPG_SECRET_KEY_ID >> ~/.gradle/gradle.properties
-      #   echo $OSSRH_GPG_SECRET_KEY_PASSWORD >> ~/.gradle/gradle.properties
-      #   echo $OSSRH_PASSWORD >> ~/.gradle/gradle.properties
-      #   echo $OSSRH_USER_NAME >> ~/.gradle/gradle.properties
-      #   echo "$OSSRH_GPG_SECRET_KEY" | awk 'NR == 1 { print "ORG_GRADLE_PROJECT_signingKey=" } 1' ORS='\\n' >> ~/.gradle/gradle.properties
-      #   ./gradlew clean run publishToSonaType closeSonatypeStagingRepository
       run: |
         ./gradlew publish
-
-    # Step 8
-    # Optional step, will enable you to see what you have released as well here on GitHub 
-    # - name: Upload Artifacts
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: release-build-libs
-    #     path: build/libs
-    #     retention-days: 3  
-
-
     - name: Notify with Slack
       uses: slackapi/slack-github-action@v1.23.0
       with:

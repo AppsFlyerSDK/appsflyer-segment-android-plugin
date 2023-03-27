@@ -12,9 +12,9 @@ jobs:
   Prepare-Plugin-For-Production:
     if: startsWith(github.head_ref, 'releases/')
     name: Prepare for production after testing the plugin
-    # runs-on: ubuntu-latest
     runs-on: 
       - self-hosted
+      - segment-android-mini-mac-runner
     steps:
     - name: Checkout
       uses: actions/checkout@v3

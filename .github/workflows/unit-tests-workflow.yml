@@ -8,9 +8,9 @@ on:
   workflow_call: 
 jobs:
   Tests:
-    # runs-on: ubuntu-latest
     runs-on: 
       - self-hosted
+      - segment-android-mini-mac-runner
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK
