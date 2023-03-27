@@ -119,17 +119,17 @@ afterEvaluate {
     }
 }
 
-// signing {
-//     logger("signing")
-//     sign publishing.publications
-// }
-signing {
-    def signingKeyId = findProperty("ORG_GRADLE_PROJECT_signingKeyId")
-    def signingKey = findProperty("ORG_GRADLE_PROJECT_signingKey")
-    def signingPassword = findProperty("ORG_GRADLE_PROJECT_signingPassword")
-    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-    sign publishing.publications
-}
+ signing {
+     logger("signing")
+     sign publishing.publications
+ }
+//signing {
+//    def signingKeyId = findProperty("ORG_GRADLE_PROJECT_signingKeyId")
+//    def signingKey = findProperty("ORG_GRADLE_PROJECT_signingKey")
+//    def signingPassword = findProperty("ORG_GRADLE_PROJECT_signingPassword")
+//    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+//    sign publishing.publications
+//}
 
 
 
