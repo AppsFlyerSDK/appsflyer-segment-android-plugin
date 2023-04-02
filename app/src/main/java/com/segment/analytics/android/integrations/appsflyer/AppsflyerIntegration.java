@@ -17,6 +17,8 @@ import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.deeplink.DeepLinkListener;
 import com.appsflyer.deeplink.DeepLinkResult;
+import com.appsflyer.internal.platform_extension.Plugin;
+import com.appsflyer.internal.platform_extension.PluginInfo;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 import com.segment.analytics.ValueMap;
@@ -95,6 +97,8 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             if (trackAttributionData) {
                 listener = new ConversionListener(analytics);
             }
+
+            AppsFlyerLib.getInstance().setPluginInfo(new PluginInfo(Plugin.SEGMENT,"6.10.2"));
             afLib.setDebugLog(logger.logLevel != Analytics.LogLevel.NONE);
             afLib.init(devKey, listener, application.getApplicationContext());
             if (deepLinkListener != null)
@@ -116,7 +120,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
                 afLib.start(application, devKey);
                 logger.verbose("Segment React Native AppsFlye rintegration is used, sending first launch manually");
             }
-
             return new AppsflyerIntegration(application, logger, afLib, devKey);
         }
 
