@@ -14,6 +14,7 @@ sed -E -i '' "s/VERSION_NAME=([0-9]+\.[0-9]+\.[0-9]+)/VERSION_NAME=$appsflyerver
 
 sed -E -i '' "s/(Built with AppsFlyer Android SDK.*)([0-9]+\.[0-9]+\.[0-9]+)(.*)/\1$appsflyerversion\3/g" Readme.md
 sed -E -i '' "s/(.*appsflyer:segment-android-integration:)([0-9]+\.[0-9]+\.[0-9]+)(.*)/\1$appsflyerversion\3/g" Readme.md
-# sed -E -i '' "s/(.*Maven Central.*)([0-9]+\.[0-9]+\.[0-9]+)(.*)([0-9]+\.[0-9]+\.[0-9]+)(.*)/\1$appsflyerversion\3$appsflyerversion\5/g" Readme.md
+
+sed -E -i '' "s/(.*setPluginInfo.*)([0-9]+\.[0-9]+\.[0-9]+)(.*)/\1$appsflyerversion\3/g" app/src/main/java/com/segment/analytics/android/integrations/appsflyer/AppsflyerIntegration.java
 
 touch "releasenotes.$appsflyerversion"
