@@ -1,3 +1,7 @@
+### 6.10.2
+* Update Android SDK to v6.10.2
+* Added Platform Extension v2 call. 
+
 ### 6.10.1
 * Update Android SDK to v6.10.1
 * Added unit tests.
