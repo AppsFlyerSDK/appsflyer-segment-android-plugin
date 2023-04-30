@@ -43,7 +43,7 @@ jobs:
           payload: |
             {
               "appsflyer_version": "${{env.PLUGIN_VERSION}}"
-              "appsflyer_version": "QA"
+              "environment": "QA"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.CI_SLACK_WEBHOOK_URL }}      
