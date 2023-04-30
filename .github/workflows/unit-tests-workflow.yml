@@ -9,7 +9,7 @@ jobs:
   Tests:
     runs-on: 
       - self-hosted
-      - segment-android-mini-mac-runner
+      # - segment-android-mini-mac-runner
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK

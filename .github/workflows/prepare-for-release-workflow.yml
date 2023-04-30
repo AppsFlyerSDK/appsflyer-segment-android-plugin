@@ -14,7 +14,7 @@ jobs:
     name: Prepare for production after testing the plugin
     runs-on: 
       - self-hosted
-      - segment-android-mini-mac-runner
+      # - segment-android-mini-mac-runner
     steps:
     - name: Checkout
       uses: actions/checkout@v3

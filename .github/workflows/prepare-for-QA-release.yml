@@ -8,7 +8,7 @@ jobs:
     name: Pre Release
     runs-on: 
       - self-hosted
-      - segment-android-mini-mac-runner
+      # - segment-android-mini-mac-runner
 
     steps:
       - name: Checkout
