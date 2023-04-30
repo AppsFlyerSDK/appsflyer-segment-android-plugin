@@ -8,7 +8,6 @@ jobs:
     name: Pre Release
     runs-on: 
       - self-hosted
-      # - segment-android-mini-mac-runner
 
     steps:
       - name: Checkout
@@ -44,6 +43,7 @@ jobs:
           payload: |
             {
               "appsflyer_version": "${{env.PLUGIN_VERSION}}"
+              "appsflyer_version": "QA"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.CI_SLACK_WEBHOOK_URL }}      
