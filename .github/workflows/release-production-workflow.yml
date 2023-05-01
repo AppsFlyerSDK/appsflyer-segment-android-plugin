@@ -1,0 +1,68 @@
+name: Release plugin to production
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+       - 'master'
+#      - 'dev/add-release-workflow'
+
+jobs:
+  Deploy-To-Production:
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/')
+    runs-on: 
+      - self-hosted
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: PR branch check
+      uses: mdecoleman/pr-branch-name@1.2.0
+      id: vars
+      with:
+        repo-token: ${{ secrets.CI_GITHUB_TOKEN }}    
+    - name: Determine release tag and release branch
+      run: |
+        TAG=$(echo "${{ steps.vars.outputs.branch }}" | grep -Eo '[0-9]+.[0-9]+.[0-9]+')
+        echo "PLUGIN_VERSION=$TAG" >> $GITHUB_ENV
+        echo "RELEASE_BRANCH_NAME=${{ steps.vars.outputs.branch }}" >> $GITHUB_ENV
+        echo "push new release >> $TAG"   
+    - name: Create release and tag
+      env:
+        TAG: ${{env.PLUGIN_VERSION}}
+      uses: "actions/github-script@v5"
+      with:
+        script: |
+          try {
+            await github.rest.repos.createRelease({
+              draft: false,
+              generate_release_notes: false,
+              name: process.env.TAG,
+              owner: context.repo.owner,
+              prerelease: false,
+              repo: context.repo.repo,
+              tag_name: process.env.TAG
+            });
+          } catch (error) {
+            core.setFailed(error.message);
+          }
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11' 
+    - name: Grant execute permission for gradlew
+      run: |
+        chmod +x ./gradlew
+    - name: Publish package
+      run: |
+        ./gradlew publish
+    - name: Notify with Slack
+      uses: slackapi/slack-github-action@v1.23.0
+      with:
+        payload: |
+          {
+            "appsflyer_version": "${{env.PLUGIN_VERSION}}",
+            "environment": "Production"
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.CI_SLACK_WEBHOOK_URL }}    
