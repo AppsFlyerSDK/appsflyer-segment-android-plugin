@@ -1,0 +1,51 @@
+name: pre-release
+
+on:
+  workflow_call:
+
+jobs:
+  Change-HardCoded-Version:
+    name: Pre Release
+    runs-on: 
+      - self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Determine release tag and release branch
+        run: |
+          TAG=$(echo "${{github.ref_name}}" | grep -Eo '[0-9]+.[0-9]+.[0-9]+')
+          RC=$(echo "${{github.ref_name}}" | grep -Eo '[0-9]+$')
+          echo "PLUGIN_VERSION=$TAG" >> $GITHUB_ENV
+          echo "RC_NUMBER=$RC" >> $GITHUB_ENV  
+      - name: run script
+        run: bash .github/bash_scripts/pre_release.sh ${{env.PLUGIN_VERSION}} ${{env.RC_NUMBER}}
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: Moris Gateno
+          author_email: moris.gateno@appsflyer.com
+          message: 'Commited from github action - prepaing the repo for QA.'
+          add: '.'
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11' 
+      - name: Grant execute permission for gradlew
+        run: |
+          chmod +x ./gradlew
+      - name: Publish package to QA (-Beta)
+        run: |
+          ./gradlew publish
+      - name: Notify with Slack
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "appsflyer_version": "${{env.PLUGIN_VERSION}}"
+              "environment": "QA"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.CI_SLACK_WEBHOOK_URL }}      
+
+
