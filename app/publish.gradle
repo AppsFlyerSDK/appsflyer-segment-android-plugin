@@ -119,11 +119,10 @@ afterEvaluate {
     }
 }
 
-signing {
-    logger("signing")
-    sign publishing.publications
-}
-
+ signing {
+     logger("signing")
+     sign publishing.publications
+ }
 
 publish.dependsOn build
 publishToMavenLocal.dependsOn build
