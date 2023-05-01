@@ -1,6 +1,6 @@
 ### 6.10.3
-* * Update Android SDK to v6.10.1
-* * Added CI-CD pipeline
+* Update Android SDK to v6.10.1
+* Added CI-CD pipeline
 
 ### 6.10.2
 * Update Android SDK to v6.10.2
