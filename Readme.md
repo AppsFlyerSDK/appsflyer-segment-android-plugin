@@ -2,7 +2,7 @@
 
 
 # AppsFlyer - Segment Integration
-[![CI - Tests](https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/actions/workflows/test.yml/badge.svg)](https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/actions/workflows/test.yml)
+[![CI - Tests](https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/actions/workflows/unit-tests-workflow.yml/badge.svg)](https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/actions/workflows/unit-tests-workflow.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.appsflyer/segment-android-integration)
 
 ----------
