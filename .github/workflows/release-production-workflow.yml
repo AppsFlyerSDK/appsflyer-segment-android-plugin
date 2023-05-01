@@ -61,7 +61,7 @@ jobs:
       with:
         payload: |
           {
-            "appsflyer_version": "${{env.PLUGIN_VERSION}}"
+            "appsflyer_version": "${{env.PLUGIN_VERSION}}",
             "environment": "Production"
           }
       env:
