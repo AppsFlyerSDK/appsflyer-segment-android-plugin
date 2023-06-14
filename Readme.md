@@ -133,7 +133,6 @@ Analytics.Builder builder = new Analytics.Builder(this , SEGMENT_WRITE_KEY)
 
 .logLevel(Analytics.LogLevel.VERBOSE)
 .recordScreenViews()
-.trackAttributionInformation() // Install Attributed event
 .trackApplicationLifecycleEvents() // Application Opened , Application Updated , Application Installed events
 .build();
 
@@ -142,7 +141,6 @@ Analytics.setSingletonInstance(builder.build());
 }
 ```
 
-Adding `.trackAttributionInformation()` will send the `Install Attributed` event to AppsFlyer.
 Adding `.trackApplicationLifecycleEvents()` will send   `Application Opened`  , `Application Updated`  and `Application Installed` events to AppsFlyer.
 
 
