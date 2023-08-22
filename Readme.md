@@ -21,7 +21,7 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v6.10.3`
+Built with AppsFlyer Android SDK `v6.12.2`
 
 ## Table of content
 
@@ -95,7 +95,7 @@ And to start the AppsFlyer SDK, use `void startAppsFlyer(Context context)` API.
 
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
 ```java
-implementation 'com.appsflyer:segment-android-integration:6.10.3'
+implementation 'com.appsflyer:segment-android-integration:6.12.2'
 implementation 'com.android.installreferrer:installreferrer:2.1'
 ```
 
