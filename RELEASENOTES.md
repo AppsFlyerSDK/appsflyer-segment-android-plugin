@@ -1,5 +1,6 @@
 ### 6.13.0
-
+* Update Android SDK to v6.13.0
+* Added support for Google's new EU consent policy
 
 ### 6.12.2
 * Update Android SDK to v6.12.2
