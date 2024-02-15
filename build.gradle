@@ -24,7 +24,7 @@ nexusStaging {
 }
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
 }
