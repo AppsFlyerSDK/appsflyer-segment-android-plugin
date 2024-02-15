@@ -32,6 +32,7 @@ Built with AppsFlyer Android SDK `v6.13.0`
 -  [Register In-App Events](#adding_events)
 -  [Get Conversion Data](#conversion_data)
 - [Unified Deep Linking](#deep_linking)
+- [Send consent for DMA compliance](#dma_support) 
 - [Sample App](#sample_app)
 
 
@@ -70,6 +71,7 @@ AppsFlyer supports the `identify` and `track` methods.
 ### <a id="manual">
 # Manual mode
 Starting version 6.8.0, we support a manual mode to seperate the initialization of the AppsFlyer SDK and the start of the SDK. In this case, the AppsFlyer SDK won't start automatically, giving the developper more freedom when to start the AppsFlyer SDK. Please note that in manual mode, the developper is required to implement the API startAppsFlyer(Context context) in order to start the SDK.
+<br>If you are using CMP to collect consent data this feature is needed. See explanation [here](#dma_support).
 ### Example:
 
 ```java
@@ -251,6 +253,97 @@ In order to implement unified deep linking, call the method below :
         };
 ```
 For more information about unified deep linking, check [here](https://dev.appsflyer.com/docs/android-unified-deep-linking)
+
+## <a id="dma_support"> Send consent for DMA compliance 
+For a general introduction to DMA consent data, see [here](https://dev.appsflyer.com/hc/docs/send-consent-for-dma-compliance).<be> 
+The SDK offers two alternative methods for gathering consent data:<br> 
+- **Through a Consent Management Platform (CMP)**: If the app uses a CMP that complies with the [Transparency and Consent Framework (TCF) v2.2 protocol](https://iabeurope.eu/tcf-supporting-resources/), the SDK can automatically retrieve the consent details.<br> 
+<br>OR<br><br> 
+- **Through a dedicated SDK API**: Developers can pass Google's required consent data directly to the SDK using a specific API designed for this purpose. 
+### Use CMP to collect consent data 
+A CMP compatible with TCF v2.2 collects DMA consent data and stores it in <code>SharedPreferences</code>. To enable the SDK to access this data and include it with every event, follow these steps:<br> 
+<ol> 
+  <li> Call <code>AppsFlyerLib.getInstance().enableTCFDataCollection(true)</code> to instruct the SDK to collect the TCF data from the device. 
+  <li> Set the the adapter to be manual : <code>AppsflyerIntegration.setManualMode(true)</code>. <br> This will allow us to delay the Conversion call in order to provide the SDK with the user consent. 
+  <li> Initialize Segment using <code>AppsflyerIntegration.FACTORY</code>. 
+  <li> In the <code>Activity</code> class, use the CMP to decide if you need the consent dialog in the current session.
+  <li> If needed, show the consent dialog, using the CMP, to capture the user consent decision. Otherwise, go to step 6. 
+  <li> Get confirmation from the CMP that the user has made their consent decision, and the data is available in <code>SharedPreferences</code>.
+  <li> Call <code>AppsflyerIntegration.startAppsFlyer(this)</code>
+</ol> 
+ 
+ #### Application class
+``` kotlin
+@Override public void onCreate() {
+    super.onCreate();
+    AppsFlyerLib.getInstance().enableTCFDataCollection(true);
+    AppsflyerIntegration.setManualMode(true);
+    initSegmentAnalytics();
+}
+
+private void initSegmentAnalytics() {
+    Analytics.Builder builder = new Analytics.Builder(this, SEGMENT_WRITE_KEY)
+            .use(AppsflyerIntegration.FACTORY)
+            .logLevel(Analytics.LogLevel.VERBOSE)
+            .trackApplicationLifecycleEvents() // Enable this to record certain application events automatically!
+            .recordScreenViews(); // Enable this to record screen views automatically!
+    // Set the initialized instance as a globally accessible instance.
+    Analytics.setSingletonInstance(builder.build());
+}
+``` 
+#### Activity class
+```kotlin
+public class MainActivity extends AppCompatActivity {
+
+  private boolean consentRequired = true;
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
+      if (consentRequired)
+          initConsentCollection();
+      else
+          AppsflyerIntegration.startAppsFlyer(this);
+  }
+  
+  private void initConsentCollection() {
+    // Implement here the you CMP flow
+    // When the flow is completed and consent was collected 
+    // call onConsentCollectionFinished()
+  }
+
+  private void onConsentCollectionFinished() {
+    AppsflyerIntegration.startAppsFlyer(this);
+  }
+}
+```
+
+ 
+### Manually collect consent data 
+If your app does not use a CMP compatible with TCF v2.2, use the SDK API detailed below to provide the consent data directly to the SDK. 
+<ol> 
+  <li> Initialize <code>AppsFlyerIntegration</code> using manual mode and also <code>Analytics</code>. This will allow us to delay the Conversion call in order to provide the SDK with the user consent. 
+  <li> In the <code>Activity</code> class, determine whether the GDPR applies or not to the user.<br> 
+  - If GDPR applies to the user, perform the following:  
+      <ol> 
+        <li> Given that GDPR is applicable to the user, determine whether the consent data is already stored for this session. 
+            <ol> 
+              <li> If there is no consent data stored, show the consent dialog to capture the user consent decision. 
+              <li> If there is consent data stored continue to the next step. 
+            </ol> 
+        <li> To transfer the consent data to the SDK create an object called <code>AppsFlyerConsent</code> using the <code>forGDPRUser()</code> method with the following parameters:<br> 
+          - <code>hasConsentForDataUsage</code> - Indicates whether the user has consented to use their data for advertising purposes.<br>
+          - <code>hasConsentForAdsPersonalization</code> - Indicates whether the user has consented to use their data for personalized advertising purposes.
+        <li> Call <code>AppsFlyerLib.getInstance().setConsentData()</code> with the <code>AppsFlyerConsent</code> object.    
+        <li> Call <code>AppsflyerIntegration.startAppsFlyer(this)</code>. 
+      </ol><br> 
+    - If GDPR doesn’t apply to the user perform the following: 
+      <ol> 
+        <li> Create an <code>AppsFlyerConsent</code> object using the <code>forNonGDPRUser()</code> method. This method doesn’t accept any parameters.
+        <li> Call <code>AppsFlyerLib.getInstance().setConsentData()</code> with the <code>AppsFlyerConsent</code> object.  
+        <li> Call <code>AppsflyerIntegration.startAppsFlyer(this)</code>. 
+      </ol> 
+</ol> 
 
 ### <a id="sample_app">
 
