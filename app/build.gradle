@@ -39,7 +39,7 @@ android {
 
 dependencies {
     testImplementation 'androidx.test.ext:junit:1.1.5'
-    implementation 'com.appsflyer:af-android-sdk:6.12.2'
+    api 'com.appsflyer:af-android-sdk:6.13.0'
     compileOnly 'com.android.installreferrer:installreferrer:2.1'
     compileOnly 'com.segment.analytics.android:analytics:4.+'
     testImplementation 'androidx.test:core:1.4.0'
