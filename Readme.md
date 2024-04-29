@@ -21,7 +21,7 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v6.13.0`
+Built with AppsFlyer Android SDK `v6.14.0`
 
 ## Table of content
 
@@ -97,7 +97,7 @@ And to start the AppsFlyer SDK, use `void startAppsFlyer(Context context)` API.
 
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
 ```java
-implementation 'com.appsflyer:segment-android-integration:6.13.0'
+implementation 'com.appsflyer:segment-android-integration:6.14.0'
 implementation 'com.android.installreferrer:installreferrer:2.1'
 ```
 
@@ -115,6 +115,8 @@ In v6.8.0 of the AppsFlyer SDK, we added the normal permission com.google.androi
 to allow the SDK to collect the Android Advertising ID on apps targeting API 33.
 If your app is targeting children, you may need to revoke this permission to comply with Google's Data policy.
 You can read more about it [here](https://support.appsflyer.com/hc/en-us/articles/7569900844689).
+
+Starting from **6.14.0** Huawei Referrer integration was updated. [Learn more](https://dev.appsflyer.com/hc/docs/install-android-sdk#huawei-install-referrer).
 
 ### <a id="sdk_init"> 2.2)  Init AppsFlyer
 
