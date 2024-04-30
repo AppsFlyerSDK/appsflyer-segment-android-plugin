@@ -1,3 +1,7 @@
+### 6.14.0
+* Update Android SDK to v6.14.0
+* Updated Huawei Referrer integration. [Learn more](https://dev.appsflyer.com/hc/docs/install-android-sdk#huawei-install-referrer).
+
 ### 6.13.0
 * Update Android SDK to v6.13.0
 * Added support for Google's new EU consent policy

@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 32
+        minSdkVersion 19
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         testApplicationId "com.example.test"
@@ -39,7 +39,7 @@ android {
 
 dependencies {
     testImplementation 'androidx.test.ext:junit:1.1.5'
-    api 'com.appsflyer:af-android-sdk:6.13.0'
+    api 'com.appsflyer:af-android-sdk:6.14.0'
     compileOnly 'com.android.installreferrer:installreferrer:2.1'
     compileOnly 'com.segment.analytics.android:analytics:4.+'
     testImplementation 'androidx.test:core:1.4.0'
