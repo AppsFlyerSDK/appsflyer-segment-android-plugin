@@ -60,7 +60,7 @@ Check out the Segment AppsFlyer docs [here](https://segment.com/docs/destination
 To enable AppsFlyer in the Segment dashboard, follow these steps:
 
 1.  Enter your unique AppsFlyer Dev Key, which is accessible from your AppsFlyer account, in Segment’s destination settings.
-2.  After you build and release to the app store, your data is translated and sent to AppsFlyer automatically.
+2.  After you build and release it to the app store, your data is translated and sent to AppsFlyer automatically.
 
 
 
@@ -70,7 +70,7 @@ AppsFlyer supports the `identify` and `track` methods.
 
 ### <a id="manual">
 # Manual mode
-Starting version 6.8.0, we support a manual mode to seperate the initialization of the AppsFlyer SDK and the start of the SDK. In this case, the AppsFlyer SDK won't start automatically, giving the developper more freedom when to start the AppsFlyer SDK. Please note that in manual mode, the developper is required to implement the API startAppsFlyer(Context context) in order to start the SDK.
+Starting version 6.8.0, we support a manual mode to separate the initialization of the AppsFlyer SDK and the start of the SDK. In this case, the AppsFlyer SDK won't start automatically, giving the developper more freedom when to start the AppsFlyer SDK. Please note that in manual mode, the developper is required to implement the API startAppsFlyer(Context context) in order to start the SDK.
 <br>If you are using CMP to collect consent data this feature is needed. See explanation [here](#dma_support).
 ### Example:
 
