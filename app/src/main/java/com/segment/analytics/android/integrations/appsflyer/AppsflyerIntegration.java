@@ -92,13 +92,12 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
             boolean trackAttributionData = settings.getBoolean("trackAttributionData", false);
             Application application = analytics.getApplication();
 
-
             AppsFlyerConversionListener listener = null;
             if (trackAttributionData) {
                 listener = new ConversionListener(analytics);
             }
 
-            AppsFlyerLib.getInstance().setPluginInfo(new PluginInfo(Plugin.SEGMENT,"6.14.0"));
+            AppsFlyerLib.getInstance().setPluginInfo(new PluginInfo(Plugin.SEGMENT,"6.15.0"));
             afLib.setDebugLog(logger.logLevel != Analytics.LogLevel.NONE);
             afLib.init(devKey, listener, application.getApplicationContext());
             if (deepLinkListener != null)
@@ -148,7 +147,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         }
     }
 
-
     @Override
     public AppsFlyerLib getUnderlyingInstance() {
         return appsflyer;
@@ -169,7 +167,6 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
     }
 
     private void updateEndUserAttributes() {
-
         appsflyer.setCustomerUserId(customerUserId);
         logger.verbose("appsflyer.setCustomerUserId(%s)", customerUserId);
         appsflyer.setCurrencyCode(currencyCode);
@@ -316,9 +313,5 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
         private Context getContext() {
             return this.analytics.getApplication().getApplicationContext();
         }
-
     }
-
-
-
 }
