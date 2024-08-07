@@ -11,14 +11,14 @@ buildscript {
 }
 apply plugin: 'io.codearte.nexus-staging'
 
-def getRepositoryUsername() { return hasProperty('ossrhUsername') ? ossrhUsername : "" }
+def getSonatypeRepositoryToken() { return hasProperty('ossrhToken') ? ossrhToken : "" }
 
-def getRepositoryPassword() { return hasProperty('ossrhPassword') ? ossrhPassword : "" }
+def getSonatypeRepositoryTokenPassword() { return hasProperty('ossrhTokenPassword') ? ossrhTokenPassword : "" }
 
 nexusStaging {
     packageGroup = GROUP // optional if packageGroup == project.getGroup()
-    username = getRepositoryUsername()
-    password = getRepositoryPassword()
+    username = getSonatypeRepositoryToken()
+    password = getSonatypeRepositoryTokenPassword()
     delayBetweenRetriesInMillis = 30000
     numberOfRetries = 120
 }
