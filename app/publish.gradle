@@ -111,8 +111,8 @@ afterEvaluate {
                 url = isReleaseBuild() ? getReleaseRepositoryUrl() : getSnapshotRepositoryUrl()
 
                 credentials(PasswordCredentials) {
-                    username = getRepositoryUsername()
-                    password = getRepositoryPassword()
+                    username = getSonatypeRepositoryToken()
+                    password = getSonatypeRepositoryTokenPassword()
                 }
             }
         }
