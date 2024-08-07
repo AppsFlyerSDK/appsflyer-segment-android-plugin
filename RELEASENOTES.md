@@ -1,3 +1,7 @@
+### 6.15.0
+* Update Android SDK to v6.15.0
+* Added the logAdRevenue method to send ad revenue data to AppsFlyer. Note: Starting with this version, the AdRevenue Connector should no longer be used. For more details, [see] (https://dev.appsflyer.com/hc/docs/ad-revenue-1)
+
 ### 6.14.0
 * Update Android SDK to v6.14.0
 * Updated Huawei Referrer integration. [Learn more](https://dev.appsflyer.com/hc/docs/install-android-sdk#huawei-install-referrer).

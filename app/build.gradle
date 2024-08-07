@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 33
+        minSdk 19
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         testApplicationId "com.example.test"
@@ -38,16 +38,19 @@ android {
 }
 
 dependencies {
-    testImplementation 'androidx.test.ext:junit:1.1.5'
-    api 'com.appsflyer:af-android-sdk:6.14.0'
-    compileOnly 'com.android.installreferrer:installreferrer:2.1'
+    api 'com.appsflyer:af-android-sdk:6.15.0'
     compileOnly 'com.segment.analytics.android:analytics:4.+'
-    testImplementation 'androidx.test:core:1.4.0'
+    compileOnly 'com.android.installreferrer:installreferrer:2.2'
+
+    testImplementation 'androidx.test:core:1.6.1'
+    testImplementation 'androidx.test.ext:junit:1.2.1'
+    testImplementation 'com.android.installreferrer:installreferrer:2.2'
+
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.robolectric:robolectric:4.9.2'
-    testImplementation 'com.android.installreferrer:installreferrer:2.1'
-    testImplementation 'com.segment.analytics.android:analytics:4.+'
     testImplementation 'org.mockito:mockito-core:4.2.0'
+    testImplementation 'org.robolectric:robolectric:4.11.0'
+
+    testImplementation 'com.segment.analytics.android:analytics:4.+'
     testImplementation 'com.segment.analytics.android:analytics-tests:4.+'
 }
 

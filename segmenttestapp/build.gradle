@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 
-
 android {
-    compileSdkVersion 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.appsflyer.segment.app"
-        minSdkVersion 19
-        targetSdkVersion 33
+        minSdk 19
+        targetSdk 34
         versionCode 1
         versionName "1.0"
     }
@@ -25,9 +24,10 @@ android {
 
 dependencies {
     implementation project(path: ':app')
-    testImplementation 'junit:junit:4.12'
+    implementation 'com.appsflyer:af-android-sdk:6.15.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.appsflyer:af-android-sdk:6.14.0'
     implementation 'com.segment.analytics.android:analytics:4.+'
-    implementation 'com.android.installreferrer:installreferrer:2.1'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
+
+    testImplementation 'junit:junit:4.13.2'
 }
