@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdk 34
+    compileSdk 33
 
     defaultConfig {
         minSdk 19
-        targetSdk 34
+        targetSdk 33
         versionCode 1
         versionName "1.0"
         testApplicationId "com.example.test"
@@ -48,7 +48,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:4.2.0'
-    testImplementation 'org.robolectric:robolectric:4.11'
+    testImplementation 'org.robolectric:robolectric:4.9.2'
 
     testImplementation 'com.segment.analytics.android:analytics:4.+'
     testImplementation 'com.segment.analytics.android:analytics-tests:4.+'
