@@ -8,7 +8,7 @@
 ----------
 In order for us to provide optimal support, we would kindly ask you to submit any issues to support@appsflyer.com
 
-*When submitting an issue please specify your AppsFlyer sign-up (account) email , your app ID , production steps, logs, code snippets and any additional relevant information.*
+*When submitting an issue please specify your AppsFlyer sign-up (account) email, your app ID, production steps, logs, code snippets and any additional relevant information.*
 
 
 # Overview
@@ -72,6 +72,7 @@ AppsFlyer supports the `identify` and `track` methods.
 # Manual mode
 Starting version 6.8.0, we support a manual mode to seperate the initialization of the AppsFlyer SDK and the start of the SDK. In this case, the AppsFlyer SDK won't start automatically, giving the developper more freedom when to start the AppsFlyer SDK. Please note that in manual mode, the developper is required to implement the API startAppsFlyer(Context context) in order to start the SDK.
 <br>If you are using CMP to collect consent data this feature is needed. See explanation [here](#dma_support).
+
 ### Example:
 
 ```java
@@ -96,6 +97,7 @@ And to start the AppsFlyer SDK, use `void startAppsFlyer(Context context)` API.
 #### 2.1) Adding the Plugin to your Project
 
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
+
 ```java
 implementation 'com.appsflyer:segment-android-integration:6.15.0'
 implementation 'com.android.installreferrer:installreferrer:2.1'
@@ -160,6 +162,7 @@ Finally, Segment automatically uses AppsFlyer’s transactionId-based de-duplica
 
 
 Purchase Event Example:
+
 ```java
 Map<String, Object> eventValue = new HashMap<String, Object>();
 eventValue.put("productId","com.test.id");
@@ -181,7 +184,6 @@ Check out the Segment docs on track [here](https://segment.com/docs/spec/track/)
 ### <a id="identify">
 
 ## Identify
-
 
 When you `identify` a user, that user’s information is passed to AppsFlyer with `customer user Id` as AppsFlyer’s External User ID. Segment’s special traits recognized as AppsFlyer’s standard user profile fields (in parentheses) are:
 
@@ -224,7 +226,7 @@ For Conversion data your should call the method below.
 
                     @Override
                     public void onAppOpenAttribution(Map<String, String> map) {
-                     // Process Direct Deep Linking here
+                        // Process Direct Deep Linking here
                         for (String attrName : map.keySet()) {
                             Log.d(TAG, "attribute: " + attrName + " = " + map.get(attrName));
                         }
@@ -292,8 +294,10 @@ private void initSegmentAnalytics() {
     // Set the initialized instance as a globally accessible instance.
     Analytics.setSingletonInstance(builder.build());
 }
-``` 
+```
+
 #### Activity class
+
 ```kotlin
 public class MainActivity extends AppCompatActivity {
 
@@ -322,6 +326,7 @@ public class MainActivity extends AppCompatActivity {
 
  
 ### Manually collect consent data 
+
 If your app does not use a CMP compatible with TCF v2.2, use the SDK API detailed below to provide the consent data directly to the SDK. 
 <ol> 
   <li> Initialize <code>AppsFlyerIntegration</code> using manual mode and also <code>Analytics</code>. This will allow us to delay the Conversion call in order to provide the SDK with the user consent. 
@@ -350,4 +355,5 @@ If your app does not use a CMP compatible with TCF v2.2, use the SDK API detaile
 ### <a id="sample_app">
 
 ##  Sample App
+
 <p>AppsFlyer has created a sample Android application that integrates AppsFlyer via Segment. Check it out at the <a href="https://github.com/AppsFlyerSDK/appsflyer-segment-android-plugin/tree/master/segmenttestapp" target="_blank">Github repo</a>.</p>
