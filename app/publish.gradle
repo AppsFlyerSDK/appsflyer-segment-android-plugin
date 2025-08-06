@@ -7,12 +7,12 @@ def isReleaseBuild() {
 
 def getReleaseRepositoryUrl() {
     return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
-            : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            : "https://ossrh-staging-api.central.sonatype.com/service/local/"
 }
 
 def getSnapshotRepositoryUrl() {
     return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
-            : "https://oss.sonatype.org/content/repositories/snapshots/"
+            : "https://central.sonatype.com/repository/maven-snapshots/"
 }
 
 task androidJavadocs(type: Javadoc) {
@@ -99,20 +99,6 @@ afterEvaluate {
                             dependencyNode.appendNode('version', it.version)
                         }
                     }
-                }
-            }
-        }
-        repositories {
-            maven {
-                name = "sonatype"
-
-                // You only need this if you want to publish snapshots, otherwise just set the URL
-                // to the release repo directly
-                url = isReleaseBuild() ? getReleaseRepositoryUrl() : getSnapshotRepositoryUrl()
-
-                credentials(PasswordCredentials) {
-                    username = getSonatypeRepositoryToken()
-                    password = getSonatypeRepositoryTokenPassword()
                 }
             }
         }
