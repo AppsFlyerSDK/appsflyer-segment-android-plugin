@@ -1,3 +1,6 @@
+### 6.17.1
+* Update Android SDK to v7.17.1
+
 ### 6.15.0
 * Update Android SDK to v6.15.0
 * Added the logAdRevenue method to send ad revenue data to AppsFlyer. Note: Starting with this version, the AdRevenue Connector should no longer be used. For more details, [see] (https://dev.appsflyer.com/hc/docs/ad-revenue-1)
