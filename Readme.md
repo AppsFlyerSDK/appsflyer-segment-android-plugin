@@ -348,7 +348,7 @@ If your app does not use a CMP compatible with TCF v2.2, use the SDK API detaile
         <li> Call <br><code>AppsflyerIntegration.startAppsFlyer(this)</code>.
      </ol>
 
-For more details, [see] (https://dev.appsflyer.com/hc/docs/android-send-consent-for-dma-compliance)
+For more details: https://dev.appsflyer.com/hc/docs/android-send-consent-for-dma-compliance
 </ol> 
 
 ### <a id="sample_app">
