@@ -21,7 +21,7 @@ You can track installs, updates and sessions and also track additional in-app ev
 
 ---
 
-Built with AppsFlyer Android SDK `v6.17.1`
+Built with AppsFlyer Android SDK `v6.17.3`
 
 ## Table of content
 
@@ -97,7 +97,7 @@ And to start the AppsFlyer SDK, use `void startAppsFlyer(Context context)` API.
 
 Add the AppsFlyer Segment Integration dependency to your app `build.gradle` file.
 ```java
-implementation 'com.appsflyer:segment-android-integration:6.17.1'
+implementation 'com.appsflyer:segment-android-integration:6.17.3'
 implementation 'com.android.installreferrer:installreferrer:2.1'
 ```
 
@@ -333,18 +333,20 @@ If your app does not use a CMP compatible with TCF v2.2, use the SDK API detaile
               <li> If there is no consent data stored, show the consent dialog to capture the user consent decision. 
               <li> If there is consent data stored continue to the next step. 
             </ol> 
-        <li> To transfer the consent data to the SDK create an object called <code>AppsFlyerConsent</code> using the <code>forGDPRUser()</code> method with the following parameters:<br> 
+        <li> To transfer the consent data to the SDK, create an object called AppsFlyerConsent with the following optional parameters:<br> 
+          - <code>isUserSubjectToGDPR</code> - Indicates whether GDPR applies to the user.<br>
           - <code>hasConsentForDataUsage</code> - Indicates whether the user has consented to use their data for advertising purposes.<br>
-          - <code>hasConsentForAdsPersonalization</code> - Indicates whether the user has consented to use their data for personalized advertising purposes.
+          - <code>hasConsentForAdsPersonalization</code> - Indicates whether the user has consented to use their data for personalized advertising purposes.<br>
+          - <code>hasConsentForAdStorage</code> - Indicates whether the user has consented to store or access information on a device.<br>
         <li> Call <code>AppsFlyerLib.getInstance().setConsentData()</code> with the <code>AppsFlyerConsent</code> object.    
         <li> Call <code>AppsflyerIntegration.startAppsFlyer(this)</code>. 
       </ol><br> 
-    - If GDPR doesn’t apply to the user perform the following: 
-      <ol> 
-        <li> Create an <code>AppsFlyerConsent</code> object using the <code>forNonGDPRUser()</code> method. This method doesn’t accept any parameters.
-        <li> Call <code>AppsFlyerLib.getInstance().setConsentData()</code> with the <code>AppsFlyerConsent</code> object.  
+    - If the GDPR does not apply to the user isUserSubjectToGDPR is false and the rest of the parameters must be null. See example below. 
+        <li> Create an <code>AppsFlyerConsent</code> object: <code>AppsFlyerConsent nonGdprUser = new AppsFlyerConsent(false, null, null, null);</code>
+        <li> Call <code>AppsFlyerLib.getInstance().setConsentData(nonGdprUser);</code>  
         <li> Call <code>AppsflyerIntegration.startAppsFlyer(this)</code>. 
-      </ol> 
+
+For more details, [see] (https://dev.appsflyer.com/hc/docs/android-send-consent-for-dma-compliance)
 </ol> 
 
 ### <a id="sample_app">
