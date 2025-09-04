@@ -341,10 +341,12 @@ If your app does not use a CMP compatible with TCF v2.2, use the SDK API detaile
         <li> Call <code>AppsFlyerLib.getInstance().setConsentData()</code> with the <code>AppsFlyerConsent</code> object.    
         <li> Call <code>AppsflyerIntegration.startAppsFlyer(this)</code>. 
       </ol><br> 
-    - If the GDPR does not apply to the user isUserSubjectToGDPR is false and the rest of the parameters must be null. See example below. 
-        <li> Create an <code>AppsFlyerConsent</code> object: <code>AppsFlyerConsent nonGdprUser = new AppsFlyerConsent(false, null, null, null);</code>
-        <li> Call <code>AppsFlyerLib.getInstance().setConsentData(nonGdprUser);</code>  
-        <li> Call <code>AppsflyerIntegration.startAppsFlyer(this)</code>. 
+    - If the GDPR does not apply to the user isUserSubjectToGDPR is false and the rest of the parameters must be null. See example below:
+      <ol> 
+        <li> Create an <code>AppsFlyerConsent</code> object:<br> <code>AppsFlyerConsent nonGdprUser = new AppsFlyerConsent(false, null, null, null);</code>
+        <li> Call <br><code>AppsFlyerLib.getInstance().setConsentData(nonGdprUser);</code>  
+        <li> Call <br><code>AppsflyerIntegration.startAppsFlyer(this)</code>.
+     </ol>
 
 For more details, [see] (https://dev.appsflyer.com/hc/docs/android-send-consent-for-dma-compliance)
 </ol> 
