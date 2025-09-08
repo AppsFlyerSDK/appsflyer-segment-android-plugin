@@ -328,10 +328,10 @@ If your app does not use a CMP compatible with TCF v2.2, use the SDK API detaile
   <li> In the <code>Activity</code> class, determine whether the GDPR applies or not to the user.<br> 
   - If GDPR applies to the user, perform the following:  
       <ol> 
-        <li> Given that GDPR is applicable to the user, determine whether the consent data is already stored for this session. 
+        <li> Given that GDPR applies to the user, determine whether the consent data is already stored for this session. 
             <ol> 
               <li> If there is no consent data stored, show the consent dialog to capture the user consent decision. 
-              <li> If there is consent data stored continue to the next step. 
+              <li> If there is consent data stored, continue to the next step. 
             </ol> 
         <li> To transfer the consent data to the SDK, create an object called AppsFlyerConsent with the following optional parameters:<br> 
           - <code>isUserSubjectToGDPR</code> - Indicates whether GDPR applies to the user.<br>
@@ -341,7 +341,7 @@ If your app does not use a CMP compatible with TCF v2.2, use the SDK API detaile
         <li> Call <code>AppsFlyerLib.getInstance().setConsentData()</code> with the <code>AppsFlyerConsent</code> object.    
         <li> Call <code>AppsflyerIntegration.startAppsFlyer(this)</code>. 
       </ol><br> 
-    - If the GDPR does not apply to the user isUserSubjectToGDPR is false and the rest of the parameters must be null. See example below:
+    - If GDPR does not apply to the user, set <code>isUserSubjectToGDPR</code> to false and the rest of the parameters must be null. See example below:
       <ol> 
         <li> Create an <code>AppsFlyerConsent</code> object:<br> <code>AppsFlyerConsent nonGdprUser = new AppsFlyerConsent(false, null, null, null);</code>
         <li> Call <br><code>AppsFlyerLib.getInstance().setConsentData(nonGdprUser);</code>  
