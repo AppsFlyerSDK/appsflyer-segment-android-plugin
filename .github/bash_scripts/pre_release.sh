@@ -20,4 +20,4 @@ sed -E -i '' "s/(.*appsflyer:segment-android-integration:)([0-9]+\.[0-9]+\.[0-9]
 
 sed -E -i '' "s/(.*setPluginInfo.*)([0-9]+\.[0-9]+\.[0-9]+)(.*)/\1$appsflyerversion\3/g" app/src/main/java/com/segment/analytics/android/integrations/appsflyer/AppsflyerIntegration.java
 
-touch "releasenotes.$appsflyerversion"
+#touch "releasenotes.$appsflyerversion"
