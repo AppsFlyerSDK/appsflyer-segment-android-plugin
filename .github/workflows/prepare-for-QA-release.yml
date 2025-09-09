@@ -36,7 +36,7 @@ jobs:
           chmod +x ./gradlew
       - name: Publish package to QA (-Beta)
         run: |
-          ./gradlew publish
+          ./gradlew publish closeSonatypeStagingRepository
       - name: Notify with Slack
         uses: slackapi/slack-github-action@v1.23.0
         with:
