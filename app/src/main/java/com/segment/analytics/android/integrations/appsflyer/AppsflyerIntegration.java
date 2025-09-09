@@ -12,7 +12,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.appsflyer.AFInAppEventParameterName;
-import com.appsflyer.AFLogger;
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.deeplink.DeepLinkListener;
