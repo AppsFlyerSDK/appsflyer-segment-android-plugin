@@ -12,7 +12,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.appsflyer.AFInAppEventParameterName;
-import com.appsflyer.AFLogger;
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.deeplink.DeepLinkListener;
@@ -97,7 +96,7 @@ public class AppsflyerIntegration extends Integration<AppsFlyerLib> {
                 listener = new ConversionListener(analytics);
             }
 
-            AppsFlyerLib.getInstance().setPluginInfo(new PluginInfo(Plugin.SEGMENT,"6.17.1"));
+            AppsFlyerLib.getInstance().setPluginInfo(new PluginInfo(Plugin.SEGMENT,"6.17.3"));
             afLib.setDebugLog(logger.logLevel != Analytics.LogLevel.NONE);
             afLib.init(devKey, listener, application.getApplicationContext());
             if (deepLinkListener != null)
