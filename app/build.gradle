@@ -38,7 +38,7 @@ android {
 }
 
 dependencies {
-    api 'com.appsflyer:af-android-sdk:6.17.3'
+    api 'com.appsflyer:af-android-sdk:6.17.5'
     compileOnly 'com.segment.analytics.android:analytics:4.+'
     compileOnly 'com.android.installreferrer:installreferrer:2.2'
 
