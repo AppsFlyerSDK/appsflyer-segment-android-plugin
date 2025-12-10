@@ -1,3 +1,6 @@
+### 6.17.5
+* Update Android SDK to v6.17.5
+
 ### 6.17.3
 * Update Android SDK to v6.17.3
 * Update the Documentation for manually sending DMA Consent data to AppsFlyer. For more details, [see] (https://dev.appsflyer.com/hc/docs/android-send-consent-for-dma-compliance).

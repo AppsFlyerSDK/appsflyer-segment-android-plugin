@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
-//    implementation 'com.appsflyer:segment-android-integration:6.15.0'
+//    implementation 'com.appsflyer:segment-android-integration:6.17.5'
     implementation project(path: ':app')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.segment.analytics.android:analytics:4.+'
